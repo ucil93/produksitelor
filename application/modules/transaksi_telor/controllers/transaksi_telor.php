@@ -82,34 +82,51 @@ class transaksi_telor extends CI_Controller {
 		}
 	}
 
-	function kode_inc_telor($id)
+	// function kode_inc_telor($id)
+	// {
+	// 	$code = 'TR_';
+	// 	$code .= sprintf("%07s", $id);
+	// 	return $code;
+	// }
+
+	// function get_id_telor()
+	// {
+	// 	$maxid = 0;
+	// 	$row = $this->db->query('SELECT MAX(right(id_telor,7)) AS maxid FROM tr_telor')->row();
+	// 	if ($row) {
+	// 			$maxid = $row->maxid;
+	// 	}
+	// 	return $maxid;
+	// }
+
+	// function kode_inc_ayam($id)
+	// {
+	// 	$code = 'AM_';
+	// 	$code .= sprintf("%07s", $id);
+	// 	return $code;
+	// }
+
+	// function get_id_ayam()
+	// {
+	// 	$maxid = 0;
+	// 	$row = $this->db->query('SELECT MAX(right(id_ayam,7)) AS maxid FROM tr_ayam')->row();
+	// 	if ($row) {
+	// 			$maxid = $row->maxid;
+	// 	}
+	// 	return $maxid;
+	// }
+
+	function kode_inc($id)
 	{
-		$code = 'TR_';
+		$code = 'PI_';
 		$code .= sprintf("%07s", $id);
 		return $code;
 	}
 
-	function get_id_telor()
+	function get_id()
 	{
 		$maxid = 0;
-		$row = $this->db->query('SELECT MAX(right(id_telor,7)) AS maxid FROM tr_telor')->row();
-		if ($row) {
-				$maxid = $row->maxid;
-		}
-		return $maxid;
-	}
-
-	function kode_inc_ayam($id)
-	{
-		$code = 'AM_';
-		$code .= sprintf("%07s", $id);
-		return $code;
-	}
-
-	function get_id_ayam()
-	{
-		$maxid = 0;
-		$row = $this->db->query('SELECT MAX(right(id_ayam,7)) AS maxid FROM tr_ayam')->row();
+		$row = $this->db->query('SELECT MAX(right(id_produksi,7)) AS maxid FROM tr_produksi')->row();
 		if ($row) {
 				$maxid = $row->maxid;
 		}
@@ -123,11 +140,11 @@ class transaksi_telor extends CI_Controller {
 		{
 			$id_periode = $this->input->post('id_periode');
 
-			$kode = $this->get_id_telor();
+			$kode = $this->get_id();
 			$kode = $kode + 1;
 
-			$kode_ayam = $this->get_id_ayam();
-			$kode_ayam = $kode_ayam + 1;
+			// $kode_ayam = $this->get_id_ayam();
+			// $kode_ayam = $kode_ayam + 1;
 
 			$hasil_akhir = array();
 
@@ -260,23 +277,26 @@ class transaksi_telor extends CI_Controller {
 			if($status_simpan == true) {
 				for($i=0; $i<count($id_periode); $i++)
 				{
-					$dt['id_telor'] = $this->kode_inc_telor($kode);
+					$dt['id_produksi'] = $this->kode_inc($kode);
 					$dt['id_periode'] = $this->input->post('id_periode')[$i];
 					$dt['id_anggota'] = $this->session->userdata("id_anggota");
-					$dt['butir_jumlah'] = $this->input->post('data_butir_jumlah')[$i];
-					$dt['rusak_jumlah'] = $this->input->post('data_rusak_jumlah')[$i];
-					$dt['keterangan'] = $this->input->post('data_ket')[$i];
+					$dt['ayam_m'] = $this->input->post("data_m")[$i];
+					$dt['ayam_c'] = $this->input->post("data_c")[$i];
+					$dt['total_ayam'] = intval($this->input->post('jumlah_ayam')[$i]) - (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i]));
+					$dt['tanggal_catat'] = $this->input->post('tanggal_catat');
 					$dt['created_at'] = date("Y-m-d H:i:s");
 					$dt['updated_at'] = date("Y-m-d H:i:s");
-					$dt['tanggal_catat'] = $this->input->post('tanggal_catat');
-					$dt['pakan_kg'] = $this->input->post('data_pakan')[$i];
-					$dt['rusak_kg'] = $this->input->post('data_rusak_kg')[$i];
-					$dt['butir_kg'] = $this->input->post('data_butir_kg')[$i];
-					$dt['berat_badan'] = $this->input->post('data_berat_badan')[$i];
 					$dt['suhu_pagi'] = $this->input->post('suhu_pagi');
 					$dt['suhu_siang'] = $this->input->post('suhu_siang');
 					$dt['suhu_sore'] = $this->input->post('suhu_sore');
 					$dt['suhu_malam'] = $this->input->post('suhu_malam');
+					$dt['butir_jumlah'] = $this->input->post('data_butir_jumlah')[$i];
+					$dt['rusak_jumlah'] = $this->input->post('data_rusak_jumlah')[$i];
+					$dt['butir_kg'] = $this->input->post('data_butir_kg')[$i];
+					$dt['rusak_kg'] = $this->input->post('data_rusak_kg')[$i];
+					$dt['pakan_kg'] = $this->input->post('data_pakan')[$i];
+					$dt['berat_badan'] = $this->input->post('data_berat_badan')[$i];
+					$dt['keterangan'] = $this->input->post('data_ket')[$i];
 					$dt['hasil_pakan_gr'] = ($this->input->post('data_pakan')[$i]/(intval($this->input->post('jumlah_ayam')[$i]) - (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i]))))*1000;
 					$dt['hasil_butir_gr'] = ($this->input->post('data_butir_kg')[$i]/$this->input->post('data_butir_jumlah')[$i])*1000;
 					$dt['hasil_rusak_gr'] = ($this->input->post('data_rusak_kg')[$i]/$this->input->post('data_rusak_jumlah')[$i])*1000;
@@ -285,23 +305,9 @@ class transaksi_telor extends CI_Controller {
 					$dt['hasil_rusak_persen'] = ($this->input->post('data_rusak_jumlah')[$i]/$this->input->post('data_butir_jumlah')[$i])*100;
 					$dt['hasil_hh'] = ($this->input->post('data_butir_jumlah')[$i]/$this->input->post('hd_periode')[$i])*100;
 
-					$this->db->insert("tr_telor",$dt);
+					$this->db->insert("tr_produksi",$dt);
 
 					$kode = $kode + 1;
-
-					$da['id_ayam'] = $this->kode_inc_ayam($kode_ayam);
-					$da['id_periode'] = $this->input->post('id_periode')[$i];
-					$da['id_anggota'] = $this->session->userdata("id_anggota");
-					$da['total_ayam'] = intval($this->input->post('jumlah_ayam')[$i]) - (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i]));
-					$da['ayam_m'] = $this->input->post("data_m")[$i];
-					$da['ayam_c'] = $this->input->post("data_c")[$i];
-					$da['tanggal_catat'] = $this->input->post('tanggal_catat');
-					$da['created_at'] = date("Y-m-d H:i:s");
-					$da['updated_at'] = date("Y-m-d H:i:s");
-
-					$this->db->insert("tr_ayam",$da);
-
-					$kode_ayam = $kode_ayam + 1;
 
 					$data_periode = array(
 						'jumlah_seluruh_ayam' => intval($this->input->post('jumlah_ayam')[$i]) - (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i])),

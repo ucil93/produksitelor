@@ -58,40 +58,51 @@
                                                     <?php
                                                         foreach($dataSemuaTransaksi as $dt)
                                                         {
+                                                            $date = date_create($dt->tanggal_catat)
+
                                                             ?>
                                                                 <tr class="odd gradeX">
                                                                     <td>
-                                                                        <?php echo $dt->nama_kandang; ?>
-                                                                        <input type="text" class="form-control input-circle" value="<?php echo $dt->id_periode; ?>" name="id_periode[]"> 
-                                                                        <input type="text" class="form-control input-circle" value="<?php echo $dt->jumlah_seluruh_ayam; ?>" name="jumlah_ayam[]"> 
-                                                                        <input type="text" class="form-control input-circle" value="<?php echo $dt->hd_periode; ?>" name="hd_periode[]"> 
+                                                                        <?php echo date_format($date, "d F Y"); ?>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control input-circle" placeholder="Masukkan M" name="data_m[]"> 
+                                                                        <?php echo $dt->ayam_m; ?>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control input-circle" placeholder="Masukkan C" name="data_c[]"> 
+                                                                        <?php echo $dt->ayam_c; ?>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control input-circle" placeholder="Masukkan Pakan" name="data_pakan[]"> 
+                                                                        <?php echo $dt->total_ayam; ?>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control input-circle" placeholder="Masukkan Butir (Jumlah)" name="data_butir_jumlah[]"> 
+                                                                        <?php echo $dt->pakan_kg; ?>
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control input-circle" placeholder="Masukkan Rusak/Retak (Jumlah)" name="data_rusak_jumlah[]"> 
+                                                                        <?php echo $dt->hasil_pakan_gr; ?> 
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control input-circle" placeholder="Masukkan Butir (Kg)" name="data_butir_kg[]"> 
+                                                                        <?php echo $dt->butir_jumlah; ?> 
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control input-circle" placeholder="Masukkan Rusak/Retak (Kg)" name="data_rusak_kg[]"> 
+                                                                        <?php echo $dt->butir_kg; ?> 
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control input-circle" placeholder="Masukkan Berat Badan" name="data_berat_badan[]"> 
+                                                                        <?php echo $dt->hasil_butir_gr; ?> 
                                                                     </td>
                                                                     <td>
-                                                                        <input type="text" class="form-control input-circle" placeholder="Masukkan Keterangan" name="data_ket[]"> 
+                                                                        <?php echo $dt->hasil_hh; ?> 
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo $dt->hasil_hd_persen; ?> 
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo $dt->hasil_fcr; ?> 
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo $dt->berat_badan; ?> 
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo $dt->keterangan; ?> 
                                                                     </td>
                                                                 </tr>
                                                             <?php

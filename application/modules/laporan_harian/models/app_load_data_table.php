@@ -16,8 +16,7 @@ class app_load_data_table extends CI_Model {
     {
         $get  = $this->db->query("Select * From mt_kandang 
             inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
-            inner join tr_ayam on tr_periode.id_periode = tr_ayam.id_periode
-            inner join tr_telor on tr_periode.id_periode = tr_telor.id_periode
+            inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
             where status_periode = 'AKTIF'");
         return $get->result();
     }
