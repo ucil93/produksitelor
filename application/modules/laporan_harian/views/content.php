@@ -20,6 +20,36 @@
                                     </div>
                                 </div>
                                 <div class="portlet-body">
+                                <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group form-md-line-input has-success">
+                        <select class="form-control" name="data_dropdown_lokasi" id="data_dropdown_lokasi">
+                            <option value="" disabled selected>--Pilih--</option>
+                            <?php
+                                foreach($dataSemuaLokasi as $row)
+                                {
+                                    echo '<option value="'.$row->id_lokasi.'">'.$row->nama_lokasi.'</option>';
+                                }
+                            ?>
+                        </select>
+                        <div class="form-control-focus"> </div>
+                        <span class="help-block">Pilih Lokasi</span>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="form-group form-md-line-input has-success">
+                        <select class="form-control" name="data_kandang_laporan" id="data_kandang_laporan">
+                            <option value="" disabled selected>--Pilih--</option>
+                        </select>
+                        <div class="form-control-focus"> </div>
+                        <span class="help-block">Pilih Kandang</span>
+                    </div>
+                    <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="da">
+    <label class="form-check-label" for="materialUnchecked">Material unchecked</label>
+</div>
+                </div>
+                </div>
+            </div>
                                     <div class="row">
                                         <?php
                                             foreach($dataSemuaJudul as $dt)
@@ -51,7 +81,6 @@
                                                         <th> % HD </th>
                                                         <th> FCR </th>
                                                         <th> BB </th>
-                                                        <th> Keterangan </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -78,31 +107,28 @@
                                                                         <?php echo $dt->pakan_kg; ?>
                                                                     </td>
                                                                     <td>
-                                                                        <?php echo $dt->hasil_pakan_gr; ?> 
+                                                                        <?php echo round($dt->hasil_pakan_gr,2); ?> 
                                                                     </td>
                                                                     <td>
                                                                         <?php echo $dt->butir_jumlah; ?> 
                                                                     </td>
                                                                     <td>
-                                                                        <?php echo $dt->butir_kg; ?> 
+                                                                        <?php echo round($dt->butir_kg,2); ?> 
                                                                     </td>
                                                                     <td>
-                                                                        <?php echo $dt->hasil_butir_gr; ?> 
+                                                                        <?php echo round($dt->hasil_butir_gr,2); ?> 
                                                                     </td>
                                                                     <td>
-                                                                        <?php echo $dt->hasil_hh; ?> 
+                                                                        <?php echo round($dt->hasil_hh,2); ?> 
                                                                     </td>
                                                                     <td>
-                                                                        <?php echo $dt->hasil_hd_persen; ?> 
+                                                                        <?php echo round($dt->hasil_hd_persen,2); ?> 
                                                                     </td>
                                                                     <td>
-                                                                        <?php echo $dt->hasil_fcr; ?> 
+                                                                        <?php echo round($dt->hasil_fcr,2); ?> 
                                                                     </td>
                                                                     <td>
                                                                         <?php echo $dt->berat_badan; ?> 
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo $dt->keterangan; ?> 
                                                                     </td>
                                                                 </tr>
                                                             <?php

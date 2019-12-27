@@ -29,7 +29,7 @@ class laporan_harian extends CI_Controller {
 
 			$d['dataSemuaJudul'] = $this->app_load_data_table->getDataJudul();
 			$d['dataSemuaTransaksi'] = $this->app_load_data_table->getDataTransaksi();
-
+			$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
 			$this->load->view('dashboard_admin/bg_header', $d);
 			$this->load->view('dashboard_admin/bg_navigation', $d);
 			$this->load->view('laporan_harian/content', $d);
@@ -39,6 +39,15 @@ class laporan_harian extends CI_Controller {
 		{
 			$this->session->sess_destroy();
 			$this->load->view('login/login');
+		}
+	}
+	function ambil_kandang()
+	{
+		if($this->input->post('id_lokasi'))
+		{
+			$this->load->model('/app_load_data_table');
+
+			echo $this->app_load_data_table->dataKandang($this->input->post('id_lokasi'));
 		}
 	}
 }
