@@ -118,7 +118,8 @@ class transaksi_periode extends CI_Controller {
 			$this->form_validation->set_rules('data_tabel_strain', 'Strain', 'required');
 			$this->form_validation->set_rules('nama_periode', 'Nama Periode', 'required');
 			$this->form_validation->set_rules('ayam_masuk', 'Jumlah Ayam Masuk', 'required|numeric');
-			$this->form_validation->set_rules('tanggal_ayam', 'Tanggal Ayam', 'required');
+			$this->form_validation->set_rules('tanggal_masuk_kandang', 'Tanggal Masuk Kandang', 'required');
+			$this->form_validation->set_rules('tanggal_menetas', 'Tanggal Menetas', 'required');
 			$this->form_validation->set_rules('umur_masuk', 'Umur Masuk', 'required|numeric');
 			$this->form_validation->set_rules('asal_pullet', 'Asal Pullet', 'required');
 			$this->form_validation->set_rules('hd_periode', 'HD', 'required|numeric');
@@ -134,6 +135,7 @@ class transaksi_periode extends CI_Controller {
 				$id_kandang = $this->input->post('data_kandang');
 
 				$cek['id_kandang'] = $id_kandang;
+				$cek['status_periode'] = 'AKTIF';
 				$cek2 = $this->db->get_where('tr_periode', $cek);
 
 				if($cek2->num_rows()>0)
@@ -158,7 +160,8 @@ class transaksi_periode extends CI_Controller {
 						$dt['id_anggota'] = $this->session->userdata("id_anggota");
 						$dt['nama_periode'] = $this->input->post('nama_periode');
 						$dt['id_strain'] = $this->input->post('data_tabel_strain');
-						$dt['tanggal_mulai_ayam'] = $this->input->post('tanggal_ayam');
+						$dt['tanggal_masuk_kandang'] = $this->input->post('tanggal_masuk_kandang');
+						$dt['tanggal_menetas'] = $this->input->post('tanggal_menetas');
 						$dt['awal_ayam_masuk'] = $this->input->post('ayam_masuk');
 						$dt['jumlah_seluruh_ayam'] = $this->input->post('ayam_masuk');
 						$dt['umur_masuk'] = $this->input->post('umur_masuk');

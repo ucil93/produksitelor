@@ -111,6 +111,8 @@
         <script src="<?php echo base_url(); ?>assets/scripts/tr_periode.js" type="text/javascript" ></script>
         <script src="<?php echo base_url(); ?>assets/scripts/tr_telor.js" type="text/javascript" ></script>
         <script src="<?php echo base_url(); ?>assets/scripts/laporan_harian.js" type="text/javascript" ></script>
+        <script src="<?php echo base_url(); ?>assets/scripts/laporan_mingguan.js" type="text/javascript" ></script>
+        <script src="<?php echo base_url(); ?>assets/scripts/laporan_grafik.js" type="text/javascript" ></script>
         <script type="text/javascript">
             var base_url = "<?php echo base_url(); ?>";
         </script>

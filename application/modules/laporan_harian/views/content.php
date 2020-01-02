@@ -20,122 +20,60 @@
                                     </div>
                                 </div>
                                 <div class="portlet-body">
-                                <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group form-md-line-input has-success">
-                        <select class="form-control" name="data_dropdown_lokasi" id="data_dropdown_lokasi">
-                            <option value="" disabled selected>--Pilih--</option>
-                            <?php
-                                foreach($dataSemuaLokasi as $row)
-                                {
-                                    echo '<option value="'.$row->id_lokasi.'">'.$row->nama_lokasi.'</option>';
-                                }
-                            ?>
-                        </select>
-                        <div class="form-control-focus"> </div>
-                        <span class="help-block">Pilih Lokasi</span>
-                    </div>
-                    <div class="col-md-6">
-                    <div class="form-group form-md-line-input has-success">
-                        <select class="form-control" name="data_kandang_laporan" id="data_kandang_laporan">
-                            <option value="" disabled selected>--Pilih--</option>
-                        </select>
-                        <div class="form-control-focus"> </div>
-                        <span class="help-block">Pilih Kandang</span>
-                    </div>
-                    <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="da">
-    <label class="form-check-label" for="materialUnchecked">Material unchecked</label>
-</div>
-                </div>
-                </div>
-            </div>
                                     <div class="row">
-                                        <?php
-                                            foreach($dataSemuaJudul as $dt)
-                                            {
-                                                ?>
-                                                    <h4 class="block">Populasi : <?php echo $dt->awal_ayam_masuk; ?></h4>
-                                                    <h4 class="block">HD 2% : <?php echo $dt->hd_periode; ?></h4>
-                                                    <h4 class="block">Strain : <?php echo $dt->nama_strain; ?></h4>
-                                                    <h4 class="block">Kandang : <?php echo $dt->nama_kandang; ?></h4>
-                                                    <h4 class="block">Asal Pullet : <?php echo $dt->asal_pullet; ?></h4>
-                                                <?php
-                                            }
-                                        ?>
-
-                                        <div class="col-md-12">
-                                            <table class="table table-bordered">
-                                                <thead class="btn-success">
-                                                    <tr>
-                                                        <th> Tanggal </th>
-                                                        <th> Mati </th>
-                                                        <th> Afkir </th>
-                                                        <th> Total </th>
-                                                        <th> Pakan (Kg) </th>
-                                                        <th> Pakan (Gr) </th>
-                                                        <th> Butir Telur (Jumlah) </th>
-                                                        <th> Butir Telur (Kg) </th>
-                                                        <th> Gr / Butir </th>
-                                                        <th> % HH </th>
-                                                        <th> % HD </th>
-                                                        <th> FCR </th>
-                                                        <th> BB </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                                        <div class="col-md-6">
+                                            <div class="mt-radio-inline">
+                                                <label class="mt-radio">
+                                                    <input type="radio" name="jumlah_kandang" id="jumlah_kandang_satu" value="0" checked> Satu Kandang
+                                                    <span></span>
+                                                </label>
+                                                <label class="mt-radio">
+                                                    <input type="radio" name="jumlah_kandang" id="jumlah_kandang_banyak" value="1"> Banyak Kandang
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-md-line-input has-success">
+                                                <select class="form-control" name="dropdown_data_lokasi" id="dropdown_data_lokasi">
+                                                    <option value="" disabled selected>--Pilih--</option>
                                                     <?php
-                                                        foreach($dataSemuaTransaksi as $dt)
+                                                        foreach($dataSemuaLokasi as $row)
                                                         {
-                                                            $date = date_create($dt->tanggal_catat)
-
-                                                            ?>
-                                                                <tr class="odd gradeX">
-                                                                    <td>
-                                                                        <?php echo date_format($date, "d F Y"); ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo $dt->ayam_m; ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo $dt->ayam_c; ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo $dt->total_ayam; ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo $dt->pakan_kg; ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo round($dt->hasil_pakan_gr,2); ?> 
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo $dt->butir_jumlah; ?> 
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo round($dt->butir_kg,2); ?> 
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo round($dt->hasil_butir_gr,2); ?> 
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo round($dt->hasil_hh,2); ?> 
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo round($dt->hasil_hd_persen,2); ?> 
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo round($dt->hasil_fcr,2); ?> 
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php echo $dt->berat_badan; ?> 
-                                                                    </td>
-                                                                </tr>
-                                                            <?php
+                                                            echo '<option value="'.$row->id_lokasi.'">'.$row->nama_lokasi.'</option>';
                                                         }
                                                     ?>
-                                                </tbody>
-                                            </table>
+                                                </select>
+                                                <div class="form-control-focus"> </div>
+                                                <span class="help-block">Pilih Lokasi</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-md-line-input has-success">
+                                                <select class="form-control" name="dropdown_data_kandang" id="dropdown_data_kandang">
+                                                    <option value="" disabled selected>--Pilih--</option>
+                                                </select>
+                                                <div class="form-control-focus"> </div>
+                                                <span class="help-block" id="span_data_kandang"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="btn-group">
+                                                <a class="btn blue" id="cetak_data_harian"> Lihat Data </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12" id="data_hasil_laporan">
                                         </div>
                                     </div>
                                 </div>

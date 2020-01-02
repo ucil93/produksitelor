@@ -23,11 +23,11 @@
                                     <div class="table-container">
                                         <div class="row">
                                             <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="btn-group pull-right">
-                                                <a data-target="#tambah_tr_periode" data-toggle="modal" class="btn blue"><i class="fa fa-plus"></i> Tambah Data </a>
+                                                <div class="form-group">
+                                                    <div class="btn-group pull-right">
+                                                    <a data-target="#tambah_tr_periode" data-toggle="modal" class="btn blue"><i class="fa fa-plus"></i> Tambah Data </a>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             </div>
                                         </div>
                                         <br/>
@@ -38,7 +38,8 @@
                                                     <th> Nama Kandang </th>
                                                     <th> Nama Strain </th>
                                                     <th> Nama Periode </th>
-                                                    <th> Tanggal Ayam </th>
+                                                    <th> Tanggal Masuk Kandang </th>
+                                                    <th> Tanggal Menetas </th>
                                                     <th> Jumlah Ayam Masuk </th>
                                                     <th> Jumlah Ayam Saat Ini </th>
                                                     <th> Umur Masuk </th>
@@ -52,7 +53,8 @@
                                                 <?php
                                                     foreach($dataSemuaPeriode as $dt)
                                                     {
-                                                        $date = date_create($dt->tanggal_mulai_ayam)
+                                                        $date_masuk_kadang = date_create($dt->tanggal_masuk_kandang);
+                                                        $date_menetas = date_create($dt->tanggal_menetas);
 
                                                         ?>
                                                             <tr class="odd gradeX">
@@ -60,7 +62,8 @@
                                                                 <td><?php echo $dt->nama_kandang; ?></td>
                                                                 <td><?php echo $dt->nama_strain; ?></td>
                                                                 <td><?php echo $dt->nama_periode; ?></td>
-                                                                <td><?php echo date_format($date, "d F Y"); ?></td>
+                                                                <td><?php echo date_format($date_masuk_kadang, "d F Y"); ?></td>
+                                                                <td><?php echo date_format($date_menetas, "d F Y"); ?></td>
                                                                 <td><?php echo $dt->awal_ayam_masuk; ?></td>
                                                                 <td><?php echo $dt->jumlah_seluruh_ayam; ?></td>
                                                                 <td><?php echo $dt->umur_masuk; ?></td>
@@ -156,17 +159,23 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group form-md-line-input has-success form-md-floating-label">
-                        <input type="text" id="ayam_masuk" name="ayam_masuk" value="" class="form-control">
-                        <label for="form_control_1">Jumlah Ayam Masuk</label>
-                        <span class="help-block">Masukkan Jumlah Ayam Masuk</span>
+                    <div class="form-group has-success">
+                        <label class="control-label">Tanggal Masuk Kandang</label>
+                        <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd">
+                            <input name="tanggal_masuk_kandang" id="tanggal_masuk_kandang" type="text" class="form-control" readonly>
+                            <span class="input-group-btn">
+                                <button class="btn default" type="button">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group has-success">
-                        <label class="control-label">Tanggal Ayam</label>
+                        <label class="control-label">Tanggal Menetas</label>
                         <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd">
-                            <input name="tanggal_ayam" id="tanggal_ayam" type="text" class="form-control" readonly>
+                            <input name="tanggal_menetas" id="tanggal_menetas" type="text" class="form-control" readonly>
                             <span class="input-group-btn">
                                 <button class="btn default" type="button">
                                     <i class="fa fa-calendar"></i>
@@ -179,11 +188,21 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group form-md-line-input has-success form-md-floating-label">
+                        <input type="text" id="ayam_masuk" name="ayam_masuk" value="" class="form-control">
+                        <label for="form_control_1">Jumlah Ayam Masuk</label>
+                        <span class="help-block">Masukkan Jumlah Ayam Masuk</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-md-line-input has-success form-md-floating-label">
                         <input type="text" id="umur_masuk" name="umur_masuk" value="" class="form-control">
                         <label for="form_control_1">Umur Masuk</label>
                         <span class="help-block">Masukkan Umur Masuk</span>
                     </div>
                 </div>
+                
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group form-md-line-input has-success form-md-floating-label">
                         <input type="text" id="asal_pullet" name="asal_pullet" value="" class="form-control">
@@ -191,8 +210,6 @@
                         <span class="help-block">Masukkan Asal Pullet</span>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group form-md-line-input has-success form-md-floating-label">
                         <input type="text" id="hd_periode" name="hd_periode" value="" class="form-control">

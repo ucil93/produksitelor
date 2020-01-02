@@ -19,7 +19,7 @@ $(document).ready(function () {
         var jumlah_kandang = $("input[name ='jumlah_kandang']:checked").val();
         if (id_lokasi != '') {
             $.ajax({
-                url: base_url + "laporan_harian/ambil_kandang",
+                url: base_url + "laporan_grafik/ambil_kandang",
                 method: 'POST',
                 data: { 
                     id_lokasi: id_lokasi,
@@ -45,7 +45,7 @@ $('#cetak_data_harian').click(function() {
     var idJumlahKandang = 'jumlah_kandang_satu';
 
     $.ajax({
-        url: base_url + "laporan_harian/cetak_laporan",
+        url: base_url + "laporan_grafik/cetak_laporan",
         method: 'POST',
         data: { 
             id_lokasi: id_lokasi,
@@ -54,7 +54,7 @@ $('#cetak_data_harian').click(function() {
         },
         success: function (data) {
             // console.log(data)
-            // window.location.href = base_url + "laporan_harian/cetak_laporan"
+            // window.location.href = base_url + "laporan_grafik/cetak_laporan"
             $('#data_hasil_laporan').html(data);
 
             $('#dropdown_data_lokasi').val(null);

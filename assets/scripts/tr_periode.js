@@ -23,7 +23,8 @@ function cleartambahperiode() {
     $("#data_tabel_strain").val("");
     $("#nama_periode").val("");
     $("#ayam_masuk").val("");
-    $("#tanggal_ayam").val("");
+    $("#tanggal_masuk_kandang").val("");
+    $("#tanggal_menetas").val("");
     $("#umur_masuk").val("");
     $("#asal_pullet").val("");
     $("#hd_periode").val("");
@@ -42,7 +43,8 @@ $('#tambahtrperiode').click(function () {
         data_tabel_strain: $('#data_tabel_strain').val(),
         nama_periode: $('#nama_periode').val(),
         ayam_masuk: $('#ayam_masuk').val(),
-        tanggal_ayam: $('#tanggal_ayam').val(),
+        tanggal_masuk_kandang: $('#tanggal_masuk_kandang').val(),
+        tanggal_menetas: $('#tanggal_menetas').val(),
         umur_masuk: $('#umur_masuk').val(),
         asal_pullet: $('#asal_pullet').val(),
         hd_periode: $('#hd_periode').val(),

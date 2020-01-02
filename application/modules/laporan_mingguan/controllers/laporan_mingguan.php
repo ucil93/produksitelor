@@ -27,6 +27,8 @@ class laporan_mingguan extends CI_Controller {
 			$d['username']	= $this->session->userdata("nama_anggota");
 			$d['grup_anggota']	= $this->session->userdata("grup_anggota");
 
+			$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
+
 			$this->load->view('dashboard_admin/bg_header', $d);
 			$this->load->view('dashboard_admin/bg_navigation', $d);
 			$this->load->view('laporan_mingguan/content', $d);
@@ -37,5 +39,22 @@ class laporan_mingguan extends CI_Controller {
 			$this->session->sess_destroy();
 			$this->load->view('login/login');
 		}
+	}
+
+	function ambil_kandang()
+	{
+		if($this->input->post('id_lokasi'))
+		{
+			$this->load->model('/app_load_data_table');
+
+			echo $this->app_load_data_table->dataKandang($this->input->post('id_lokasi'), $this->input->post('jumlah_kandang'));
+		}
+	}
+
+	function cetak_laporan()
+	{
+		$this->load->model('/app_load_data_table');
+		
+		echo $this->app_load_data_table->dataCetak($this->input->post('id_lokasi'), $this->input->post('jumlah_kandang'), $this->input->post('data_kandang'));
 	}
 }
