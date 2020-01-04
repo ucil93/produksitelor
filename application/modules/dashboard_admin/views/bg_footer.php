@@ -103,6 +103,7 @@
         <script src="<?php echo base_url().'assets/layouts/global/scripts/quick-nav.min.js'; ?>" type="text/javascript"></script>
         <!-- END THEME LAYOUT SCRIPTS -->
 
+        <script src="<?php echo base_url(); ?>assets/scripts/dashboard_admin.js" type="text/javascript" ></script>
         <script src="<?php echo base_url(); ?>assets/scripts/master_anggota.js" type="text/javascript" ></script>
         <script src="<?php echo base_url(); ?>assets/scripts/master_strain.js" type="text/javascript" ></script>
         <script src="<?php echo base_url(); ?>assets/scripts/master_strain_nilai.js" type="text/javascript" ></script>

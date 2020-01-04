@@ -29,14 +29,14 @@ class app_user_login_model extends CI_Model {
 
 			if ($this->session->userdata('status_anggota') == "AKTIF")
 			{
-				if ($this->session->userdata('grup_anggota') == "ADMIN")
-				{
-					redirect("dashboard_admin");
-				}
-				elseif($this->session->userdata('grup_anggota') == "ANGGOTA") 
-				{
-					redirect("dashboard_anggota");
-				}
+				// if ($this->session->userdata('grup_anggota') == "ADMIN")
+				// {
+				redirect("dashboard_admin");
+				// }
+				// elseif($this->session->userdata('grup_anggota') == "ANGGOTA") 
+				// {
+				// 	redirect("dashboard_anggota");
+				// }
 			}
 			else
 			{

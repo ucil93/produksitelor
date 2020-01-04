@@ -121,6 +121,46 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
+                                <li>
+                                        <a data-target="#ubahpassword" data-toggle="modal">
+                                        <i class="icon-user"></i> Rubah Password </a>
+
+                                        <div id="ubahpassword" class="modal fade modalInput" tabindex="-1"  data-backdrop="static" data-keyboard="false">
+                                          <div class="modal-content">
+                                              <div class="modal-header">
+                                                  <h4 class="modal-title">Rubah Password</h4>
+                                              </div>
+                                              <div class="modal-body">
+                                                <div class="form-group form-md-line-input has-success form-md-floating-label">
+                                                    <input type="password" id="passwordlama" name="passwordlama" value="" class="form-control">
+                                                    <label for="form_control_1">Password Lama</label>
+                                                    <span class="help-block">Masukkan Password Lama</span>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success form-md-floating-label">
+                                                    <input type="password" id="passwordbaru" name="passwordbaru" value="" class="form-control">
+                                                    <label for="form_control_1">Password Baru</label>
+                                                    <span class="help-block">Masukkan Password Baru</span>
+                                                </div>
+                                                <div class="form-group form-md-line-input has-success form-md-floating-label">
+                                                    <input type="password" id="passwordbaru2" name="passwordbaru2" value="" class="form-control">
+                                                    <label for="form_control_1">Konfirmasi Password Baru</label>
+                                                    <span class="help-block">Masukkan Konfirmasi Password Baru</span>
+                                                </div>
+                                                <span class="input-group-btn btn-left">
+
+                                                  <input type=button class="btn blue-madison" id="show" value="Show Password" onclick="ShowPassword()">
+                                                  <input type=button class="btn blue-madison" style="display:none" id="hide" value="Hide Password" onclick="HidePassword()">
+                                                </span>
+                                                <br/>
+                                                  <div id="alert-msg-ubahpass"></div>
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                                <button type="button" class="btn green" id="ubahpass" name="ubahpass">Simpan</button>
+                                              </div>
+                                          </div>
+                                        </div>
+                                    </li>
                                     <li>
                                         <a href="<?php echo site_url('login/logout') ?>">
                                             <i class="icon-key"></i> Log Out </a>

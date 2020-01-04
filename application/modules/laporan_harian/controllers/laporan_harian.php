@@ -41,20 +41,37 @@ class laporan_harian extends CI_Controller {
 		}
 	}
 
-	function ambil_kandang()
+	function ambil_harian_satu_kandang()
 	{
 		if($this->input->post('id_lokasi'))
 		{
 			$this->load->model('/app_load_data_table');
 
-			echo $this->app_load_data_table->dataKandang($this->input->post('id_lokasi'), $this->input->post('jumlah_kandang'));
+			echo $this->app_load_data_table->dataKandangHarianSatu($this->input->post('id_lokasi'));
 		}
 	}
 
-	function cetak_laporan()
+	function cetak_laporan_harian_satu_kandang()
 	{
 		$this->load->model('/app_load_data_table');
 		
-		echo $this->app_load_data_table->dataCetak($this->input->post('id_lokasi'), $this->input->post('jumlah_kandang'), $this->input->post('data_kandang'));
+		echo $this->app_load_data_table->dataCetakHarianSatuKandang($this->input->post('id_lokasi'), $this->input->post('data_kandang'));
+	}
+
+	function ambil_harian_banyak_kandang()
+	{
+		if($this->input->post('id_lokasi'))
+		{
+			$this->load->model('/app_load_data_table');
+
+			echo $this->app_load_data_table->dataKandangHarianBanyak($this->input->post('id_lokasi'));
+		}
+	}
+
+	function cetak_laporan_harian_banyak_kandang()
+	{
+		$this->load->model('/app_load_data_table');
+		
+		echo $this->app_load_data_table->dataCetakHarianBanyakKandang($this->input->post('id_lokasi'), $this->input->post('data_kandang'), $this->input->post('tanggal_mulai'), $this->input->post('tanggal_selesai'));
 	}
 }
