@@ -58,7 +58,11 @@
         <script src="<?php echo base_url().'assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js'; ?>" type="text/javascript"></script>
         <script src="<?php echo base_url().'assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js'; ?>" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
-
+        <!-- MULAI TAMBAHAN -->
+        <script src="<?php echo base_url().'assets/global/plugins/highcharts/js/highcharts.js'; ?>" type="text/javascript"></script>
+        <script src="<?php echo base_url().'assets/global/plugins/highcharts/js/highcharts-3d.js'; ?>" type="text/javascript"></script>
+        <script src="<?php echo base_url().'assets/global/plugins/highcharts/js/highcharts-more.js'; ?>" type="text/javascript"></script>
+        <!-- SELESAI TAMBAHAN -->
         <!-- MULAI TAMBAHAN -->
         <script src="<?php echo base_url().'assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js'; ?>" type="text/javascript"></script>
         <script src="<?php echo base_url().'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'; ?>" type="text/javascript"></script>
@@ -92,7 +96,9 @@
         <!-- MULAI TAMBAHAN -->
         <script src="<?php echo base_url().'assets/pages/scripts/components-date-time-pickers.min.js'; ?>" type="text/javascript"></script>
         <!-- SELESAI TAMBAHAN -->
-
+        <!-- MULAI TAMBAHAN -->
+        <script src="<?php echo base_url().'assets/pages/scripts/charts-highcharts.min.js'; ?>" type="text/javascript"></script>
+        <!-- SELESAI TAMBAHAN -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
         <script src="<?php echo base_url().'assets/pages/scripts/dashboard.min.js'; ?>" type="text/javascript"></script>
         <!-- END PAGE LEVEL SCRIPTS -->

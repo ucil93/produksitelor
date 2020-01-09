@@ -1,65 +1,176 @@
-$("input[name='jumlah_kandang']").change(function(){
+var x = document.getElementById("tampilan_grafik");
+
+$(document).ready(function () {
+    x.style.display = 'none';
+});
+
+$("input[name='jumlah_kandang_grafik']").change(function(){
     var dataKandang = '<option value="" disabled selected>--Pilih--</option>';
 
-    $('#dropdown_data_lokasi').val(null);
-    $('#dropdown_data_kandang').html(dataKandang);
-    $('#data_hasil_laporan').html('');
+    $('#lokasi_grafik_satu_kandang').val(null);
+    $('#kandang_grafik_satu_kandang').html(dataKandang);
+    $('#data_hasil_laporan_grafik').html('');
 
-    var value = $(this).val();
-    if(value == 0 || value == '0') {
-        $('#span_data_kandang').html('Pilih Data Kandang');
-    } else {
-        $('#span_data_kandang').html('Pilih Tanggal Menetas');
-    }
+    $('#lokasi_grafik_banyak_kandang').val(null);
+    $('#kandang_grafik_banyak_kandang').html('');
+
+    $("#grafik_satu_kandang").toggleClass('collapse');
+    $("#grafik_banyak_kandang").toggleClass('collapse');
+
+    x.style.display = 'none';
 });
 
 $(document).ready(function () {
-    $('#dropdown_data_lokasi').change(function () {
-        var id_lokasi = $('#dropdown_data_lokasi').val();
-        var jumlah_kandang = $("input[name ='jumlah_kandang']:checked").val();
+    $('#lokasi_grafik_satu_kandang').change(function () {
+        var id_lokasi = $('#lokasi_grafik_satu_kandang').val();
         if (id_lokasi != '') {
             $.ajax({
-                url: base_url + "laporan_grafik/ambil_kandang",
+                url: base_url + "laporan_grafik/ambil_grafik_satu_kandang",
                 method: 'POST',
                 data: { 
                     id_lokasi: id_lokasi,
-                    jumlah_kandang: jumlah_kandang
                 },
                 success: function (data) {
-                    // console.log(data)
-                    $('#dropdown_data_kandang').html(data);
+                    $('#kandang_grafik_satu_kandang').html(data);
                 }
             });
         } else {
-            $('#dropdown_data_kandang').html('');
+            $('#kandang_grafik_satu_kandang').html('');
         }
     });
 });
 
-$('#cetak_data_harian').click(function() {
-    var id_lokasi = $('#dropdown_data_lokasi').val();
-    var jumlah_kandang = $("input[name ='jumlah_kandang']:checked").val();
-    var data_kandang = $('#dropdown_data_kandang').val();
+$('#cetak_data_grafik_satu_kandang').click(function() {
+    var id_lokasi = $('#lokasi_grafik_satu_kandang').val();
+    var data_kandang = $('#kandang_grafik_satu_kandang').val();
 
     var dataKandang = '<option value="" disabled selected>--Pilih--</option>';
-    var idJumlahKandang = 'jumlah_kandang_satu';
+    var idJumlahKandang = 'jumlah_kandang_grafik_satu';
 
     $.ajax({
-        url: base_url + "laporan_grafik/cetak_laporan",
+        url: base_url + "laporan_grafik/cetak_laporan_grafik_satu_kandang",
         method: 'POST',
+        dataType: "json",
         data: { 
             id_lokasi: id_lokasi,
-            jumlah_kandang: jumlah_kandang,
             data_kandang: data_kandang
         },
         success: function (data) {
-            // console.log(data)
-            // window.location.href = base_url + "laporan_grafik/cetak_laporan"
-            $('#data_hasil_laporan').html(data);
+            x.style.display = 'block';
+            grafik(data);
 
-            $('#dropdown_data_lokasi').val(null);
-            $('#dropdown_data_kandang').html(dataKandang);
+            $('#lokasi_grafik_satu_kandang').val(null);
+            $('#kandang_grafik_satu_kandang').html(dataKandang);
             $('#' + idJumlahKandang).prop('checked',true);
         }
     });
 });
+
+$('#lokasi_grafik_banyak_kandang').click(function() {
+    var id_lokasi = $('#lokasi_grafik_banyak_kandang').val();
+    if (id_lokasi != '') {
+        $.ajax({
+            url: base_url + "laporan_grafik/ambil_grafik_banyak_kandang",
+            method: 'POST',
+            data: { 
+                id_lokasi: id_lokasi,
+            },
+            success: function (data) {
+                $('#kandang_grafik_banyak_kandang').html(data);
+            }
+        });
+    } else {
+        $('#kandang_grafik_banyak_kandang').html('');
+    }
+});
+
+$('#cetak_data_grafik_banyak_kandang').click(function() {
+    var id_lokasi = $('#lokasi_grafik_banyak_kandang').val();
+
+    var checkbox_grafik_banyak_kandang = []
+    $("input[name='checkbox_grafik_banyak_kandang[]']:checked").each(function () {
+        checkbox_grafik_banyak_kandang.push($(this).val());
+    });
+
+    var dataKandang = '<option value="" disabled selected>--Pilih--</option>';
+    var idJumlahKandang = 'jumlah_kandang_grafik_satu';
+
+    $.ajax({
+        url: base_url + "laporan_grafik/cetak_laporan_grafik_banyak_kandang",
+        method: 'POST',
+        dataType: "json",
+        data: { 
+            id_lokasi: id_lokasi,
+            data_kandang: checkbox_grafik_banyak_kandang,
+        },
+        success: function (data) {
+            x.style.display = 'block';
+            grafik(data);
+
+            $('#lokasi_grafik_satu_kandang').val(null);
+            $('#kandang_grafik_satu_kandang').html(dataKandang);
+            $('#' + idJumlahKandang).prop('checked',true);
+
+            $("#grafik_satu_kandang").toggleClass('collapse');
+            $("#grafik_banyak_kandang").toggleClass('collapse');
+        }
+    });
+});
+
+function grafik(data) {
+    $('#highchart_100').highcharts({
+        chart: {
+            style: {
+                fontFamily: "Open Sans"
+            }
+        },
+        title: {
+            text: "",
+            x: -20
+        },
+        subtitle: {
+            text: "",
+            x: -20
+        },
+        xAxis: {
+            title: {
+                text: "AGE OF PRODUCTION (WEEKS)"
+            },
+            categories: ["17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", 
+                "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", 
+                "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", 
+                "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", 
+                "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", 
+                "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", 
+                "89", "90"
+            ]
+        },
+        yAxis: {
+            title: {
+                text: ""
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: "#808080"
+            }]
+        },
+        tooltip: {
+            valueSuffix: ""
+        },
+        legend: {
+            layout: "vertical",
+            align: "right",
+            verticalAlign: "middle",
+            borderWidth: 0
+        },
+        plotOptions: {
+            series: {
+                marker: {
+                    enabled: false
+                }
+            }
+        },
+        series: data,
+    });
+}

@@ -27,6 +27,8 @@ class laporan_grafik extends CI_Controller {
 			$d['username']	= $this->session->userdata("nama_anggota");
 			$d['grup_anggota']	= $this->session->userdata("grup_anggota");
 
+			$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
+
 			$this->load->view('dashboard_admin/bg_header', $d);
 			$this->load->view('dashboard_admin/bg_navigation', $d);
 			$this->load->view('laporan_grafik/content', $d);
@@ -37,5 +39,43 @@ class laporan_grafik extends CI_Controller {
 			$this->session->sess_destroy();
 			$this->load->view('login/login');
 		}
+	}
+
+	function ambil_grafik_satu_kandang()
+	{
+		if($this->input->post('id_lokasi'))
+		{
+			$this->load->model('/app_load_data_table');
+
+			echo $this->app_load_data_table->dataKandangGrafikSatu($this->input->post('id_lokasi'));
+		}
+	}
+
+	function cetak_laporan_grafik_satu_kandang()
+	{
+		$this->load->model('/app_load_data_table');
+		
+		$rows = $this->app_load_data_table->dataCetakGrafikSatuKandang($this->input->post('id_lokasi'), $this->input->post('data_kandang'));
+
+		echo json_encode($rows);
+	}
+
+	function ambil_grafik_banyak_kandang()
+	{
+		if($this->input->post('id_lokasi'))
+		{
+			$this->load->model('/app_load_data_table');
+
+			echo $this->app_load_data_table->dataKandangGrafikBanyak($this->input->post('id_lokasi'));
+		}
+	}
+
+	function cetak_laporan_grafik_banyak_kandang()
+	{
+		$this->load->model('/app_load_data_table');
+		
+		$rows = $this->app_load_data_table->dataCetakGrafikBanyakKandang($this->input->post('id_lokasi'), $this->input->post('data_kandang'));
+
+		echo json_encode($rows);
 	}
 }
