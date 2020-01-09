@@ -22,6 +22,8 @@ $("input[name='jumlah_kandang_mingguan']").change(function(){
 });
 
 $(document).ready(function () {
+    $('#btnExport1').hide();
+    $('#btnExport2').hide();
     $('#lokasi_mingguan_satu_kandang').change(function () {
         var id_lokasi = $('#lokasi_mingguan_satu_kandang').val();
         // var jumlah_kandang = $("input[name ='jumlah_kandang']:checked").val();
@@ -43,6 +45,14 @@ $(document).ready(function () {
         }
     });
 });
+$("#btnExport1").click(function(){
+    $("#tabel_laporan").table2excel({
+        exclude:".noExl",
+        name:"Worksheet Name",
+        filename:"laporan_mingguan",
+        fileext:".xls",
+      });
+  });
 
 $('#cetak_data_mingguan_satu_kandang').click(function() {
     var id_lokasi = $('#lokasi_mingguan_satu_kandang').val();
@@ -68,6 +78,7 @@ $('#cetak_data_mingguan_satu_kandang').click(function() {
             $('#lokasi_mingguan_satu_kandang').val(null);
             $('#kandang_mingguan_satu_kandang').html(dataKandang);
             $('#' + idJumlahKandang).prop('checked',true);
+            $('#btnExport1').show();
         }
     });
 });
@@ -92,6 +103,16 @@ $('#lokasi_mingguan_banyak_kandang').click(function() {
         $('#kandang_mingguan_banyak_kandang').html('');
     }
 });
+$("#btnExport2").click(function(){
+    $("#tabel_laporan").table2excel({
+        exclude:".noExl",
+        name:"Worksheet Name",
+        filename:"laporan_mingguan",
+        fileext:".xls",
+      });
+  
+  });
+  
 
 $('#cetak_data_mingguan_banyak_kandang').click(function() {
     var id_lokasi = $('#lokasi_mingguan_banyak_kandang').val();
@@ -105,7 +126,7 @@ $('#cetak_data_mingguan_banyak_kandang').click(function() {
     var tanggal_selesai = $('#tanggal_selesai_mingguan_banyak_kandang').val();
 
     var dataKandang = '<option value="" disabled selected>--Pilih--</option>';
-    var idJumlahKandang = 'jumlah_kandang_mingguan_satu';
+    var idJumlahKandang = 'jumlah_kandang_mingguan_banyak';
 
     $.ajax({
         url: base_url + "laporan_mingguan/cetak_laporan_mingguan_banyak_kandang",
@@ -119,14 +140,25 @@ $('#cetak_data_mingguan_banyak_kandang').click(function() {
         success: function (data) {
             // console.log(data)
             // window.location.href = base_url + "laporan_mingguan/cetak_laporan"
+            // $('#btnExport2').show();
+            // $('#data_hasil_laporan_mingguan').html(data);
+
+            // $('#lokasi_mingguan_banyak_kandang').val(null);
+            // $('#kandang_mingguan_banyak_kandang').html(dataKandang);
+            // $('#' + idJumlahKandang).prop('checked',true);
+            // $("#mingguan_banyak_kandang").toggleClass('collapse');
+            // $("#mingguan_satu_kandang").toggleClass('collapse');
             $('#data_hasil_laporan_mingguan').html(data);
 
-            $('#lokasi_mingguan_satu_kandang').val(null);
-            $('#kandang_mingguan_satu_kandang').html(dataKandang);
+            $('#lokasi_mingguan_banyak_kandang').val(null);
+            $('#kandang_mingguan_banyak_kandang').html(dataKandang);
             $('#' + idJumlahKandang).prop('checked',true);
-
-            $("#mingguan_satu_kandang").toggleClass('collapse');
-            $("#mingguan_banyak_kandang").toggleClass('collapse');
+            $('#tanggal_mulai_mingguan_banyak_kandang').val(null);
+            $('#tanggal_selesai_mingguan_banyak_kandang').val(null);
+            
+            $('#btnExport2').show();
+            
         }
     });
 });
+
