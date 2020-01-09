@@ -70,6 +70,9 @@
                                                     <div class="btn-group">
                                                     <a class="btn blue" id="cetak_data_mingguan_satu_kandang"> Lihat Data </a>
                                                     </div>
+                                                    <div class="btn-group">
+                                                    <a class="btn blue" id="btnExport1"> Export Data </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -138,6 +141,9 @@
                                                 <div class="form-group">
                                                     <div class="btn-group">
                                                     <a class="btn blue" id="cetak_data_mingguan_banyak_kandang"> Lihat Data </a>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                    <a class="btn blue" id="btnExport2"> Export Data </a>
                                                     </div>
                                                 </div>
                                             </div>
