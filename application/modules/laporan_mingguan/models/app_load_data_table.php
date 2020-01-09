@@ -336,19 +336,21 @@ class app_load_data_table extends CI_Model
                     //Tampilan Judul
                     foreach ($getJudul->result() as $row) {
                         $output .= '
-                            <h4 class="block">Populasi : ' . $row->awal_ayam_masuk . '</h4>
-                            <h4 class="block">HD 2% : ' . $row->hd_periode . '</h4>
-                            <h4 class="block">Strain : ' . $row->nama_strain . '</h4>
-                            <h4 class="block">Kandang : ' . $row->nama_kandang . '</h4>
-                            <h4 class="block">Asal Pullet : ' . $row->asal_pullet . '</h4>';
+                        <table class="table table-striped table-bordered table-hover order-column" id="sample_3">
+                            <td class="block">Populasi : ' . $row->awal_ayam_masuk . '</td>
+                            <td class="block">HD 2% : ' . $row->hd_periode . '</td>
+                            <td class="block">Strain : ' . $row->nama_strain . '</td>
+                            <td class="block">Kandang : ' . $row->nama_kandang . '</td>
+                            <td class="block">Asal Pullet : ' . $row->asal_pullet . '</td>
+                            </table>';
                     }
                 $output .= '
                             </div>
                             <div class="col-md-12">
-                                <table class="table table-striped table-bordered table-hover order-column" id="sample_3">
+                                <table class="table table-striped table-bordered table-hover order-column" id="tabel_laporan">
                                     <thead class="btn-success">
                                         <tr>
-                                            <th> Umur (Minggu) </th>
+                                            <th>Umur (Minggu) </th>
                                             <th> Tanggal </th>
                                             <th> Mati/Afkir </th>
                                             <th> Total </th>
@@ -356,9 +358,11 @@ class app_load_data_table extends CI_Model
                                             <th> Butir (Kg) </th>
                                             <th> Pakan (Kg) </th>
                                             <th> % HD </th>
+                                            <th>FCR</th>
                                             <th> EW </th>
                                             <th> EM </th>
                                             <th> Average Berat Badan </th>
+                                            <th> Keterangan</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
@@ -373,6 +377,7 @@ class app_load_data_table extends CI_Model
                                     $hasil_hd_persen = 0;
                                     $hasil_fcr = 0;
                                     $berat = 0;
+                                    $keterangan='';
                                     foreach ($getTransaksi->result() as $rowTransaksi) {
                 
                                         $data_mulai = $rowTransaksi->tanggal_menetas;
@@ -397,7 +402,9 @@ class app_load_data_table extends CI_Model
                                         $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
                                         $total_mati_afkir = $mati + $afkir;
                                         $berat = $berat + $rowTransaksi->berat_badan;
-                
+                                        if($rowTransaksi->keterangan!='') {
+                                            $keterangan = $keterangan." ".$rowTransaksi->keterangan.",";
+                                        }
                                         if ($hasil_mod === 0) {
                                             $output .= ' <tr class="odd gradeX">
                                     <td> ' . $minggu_ke . '</td>
@@ -408,12 +415,14 @@ class app_load_data_table extends CI_Model
                                     <td> ' . $butir_kg . '</td>
                                     <td> ' . $pakan . '</td>
                                     <td>' . round($hasil_hd_persen / 7, 2) . '</td>
+                                    <td>'.round($hasil_fcr,2).'</td>
                                     <td> ' . round($hasil_hd_persen / $butir_jumlah * 1000, 2) . ' </td>
                                     <td> ' . round($butir_kg / 7 / $rowTransaksi->total_ayam * 1000, 2) . '</td>
                                     <td> ' . round($berat / 7, 2) . '</td>
+                                    <td>'.$keterangan.'</td>
                                     </tr>
                                     ';
-                                            $mati = 0;
+                                    $mati = 0;
                                             $afkir = 0;
                                             $pakan_gr = 0;
                                             $butir_jumlah = 0;
@@ -423,7 +432,10 @@ class app_load_data_table extends CI_Model
                                             $hasil_hd_persen = 0;
                                             $hasil_fcr = 0;
                                             $berat = 0;
+                                            $keterangan='';
+                                            
                                         }
+                                        
                                     }
                 $output .= '
                                             </tbody>
@@ -479,6 +491,7 @@ class app_load_data_table extends CI_Model
                         $output .= '
                             <div class="col-md-12">';
                             //judul
+                            $kandang_kuy='';
                             for($i=0; $i<count($kandang); $i++)
                             {
                                 //Query Judul
@@ -489,17 +502,66 @@ class app_load_data_table extends CI_Model
                                 foreach ($getJudul->result_array() as $row) {
                                     $namaKandangTampil = $row['nama_kandang'];
                                 }
+                                $penghubung = 'OR';
+                                if($i==0)
+                                {
+                                    $penghubung='';
+                                }
+                                $kandang_kuy = "(".$kandang_kuy. ' ' .$penghubung.' '."mt_kandang.id_kandang= '".$kandang[$i]."'".")";
+                                $query_tanggal = "("."tr_produksi.tanggal_catat BETWEEN '".$tanggal_mulai."'"." AND '".$tanggal_selesai."'".")" ;
                                 //Tampilan Judul
-                                $output .= '<h4 class="block">Kandang : ' . $namaKandangTampil . '</h4>';
-                            };
+                               };
+                            $getJudul = $this->db->query("Select * From mt_kandang 
+                    inner join mt_lokasi on mt_kandang.id_lokasi = mt_lokasi.id_lokasi 
+                    inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
+                    inner join mt_strain on tr_periode.id_strain = mt_strain.id_strain
+                    where status_periode = 'AKTIF' AND " . $kandang_kuy . " GROUP BY mt_kandang.id_kandang");
+                    
+$output .= '
+<div class="col-md-12">';
+//Tampilan Judul
+foreach ($getJudul->result() as $row) {
+    $output .= '
+    <table class="table table-striped table-bordered table-hover order-column" id="sample_3">
+        <td class="block">Populasi : ' . $row->awal_ayam_masuk . '</td>
+        <td class="block">HD 2% : ' . $row->hd_periode . '</td>
+        <td class="block">Strain : ' . $row->nama_strain . '</td>
+        <td class="block">Kandang : ' . $row->nama_kandang . '</td>
+        <td class="block">Asal Pullet : ' . $row->asal_pullet . '</td>
+        </table>';
+}
+                            // $cobabro ="Select tr_periode.tanggal_menetas as tanggal_menetas,
+                            // tr_produksi.tanggal_catat as tanggal_catat,
+                            // tr_produksi.ayam_m as ayam_m, tr_produksi.ayam_c as ayam_c,
+                            // tr_produksi.total_ayam as total_ayam, tr_produksi.pakan_kg as pakan_kg, 
+                            // tr_produksi.hasil_pakan_gr as hasil_pakan_gr, 
+                            // tr_produksi.butir_jumlah as butir_jumlah, tr_produksi.butir_kg as butir_kg,
+                            // tr_produksi.hasil_butir_gr as hasil_butir_gr, tr_produksi.hasil_hh as hasil_hh ,
+                            // tr_produksi.hasil_hd_persen as hasil_hd_persen, tr_produksi.hasil_fcr as hasil_fcr, 
+                            // tr_produksi.berat_badan as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
+                            // inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
+                            // inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
+                            // where status_periode = 'AKTIF' AND " . $kandang_kuy . " AND " .$query_tanggal. " GROUP BY tr_produksi.tanggal_catat";
+                            // echo $cobabro;
+                            $getTransaksi = $this->db->query("Select tr_periode.tanggal_menetas as tanggal_menetas,
+                    tr_produksi.tanggal_catat as tanggal_catat,
+                    AVG(tr_produksi.ayam_m) as ayam_m, AVG(tr_produksi.ayam_c) as ayam_c,
+                    AVG(tr_produksi.total_ayam) as total_ayam, AVG(tr_produksi.pakan_kg) as pakan_kg, 
+                    AVG(tr_produksi.hasil_pakan_gr) as hasil_pakan_gr, 
+                    AVG(tr_produksi.butir_jumlah) as butir_jumlah, AVG(tr_produksi.butir_kg) as butir_kg,
+                    AVG(tr_produksi.hasil_butir_gr) as hasil_butir_gr, AVG(tr_produksi.hasil_hh) as hasil_hh ,
+                    AVG(tr_produksi.hasil_hd_persen) as hasil_hd_persen, AVG(tr_produksi.hasil_fcr) as hasil_fcr, 
+                    AVG(tr_produksi.berat_badan) as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
+                    inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
+                    inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
+                    where status_periode = 'AKTIF' AND " . $kandang_kuy . " AND " .$query_tanggal. " GROUP BY tr_produksi.tanggal_catat");
                             
                         $output .= '
                             </div>
                                 <div class="col-md-12">
-                                    <table class="table table-striped table-bordered table-hover order-column" id="sample_3">
+                                    <table class="table table-striped table-bordered table-hover order-column" id="tabel_laporan">
                                         <thead class="btn-success">
                                             <tr>
-                                                <th> Umur (Minggu) </th>
                                                 <th> Tanggal </th>
                                                 <th> Mati/Afkir </th>
                                                 <th> Total </th>
@@ -507,6 +569,7 @@ class app_load_data_table extends CI_Model
                                                 <th> Butir (Kg) </th>
                                                 <th> Pakan (Kg) </th>
                                                 <th> % HD </th>
+                                                <th>FCR</th>
                                                 <th> EW </th>
                                                 <th> EM </th>
                                                 <th> Average Berat Badan </th>
@@ -514,7 +577,26 @@ class app_load_data_table extends CI_Model
                                         </thead>
                                         <tbody>';
                                         //Tampilan Data Hasil
+                                        foreach ($getTransaksi->result() as $rowTransaksi) {
 
+                                            $dateCatat = date_create($rowTransaksi->tanggal_catat);
+                                            $total_mati_afkir = $rowTransaksi->ayam_m + $rowTransaksi->ayam_c;
+                                            $output .= '
+                                                                        <tr class="odd gradeX">
+                                                                            <td>' . date_format($dateCatat, "d F Y") . '</td>
+                                                                            <td>' . round($total_mati_afkir,1) . '</td>
+                                                                            <td>' . round($rowTransaksi->total_ayam,1) . '</td>
+                                                                            
+                                                                            <td>' . $rowTransaksi->butir_jumlah . '</td>
+                                                                            <td>' . round($rowTransaksi->butir_kg, 2) . '</td>
+                                                                            <td>' . round($rowTransaksi->pakan_kg,2) . '</td>
+                                                                            <td>' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
+                                                                            <td>'.round($rowTransaksi->hasil_fcr).'</td>
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                            <td>' . round($rowTransaksi->berat_badan,2). '</td>
+                                                                        </tr>';
+                                        }
                         $output .= '
                                         </tbody>
                                     </table>

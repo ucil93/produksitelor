@@ -30,6 +30,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- MULAI TAMBAHAN -->
         <script type="text/javascript" src="<?php echo base_url().'assets/new/js/jquery-1.11.3.js'; ?>"></script>
         <script type="text/javascript" src="<?php echo base_url().'assets/new/js/1.10.3/jquery-ui.js'; ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url().'assets/global/plugins/jquery.table2excel.js'; ?>"></script>
         <!-- SELESAI TAMBAHAN -->
         
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
