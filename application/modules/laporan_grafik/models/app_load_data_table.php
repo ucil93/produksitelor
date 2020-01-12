@@ -27,19 +27,83 @@ class app_load_data_table extends CI_Model {
 
     public function dataCetakGrafikSatuKandang($id_lokasi, $kandang)
     {
+        $getTransaksi = $this->db->query("Select tr_periode.tanggal_menetas as tanggal_menetas,
+                    tr_produksi.tanggal_catat as tanggal_catat,
+                    tr_produksi.ayam_m as ayam_m, tr_produksi.ayam_c as ayam_c,
+                    tr_produksi.total_ayam as total_ayam, tr_produksi.pakan_kg as pakan_kg, 
+                    tr_produksi.hasil_pakan_gr as hasil_pakan_gr, 
+                    tr_produksi.butir_jumlah as butir_jumlah, tr_produksi.butir_kg as butir_kg,
+                    tr_produksi.hasil_butir_gr as hasil_butir_gr, tr_produksi.hasil_hh as hasil_hh ,
+                    tr_produksi.hasil_hd_persen as hasil_hd_persen, tr_produksi.hasil_fcr as hasil_fcr, 
+                    tr_produksi.berat_badan as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
+                    inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
+                    inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
+                    where status_periode = 'AKTIF' and mt_kandang.id_kandang = '" . $kandang . "'");
+                    $pakan = 0;
+                    $mati = 0;
+                    $afkir = 0;
+                    $pakan_gr = 0;
+                    $butir_jumlah = 0;
+                    $butir_kg = 0;
+                    $hasil_butir_gr = 0;
+                    $hasil_hh = 0;
+                    $hasil_hd_persen = 0;
+                    $hasil_fcr = 0;
+                    $berat = 0;
+                    $keterangan='';
+                    $data_em=array();
+                    $data_ew=array();
+                    foreach ($getTransaksi->result() as $rowTransaksi) {
+                        $data_mulai = $rowTransaksi->tanggal_menetas;
+                                        $diff = abs(strtotime($rowTransaksi->tanggal_catat) - strtotime($data_mulai));
+                                        $years = floor($diff / (365 * 60 * 60 * 24));
+                                        $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+                                        $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+                                        $hasil_mod = $days % 7;
+                                        $minggu_ke = $days / 7;
+                                        // echo $days;
+                                        // echo $hasil_mod;
+                                        $date = date_create($rowTransaksi->tanggal_catat);
+                                        $pakan = $pakan + $rowTransaksi->pakan_kg;
+                                        $pakan_gr = $pakan_gr + $rowTransaksi->hasil_pakan_gr;
+                                        $butir_jumlah = $butir_jumlah + $rowTransaksi->butir_jumlah;
+                                        $butir_kg = $butir_kg + $rowTransaksi->butir_kg;
+                                        $hasil_butir_gr = $hasil_butir_gr + $rowTransaksi->hasil_butir_gr;
+                                        $mati = $mati + $rowTransaksi->ayam_m;
+                                        $afkir = $afkir + $rowTransaksi->ayam_c;
+                                        $hasil_hh = $hasil_hh + $rowTransaksi->hasil_hh;
+                                        $hasil_hd_persen = $hasil_hd_persen + $rowTransaksi->hasil_hd_persen;
+                                        $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
+                                        $total_mati_afkir = $mati + $afkir;
+                                        $berat = $berat + $rowTransaksi->berat_badan;
+                                        if ($hasil_mod === 0) {
+                                            $ew = $hasil_hd_persen / $butir_jumlah * 1000;
+                                            $em = $butir_kg / 7 / $rowTransaksi->total_ayam * 1000;
+                                            array_push($data_em,$em);
+                                            array_push($data_ew,$ew);
+                                            array_push($data_em,$em);
+                                            array_push($data_ew,$ew);
+                                            array_push($data_em,$em);
+                                            array_push($data_ew,$ew);
+                                            array_push($data_em,$em);
+                                            array_push($data_ew,$ew);
+                                            array_push($data_em,$em);
+                                            array_push($data_ew,$ew);
+                                        }
+                    }
         $result = array();
 
         //DATA HITUNGAN KANDANG
         $arr1 = array(
-            'name' => "Tokyo",
-            'data' => [7, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-            'color' => "#FF0000"
+            'name' => "EW",
+            'data' => $data_ew,
+            'color' => "blue"
         );
 
         $arr2 = array(
-            'name' => "New York",
-            'data' => [-.2, .8, 5.7, 11.3, 17, 22, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5],
-            'color' => "#FF0000"
+            'name' => "EM",
+            'data' => $data_em,
+            'color' => "green"
         );
 
         $arr3 = array(

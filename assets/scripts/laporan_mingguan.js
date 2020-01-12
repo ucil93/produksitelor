@@ -47,10 +47,10 @@ $(document).ready(function () {
 });
 $("#btnExport1").click(function(){
     $("#tabel_laporan").table2excel({
-        exclude:".noExl",
+      fileext:".xls",
+          exclude:".noExl",
         name:"Worksheet Name",
         filename:"laporan_mingguan",
-        fileext:".xls",
       });
   });
 
@@ -112,7 +112,11 @@ $("#btnExport2").click(function(){
       });
   
   });
-  
+
+
+  $('#tanggal_mulai_mingguan_banyak_kandang').click(function(){
+    alert("Oke")
+  });
 
 $('#cetak_data_mingguan_banyak_kandang').click(function() {
     var id_lokasi = $('#lokasi_mingguan_banyak_kandang').val();

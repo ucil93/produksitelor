@@ -336,7 +336,7 @@ class app_load_data_table extends CI_Model
                     //Tampilan Judul
                     foreach ($getJudul->result() as $row) {
                         $output .= '
-                        <table class="table table-striped table-bordered table-hover order-column" id="sample_3">
+                        <table class="table table-borderless" id="sample_3">
                             <td class="block">Populasi : ' . $row->awal_ayam_masuk . '</td>
                             <td class="block">HD 2% : ' . $row->hd_periode . '</td>
                             <td class="block">Strain : ' . $row->nama_strain . '</td>
@@ -352,8 +352,8 @@ class app_load_data_table extends CI_Model
                                         <tr>
                                             <th>Umur (Minggu) </th>
                                             <th> Tanggal </th>
-                                            <th> Mati/Afkir </th>
-                                            <th> Total </th>
+                                            <th style="width:10px"> Mati </th>
+                                            <th style="width:60px"> Total </th>
                                             <th> Butir (Jumlah) </th>
                                             <th> Butir (Kg) </th>
                                             <th> Pakan (Kg) </th>
@@ -407,18 +407,18 @@ class app_load_data_table extends CI_Model
                                         }
                                         if ($hasil_mod === 0) {
                                             $output .= ' <tr class="odd gradeX">
-                                    <td> ' . $minggu_ke . '</td>
-                                    <td>' . date_format($date, "d F Y") . ' </td>
-                                    <td>' . $total_mati_afkir . '</td>
-                                    <td>' . round($rowTransaksi->total_ayam, 1) . '</td>
-                                    <td> ' . $butir_jumlah . '</td>
-                                    <td> ' . $butir_kg . '</td>
-                                    <td> ' . $pakan . '</td>
-                                    <td>' . round($hasil_hd_persen / 7, 2) . '</td>
-                                    <td>'.round($hasil_fcr,2).'</td>
-                                    <td> ' . round($hasil_hd_persen / $butir_jumlah * 1000, 2) . ' </td>
-                                    <td> ' . round($butir_kg / 7 / $rowTransaksi->total_ayam * 1000, 2) . '</td>
-                                    <td> ' . round($berat / 7, 2) . '</td>
+                                    <td class="text-center"> ' . $minggu_ke . '</td>
+                                    <td class="text-center">' . date_format($date, "d F Y") . ' </td>
+                                    <td class="text-center" style="width:10px">' . $total_mati_afkir . '</td>
+                                    <td class="text-center" style="width:60px">' . round($rowTransaksi->total_ayam, 1) . '</td>
+                                    <td class="text-center"> ' . $butir_jumlah . '</td>
+                                    <td class="text-center"> ' . $butir_kg . '</td>
+                                    <td class="text-center"> ' . $pakan . '</td>
+                                    <td class="text-center">' . round($hasil_hd_persen / 7, 2) . '</td>
+                                    <td class="text-center">'.round($hasil_fcr,2).'</td>
+                                    <td class="text-center"> ' . round($hasil_hd_persen / $butir_jumlah * 1000, 2) . ' </td>
+                                    <td class="text-center">' . round($butir_kg / 7 / $rowTransaksi->total_ayam * 1000, 2) . '</td>
+                                    <td class="text-center"> ' . round($berat / 7, 2) . '</td>
                                     <td>'.$keterangan.'</td>
                                     </tr>
                                     ';
@@ -522,7 +522,7 @@ $output .= '
 //Tampilan Judul
 foreach ($getJudul->result() as $row) {
     $output .= '
-    <table class="table table-striped table-bordered table-hover order-column" id="sample_3">
+    <table class="table table-borderless" id="sample_3">
         <td class="block">Populasi : ' . $row->awal_ayam_masuk . '</td>
         <td class="block">HD 2% : ' . $row->hd_periode . '</td>
         <td class="block">Strain : ' . $row->nama_strain . '</td>
@@ -583,18 +583,18 @@ foreach ($getJudul->result() as $row) {
                                             $total_mati_afkir = $rowTransaksi->ayam_m + $rowTransaksi->ayam_c;
                                             $output .= '
                                                                         <tr class="odd gradeX">
-                                                                            <td>' . date_format($dateCatat, "d F Y") . '</td>
-                                                                            <td>' . round($total_mati_afkir,1) . '</td>
-                                                                            <td>' . round($rowTransaksi->total_ayam,1) . '</td>
+                                                                            <td class="text-center">' . date_format($dateCatat, "d F Y") . '</td>
+                                                                            <td class="text-center">' . round($total_mati_afkir,1) . '</td>
+                                                                            <td class="text-center">' . round($rowTransaksi->total_ayam,1) . '</td>
                                                                             
-                                                                            <td>' . $rowTransaksi->butir_jumlah . '</td>
-                                                                            <td>' . round($rowTransaksi->butir_kg, 2) . '</td>
-                                                                            <td>' . round($rowTransaksi->pakan_kg,2) . '</td>
-                                                                            <td>' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
-                                                                            <td>'.round($rowTransaksi->hasil_fcr).'</td>
+                                                                            <td class="text-center">' . $rowTransaksi->butir_jumlah . '</td>
+                                                                            <td class="text-center">' . round($rowTransaksi->butir_kg, 2) . '</td>
+                                                                            <td class="text-center">' . round($rowTransaksi->pakan_kg,2) . '</td>
+                                                                            <td class="text-center">' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
+                                                                            <td class="text-center">'.round($rowTransaksi->hasil_fcr).'</td>
                                                                             <td></td>
                                                                             <td></td>
-                                                                            <td>' . round($rowTransaksi->berat_badan,2). '</td>
+                                                                            <td class="text-center">' . round($rowTransaksi->berat_badan,2). '</td>
                                                                         </tr>';
                                         }
                         $output .= '

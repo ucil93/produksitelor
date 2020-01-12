@@ -69,6 +69,9 @@
                                                     <div class="btn-group">
                                                     <a class="btn blue" id="cetak_data_harian_satu_kandang"> Lihat Data </a>
                                                     </div>
+                                                    <div class="btn-group">
+                                                    <a class="btn blue" id="export1"> Export Excel </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -99,7 +102,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <!-- <div class="row">
                                             <div class="col-md-3">
                                                 <div class="form-group has-success">
                                                     <label class="control-label">Tanggal Mulai</label>
@@ -131,12 +134,15 @@
                                             </div>
                                             <div class="col-md-5">
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <div class="btn-group">
                                                     <a class="btn blue" id="cetak_data_harian_banyak_kandang"> Lihat Data </a>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                    <a class="btn blue" id="export2"> Export Excel </a>
                                                     </div>
                                                 </div>
                                             </div>
