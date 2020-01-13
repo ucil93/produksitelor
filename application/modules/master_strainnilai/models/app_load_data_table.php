@@ -4,7 +4,7 @@ class app_load_data_table extends CI_Model {
 
     public function getAllData()
     {
-        $get  = $this->db->query("Select * from mt_strain_nilai inner join mt_strain on mt_strain_nilai.id_strain = mt_strain.id_strain");
+        $get  = $this->db->query("Select * from mt_strain_nilai inner join mt_strain on mt_strain_nilai.id_strain = mt_strain.id_strain order by mt_strain_nilai.id_strain_nilai asc");
         return $get->result();
     }
 

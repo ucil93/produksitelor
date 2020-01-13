@@ -161,7 +161,7 @@
                 <div class="col-md-6">
                     <div class="form-group has-success">
                         <label class="control-label">Tanggal Masuk Kandang</label>
-                        <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd">
+                        <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
                             <input name="tanggal_masuk_kandang" id="tanggal_masuk_kandang" type="text" class="form-control" readonly>
                             <span class="input-group-btn">
                                 <button class="btn default" type="button">
@@ -174,7 +174,7 @@
                 <div class="col-md-6">
                     <div class="form-group has-success">
                         <label class="control-label">Tanggal Menetas</label>
-                        <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd">
+                        <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
                             <input name="tanggal_menetas" id="tanggal_menetas" type="text" class="form-control" readonly>
                             <span class="input-group-btn">
                                 <button class="btn default" type="button">

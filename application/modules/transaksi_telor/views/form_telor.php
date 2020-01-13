@@ -24,7 +24,7 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd">
+                                                <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
                                                     <input name="tanggal_catat" id="tanggal_catat" type="text" class="form-control" readonly>
                                                     <span class="input-group-btn">
                                                         <button class="btn default" type="button">
