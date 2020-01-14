@@ -27,6 +27,19 @@ class app_load_data_table extends CI_Model {
 
     public function dataCetakGrafikSatuKandang($id_lokasi, $kandang)
     {
+
+        $nama_strain = '';
+        $jenis_strain = '';
+        // $get_straing = $this->db->query("SELECT mt_strain.id_strain,mt_strain.nama_strain as nama_strain FROM mt_strain,tr_periode WHERE tr_periode.id_kandang='" . $kandang . "' AND tr_periode.id_strain=mt_strain.id_strain");
+        $get_straing = $this->db->query("Select mt_strain.id_strain as id_strain,mt_strain.nama_strain as nama_strain FROM mt_strain,tr_periode
+             where tr_periode.id_strain=mt_strain.id_strain and tr_periode.id_kandang = '" . $kandang . "'");
+
+        foreach ($get_straing->result() as $rowStrain) {
+            $nama_strain = $rowStrain->nama_strain;
+        }
+
+
+
         $getTransaksi = $this->db->query("Select tr_periode.tanggal_menetas as tanggal_menetas,
                     tr_produksi.tanggal_catat as tanggal_catat,
                     tr_produksi.ayam_m as ayam_m, tr_produksi.ayam_c as ayam_c,
@@ -39,119 +52,307 @@ class app_load_data_table extends CI_Model {
                     inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
                     inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
                     where status_periode = 'AKTIF' and mt_kandang.id_kandang = '" . $kandang . "'");
-                    $pakan = 0;
-                    $mati = 0;
-                    $afkir = 0;
-                    $pakan_gr = 0;
-                    $butir_jumlah = 0;
-                    $butir_kg = 0;
-                    $hasil_butir_gr = 0;
-                    $hasil_hh = 0;
-                    $hasil_hd_persen = 0;
-                    $hasil_fcr = 0;
-                    $berat = 0;
-                    $keterangan='';
-                    $data_em=array();
-                    $data_ew=array();
-                    foreach ($getTransaksi->result() as $rowTransaksi) {
-                        $data_mulai = $rowTransaksi->tanggal_menetas;
-                                        $diff = abs(strtotime($rowTransaksi->tanggal_catat) - strtotime($data_mulai));
-                                        $years = floor($diff / (365 * 60 * 60 * 24));
-                                        $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
-                                        $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
-                                        $hasil_mod = $days % 7;
-                                        $minggu_ke = $days / 7;
-                                        // echo $days;
-                                        // echo $hasil_mod;
-                                        $date = date_create($rowTransaksi->tanggal_catat);
-                                        $pakan = $pakan + $rowTransaksi->pakan_kg;
-                                        $pakan_gr = $pakan_gr + $rowTransaksi->hasil_pakan_gr;
-                                        $butir_jumlah = $butir_jumlah + $rowTransaksi->butir_jumlah;
-                                        $butir_kg = $butir_kg + $rowTransaksi->butir_kg;
-                                        $hasil_butir_gr = $hasil_butir_gr + $rowTransaksi->hasil_butir_gr;
-                                        $mati = $mati + $rowTransaksi->ayam_m;
-                                        $afkir = $afkir + $rowTransaksi->ayam_c;
-                                        $hasil_hh = $hasil_hh + $rowTransaksi->hasil_hh;
-                                        $hasil_hd_persen = $hasil_hd_persen + $rowTransaksi->hasil_hd_persen;
-                                        $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
-                                        $total_mati_afkir = $mati + $afkir;
-                                        $berat = $berat + $rowTransaksi->berat_badan;
-                                        if ($hasil_mod === 0) {
-                                            $ew = $hasil_hd_persen / $butir_jumlah * 1000;
-                                            $em = $butir_kg / 7 / $rowTransaksi->total_ayam * 1000;
-                                            array_push($data_em,$em);
-                                            array_push($data_ew,$ew);
-                                            array_push($data_em,$em);
-                                            array_push($data_ew,$ew);
-                                            array_push($data_em,$em);
-                                            array_push($data_ew,$ew);
-                                            array_push($data_em,$em);
-                                            array_push($data_ew,$ew);
-                                            array_push($data_em,$em);
-                                            array_push($data_ew,$ew);
-                                        }
+        $pakan = 0;
+        $mati = 0;
+        $afkir = 0;
+        $pakan_gr = 0;
+        $butir_jumlah = 0;
+        $butir_kg = 0;
+        $hasil_butir_gr = 0;
+        $hasil_hh = 0;
+        $hasil_hd_persen = 0;
+        $hasil_fcr = 0;
+        $berat = 0;
+        $keterangan = '';
+        $data_em = array();
+        $data_ew = array();
+        $data_lay = array();
+        $data_berat = array();
+        $data_food = array();
+        $data_egg_weight = array();
+        $data_livability = array();
+        $data_immortality = array();
+        $livability_data = 0;
+        $mortality = 0;
+        foreach ($getTransaksi->result() as $rowTransaksi) {
+            $data_mulai = $rowTransaksi->tanggal_menetas;
+            $diff = abs(strtotime($rowTransaksi->tanggal_catat) - strtotime($data_mulai));
+            $years = floor($diff / (365 * 60 * 60 * 24));
+            $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+            $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+            $hasil_mod = $days % 7;
+            $minggu_ke = $days / 7;
+            // echo $days;
+            // echo $hasil_mod;
+            $date = date_create($rowTransaksi->tanggal_catat);
+            $pakan = $pakan + $rowTransaksi->pakan_kg;
+            $pakan_gr = $pakan_gr + $rowTransaksi->hasil_pakan_gr;
+            $butir_jumlah = $butir_jumlah + $rowTransaksi->butir_jumlah;
+            $butir_kg = $butir_kg + $rowTransaksi->butir_kg;
+            $hasil_butir_gr = $hasil_butir_gr + $rowTransaksi->hasil_butir_gr;
+            $mati = $mati + $rowTransaksi->ayam_m;
+            $afkir = $afkir + $rowTransaksi->ayam_c;
+            $hasil_hh = $hasil_hh + $rowTransaksi->hasil_hh;
+            $hasil_hd_persen = $hasil_hd_persen + $rowTransaksi->hasil_hd_persen;
+            $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
+            $total_mati_afkir = $mati + $afkir;
+            $berat = $berat + $rowTransaksi->berat_badan;
+            if ($hasil_mod === 0) {
+                if ($minggu_ke >= 18) {
+                    $ew = $hasil_hd_persen / $butir_jumlah * 1000;
+                    $em = $butir_kg / 7 / $rowTransaksi->total_ayam * 1000;
+                    $lay = $hasil_hd_persen;
+                    $egg_weight = $butir_jumlah;
+                    if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
+                        $livability_data = ($rowTransaksi->total_ayam / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
+                    } else if ($nama_strain === "HY-LINE BROWN") {
+                        if ($total_mati_afkir == 0) {
+                            $mortality = 0;
+                        } else {
+                            $mortality = ($total_mati_afkir / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
+                        }
                     }
+                    // $livability_data = ;
+                    // $mortality=;
+                    $feed_intake = $pakan;
+                    $body_weight = $berat;
+                    array_push($data_em, $em);
+                    array_push($data_ew, $ew);
+                    array_push($data_berat, $body_weight);
+                    array_push($data_food, $feed_intake);
+                    array_push($data_lay, $lay);
+                    array_push($data_egg_weight, $egg_weight);
+                    if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
+                        array_push($data_livability, $livability_data);
+                    } else if ($nama_strain === "HY-LINE BROWN") {
+                        array_push($data_immortality, $mortality);
+                    }
+                }
+                $pakan = 0;
+                $mati = 0;
+                $afkir = 0;
+                $pakan_gr = 0;
+                $butir_jumlah = 0;
+                $butir_kg = 0;
+                $hasil_butir_gr = 0;
+                $hasil_hh = 0;
+                $hasil_hd_persen = 0;
+                $hasil_fcr = 0;
+                $berat = 0;
+            }
+        }
         $result = array();
 
         //DATA HITUNGAN KANDANG
         $arr1 = array(
-            'name' => "EW",
-            'data' => $data_ew,
+            'name' => "% LAY",
+            'data' => $data_lay,
             'color' => "blue"
         );
-
         $arr2 = array(
-            'name' => "EM",
-            'data' => $data_em,
-            'color' => "green"
+            'name' => "Egg Weight",
+            'data' => $data_egg_weight,
+            'color' => "#FF0000"
         );
-
         $arr3 = array(
-            'name' => "Berlin",
-            'data' => [-.9, .6, 3.5, 8.4, 13.5, 17, 18.6, 17.9, 14.3, 9, 3.9, 1],
+            'name' => "Feed Intake",
+            'data' => $data_food,
+            'color' => "#FF0000"
+        );
+        $arr4 = array();
+        if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
+            $arr4 = array(
+                'name' => "Livability",
+                'data' => $data_livability,
+                'color' => "#FF0000"
+            );
+        } else if ($nama_strain === "HY-LINE BROWN") {
+            $arr4 = array(
+                'name' => "Mortality",
+                'data' => $data_immortality,
+                'color' => "#FF0000"
+            );
+        }
+        $arr5 = array(
+            'name' => "Egg Mass",
+            'data' => $data_em,
             'color' => "#FF0000"
         );
 
-        $arr4 = array(
-            'name' => "London",
-            'data' => [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17, 16.6, 14.2, 10.3, 6.6, 4.8],
+        $arr6 = array(
+            'name' => "Body Weight",
+            'data' => $data_berat,
             'color' => "#FF0000"
         );
+        if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN" || $nama_strain === "HY-LINE BROWN") {
+            array_push($result, $arr1);
+            array_push($result, $arr2);
+            array_push($result, $arr3);
+            array_push($result, $arr4);
+            array_push($result, $arr5);
+            array_push($result, $arr6);
+        } else {
+            array_push($result, $arr1);
+            array_push($result, $arr2);
+        }
+        $persen_lay = array();
+        $egg_weight = array();
+        $feed_intake = array();
+        $livability = array();
+        $egg_mass = array();
+        $body_weight = array();
+        $mortality = array();
+        if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN" || $nama_strain === "HY-LINE BROWN") {
+            //%LAY
+            $get_persen_lay = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
+                AND mt_strain_nilai.nama_strain_nilai='% LAY' "
+            );
+            foreach ($get_persen_lay->result() as $persen_lay_v) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
+            }
+            //Egg Weight
+            $get_egg_weight = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
+                AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' "
+            );
+            foreach ($get_egg_weight->result() as $egg_weight_ok) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($egg_weight, intval($egg_weight_ok->standar_strain_nilai));
+            }
+            //Feed Intake
 
-        array_push($result,$arr1);
-        array_push($result,$arr2);
-        array_push($result,$arr3);
-        array_push($result,$arr4);
+            $get_feed_intake = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
+                AND mt_strain_nilai.nama_strain_nilai='FEED INTAKE' "
+            );
+            foreach ($get_feed_intake->result() as $feed_intage_ok) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($feed_intake, intval($feed_intage_ok->standar_strain_nilai));
+            }
+            //Livability or Mortality
+            if ($nama_strain === "HY-LINE BROWN") {
+                //Mortality
+                $get_mortality = $this->db->query(
+                    "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
+               AND mt_strain_nilai.nama_strain_nilai='MORTALITY' "
+                );
+                foreach ($get_mortality->result() as $mortality_ok) {
+                    // echo $persen_lay_v->standar_strain_nilai;
+                    array_push($mortality, intval($mortality_ok->standar_strain_nilai));
+                }
+            } else {
+                $get_livability = $this->db->query(
+                    "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
+                   AND mt_strain_nilai.nama_strain_nilai='LIVABILITY' "
+                );
+                foreach ($get_livability->result() as $livability_ok) {
+                    // echo $persen_lay_v->standar_strain_nilai;
+                    array_push($livability, intval($livability_ok->standar_strain_nilai));
+                }
+            }
+            //Egg Mass
+            $get_egg_mass = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
+                AND mt_strain_nilai.nama_strain_nilai='EGG MASS' "
+            );
+            foreach ($get_egg_mass->result() as $egg_mass_ok) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($egg_mass, intval($egg_mass_ok->standar_strain_nilai));
+            }
+            //Body Weight
+            $get_body_weight = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
+                AND mt_strain_nilai.nama_strain_nilai='BODY WEIGHT' "
+            );
+            foreach ($get_body_weight->result() as $body_weight_ok) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($body_weight, intval($body_weight_ok->standar_strain_nilai));
+            }
+        } else {
+            $get_persen_lay = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
+                AND mt_strain_nilai.nama_strain_nilai='% LAY' "
+            );
+            foreach ($get_persen_lay->result() as $persen_lay_v) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
+            }
+            //Egg Weight
+            $get_egg_weight = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
+                AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' "
+            );
+            foreach ($get_egg_weight->result() as $egg_weight_ok) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($egg_weight, intval($egg_weight_ok->standar_strain_nilai));
+            }
+        }
 
         //DATA MASTER
         $arr1 = array(
-            'name' => "Tokyo1",
-            'data' => [9, 8.9, 11.5, 16.5, 20.2, 23.5, 27.2, 28.5, 25.3, 20.3, 15.9, 11.6],
+            'name' => "%Lay",
+            'data' => $persen_lay,
             'color' => "#000000"
         );
 
         $arr2 = array(
-            'name' => "New York1",
-            'data' => [2.2, 2.8, 7.7, 13.3, 19, 24, 26.8, 26.1, 22.1, 16.1, 10.6, 4.5],
+            'name' => "Egg Weight",
+            'data' => $egg_weight,
             'color' => "#000000"
         );
+        if ($nama_strain != "LOHMANN BROWN") {
+            $arr3 = array(
+                'name' => "Feed Intake",
+                'data' => $feed_intake,
+                'color' => "#000000"
+            );
+        }
+        if ($nama_strain != "LOHMANN BROWN") {
+            if ($nama_strain === "HY-LINE BROWN") {
+                $arr4 = array(
+                    'name' => "Mortality",
+                    'data' => $mortality,
+                    'color' => "#000000"
+                );
+            } else {
+                $arr4 = array(
+                    'name' => "Livability",
+                    'data' => $livability,
+                    'color' => "#000000"
+                );
+            }
+        }
 
-        $arr3 = array(
-            'name' => "Berlin1",
-            'data' => [2.9, 2.6, 5.5, 10.4, 15.5, 19, 20.6, 19.9, 16.3, 11, 5.9, 3],
-            'color' => "#000000"
-        );
+        if ($nama_strain != "LOHMANN BROWN") {
+            $arr5 = array(
+                'name' => "Egg Mass",
+                'data' => $egg_mass,
+                'color' => "#000000"
+            );
+        }
 
-        $arr4 = array(
-            'name' => "London1",
-            'data' => [5.9, 6.2, 7.7, 10.5, 13.9, 17.2, 19, 18.6, 16.2, 12.3, 8.6, 6.8],
-            'color' => "#000000"
-        );
+        if ($nama_strain != "LOHMANN BROWN") {
+            $arr6 = array(
+                'name' => "Body Weight",
+                'data' => $body_weight,
+                'color' => "#000000"
+            );
+        }
 
-        array_push($result,$arr1);
-        array_push($result,$arr2);
-        array_push($result,$arr3);
-        array_push($result,$arr4);
+
+
+
+        array_push($result, $arr1);
+        array_push($result, $arr2);
+        if ($nama_strain != "LOHMANN BROWN") {
+            array_push($result, $arr3);
+            array_push($result, $arr4);
+            array_push($result, $arr5);
+            array_push($result, $arr6);
+        }
+
 
         return $result;
     }
@@ -201,7 +402,7 @@ class app_load_data_table extends CI_Model {
 
         $output = '<option value="" disabled selected>--Pilih--</option>';
         foreach ($query->result() as $row) {
-            $output .= '<option value="' . $row->id_strain . '">' . $row->nama_strain . '</option>';
+            $output .= '<option value="' . $row->nama_strain . '">' . $row->nama_strain . '</option>';
         }
 
         return $output;
@@ -210,67 +411,313 @@ class app_load_data_table extends CI_Model {
     public function dataCetakGrafikBanyakKandang($id_lokasi, $tanggal_menetas, $id_strain)
     {
         $result = array();
-
+        $getTransaksi = $this->db->query("Select tr_periode.tanggal_menetas as tanggal_menetas,
+        tr_produksi.tanggal_catat as tanggal_catat,
+        AVG(tr_produksi.ayam_m) as ayam_m, AVG(tr_produksi.ayam_c) as ayam_c,
+        AVG(tr_produksi.total_ayam) as total_ayam, AVG(tr_produksi.pakan_kg) as pakan_kg, 
+        AVG(tr_produksi.hasil_pakan_gr) as hasil_pakan_gr, 
+        AVG(tr_produksi.butir_jumlah) as butir_jumlah, AVG(tr_produksi.butir_kg) as butir_kg,
+        AVG(tr_produksi.hasil_butir_gr) as hasil_butir_gr, AVG(tr_produksi.hasil_hh) as hasil_hh ,
+        AVG(tr_produksi.hasil_hd_persen) as hasil_hd_persen, AVG(tr_produksi.hasil_fcr) as hasil_fcr, 
+        AVG(tr_produksi.berat_badan) as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
+        inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
+        inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
+        where status_periode = 'AKTIF' AND tr_periode.tanggal_menetas='".$tanggal_menetas."' GROUP BY tr_produksi.tanggal_catat");
+        $pakan = 0;
+        $mati = 0;
+        $afkir = 0;
+        $pakan_gr = 0;
+        $butir_jumlah = 0;
+        $butir_kg = 0;
+        $hasil_butir_gr = 0;
+        $hasil_hh = 0;
+        $hasil_hd_persen = 0;
+        $hasil_fcr = 0;
+        $berat = 0;
+        $keterangan = '';
+        $data_em = array();
+        $data_ew = array();
+        $data_lay = array();
+        $data_berat = array();
+        $data_food = array();
+        $data_egg_weight = array();
+        $data_livability = array();
+        $data_immortality = array();
+        $livability_data = 0;
+        $mortality = 0;
+        foreach ($getTransaksi->result() as $rowTransaksi) {
+            $data_mulai = $rowTransaksi->tanggal_menetas;
+            $diff = abs(strtotime($rowTransaksi->tanggal_catat) - strtotime($data_mulai));
+            $years = floor($diff / (365 * 60 * 60 * 24));
+            $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+            $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+            $hasil_mod = $days % 7;
+            $minggu_ke = $days / 7;
+            // echo $days;
+            // echo $hasil_mod;
+            $date = date_create($rowTransaksi->tanggal_catat);
+            $pakan = $pakan + $rowTransaksi->pakan_kg;
+            $pakan_gr = $pakan_gr + $rowTransaksi->hasil_pakan_gr;
+            $butir_jumlah = $butir_jumlah + $rowTransaksi->butir_jumlah;
+            $butir_kg = $butir_kg + $rowTransaksi->butir_kg;
+            $hasil_butir_gr = $hasil_butir_gr + $rowTransaksi->hasil_butir_gr;
+            $mati = $mati + $rowTransaksi->ayam_m;
+            $afkir = $afkir + $rowTransaksi->ayam_c;
+            $hasil_hh = $hasil_hh + $rowTransaksi->hasil_hh;
+            $hasil_hd_persen = $hasil_hd_persen + $rowTransaksi->hasil_hd_persen;
+            $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
+            $total_mati_afkir = $mati + $afkir;
+            $berat = $berat + $rowTransaksi->berat_badan;
+            if ($hasil_mod === 0) {
+                if ($minggu_ke >= 18) {
+                    $ew = $hasil_hd_persen / $butir_jumlah * 1000;
+                    $em = $butir_kg / 7 / $rowTransaksi->total_ayam * 1000;
+                    $lay = $hasil_hd_persen;
+                    $egg_weight = $butir_jumlah;
+                    if ($id_strain === "ISA BROWN" || $id_strain === "HISEX BROWN") {
+                        $livability_data = ($rowTransaksi->total_ayam / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
+                    } else if ($id_strain === "HY-LINE BROWN") {
+                        if ($total_mati_afkir == 0) {
+                            $mortality = 0;
+                        } else {
+                            $mortality = ($total_mati_afkir / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
+                        }
+                    }
+                    // $livability_data = ;
+                    // $mortality=;
+                    $feed_intake = $pakan;
+                    $body_weight = $berat;
+                    array_push($data_em, $em);
+                    array_push($data_ew, $ew);
+                    array_push($data_berat, $body_weight);
+                    array_push($data_food, $feed_intake);
+                    array_push($data_lay, $lay);
+                    array_push($data_egg_weight, $egg_weight);
+                    if ($id_strain === "ISA BROWN" || $id_strain === "HISEX BROWN") {
+                        array_push($data_livability, $livability_data);
+                    } else if ($id_strain === "HY-LINE BROWN") {
+                        array_push($data_immortality, $mortality);
+                    }
+                }
+                $pakan = 0;
+                $mati = 0;
+                $afkir = 0;
+                $pakan_gr = 0;
+                $butir_jumlah = 0;
+                $butir_kg = 0;
+                $hasil_butir_gr = 0;
+                $hasil_hh = 0;
+                $hasil_hd_persen = 0;
+                $hasil_fcr = 0;
+                $berat = 0;
+            }
+        }
         //DATA HITUNGAN KANDANG
         $arr1 = array(
-            'name' => "Tokyo",
-            'data' => [7, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+            'name' => "% LAY",
+            'data' => $data_lay,
             'color' => "#FF0000"
         );
-
+    
         $arr2 = array(
-            'name' => "New York",
-            'data' => [-.2, .8, 5.7, 11.3, 17, 22, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5],
+            'name' => "Egg Weight",
+            'data' => $data_egg_weight,
             'color' => "#FF0000"
         );
-
         $arr3 = array(
-            'name' => "Berlin",
-            'data' => [-.9, .6, 3.5, 8.4, 13.5, 17, 18.6, 17.9, 14.3, 9, 3.9, 1],
+            'name' => "Feed Intake",
+            'data' => $data_food,
+            'color' => "#FF0000"
+        );
+        $arr4 = array();
+        if ($id_strain === "ISA BROWN" || $id_strain === "HISEX BROWN") {
+            $arr4 = array(
+                'name' => "Livability",
+                'data' => $data_livability,
+                'color' => "#FF0000"
+            );
+        } else if ($id_strain === "HY-LINE BROWN") {
+            $arr4 = array(
+                'name' => "Mortality",
+                'data' => $data_immortality,
+                'color' => "#FF0000"
+            );
+        }
+        $arr5 = array(
+            'name' => "Egg Mass",
+            'data' => $data_em,
             'color' => "#FF0000"
         );
 
-        $arr4 = array(
-            'name' => "London",
-            'data' => [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17, 16.6, 14.2, 10.3, 6.6, 4.8],
+        $arr6 = array(
+            'name' => "Body Weight",
+            'data' => $data_berat,
             'color' => "#FF0000"
         );
-
-        array_push($result,$arr1);
-        array_push($result,$arr2);
-        array_push($result,$arr3);
-        array_push($result,$arr4);
-
+        if ($id_strain === "ISA BROWN" || $id_strain === "HISEX BROWN" || $id_strain === "HY-LINE BROWN") {
+            array_push($result, $arr1);
+            array_push($result, $arr2);
+            array_push($result, $arr3);
+            array_push($result, $arr4);
+            array_push($result, $arr5);
+            array_push($result, $arr6);
+        } else {
+            array_push($result, $arr1);
+            array_push($result, $arr2);
+        }
         //DATA MASTER
+        
+        //DATA MASTER
+        $persen_lay = array();
+        $egg_weight = array();
+        $feed_intake = array();
+        $livability = array();
+        $egg_mass = array();
+        $body_weight = array();
+        $mortality = array();
+        if ($id_strain === "ISA BROWN" || $id_strain === "HISEX BROWN" || $id_strain === "HY-LINE BROWN") {
+            $get_persen_lay = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
+                AND mt_strain_nilai.nama_strain_nilai='% LAY' "
+            );
+            foreach ($get_persen_lay->result() as $persen_lay_v) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
+            }
+                        //Egg Weight
+                        $get_egg_weight = $this->db->query(
+                            "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
+                            AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' "
+                        );
+                        foreach ($get_egg_weight->result() as $egg_weight_ok) {
+                            // echo $persen_lay_v->standar_strain_nilai;
+                            array_push($egg_weight, intval($egg_weight_ok->standar_strain_nilai));
+                        }
+                        //Feed Intake
+            
+                        $get_feed_intake = $this->db->query(
+                            "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
+                            AND mt_strain_nilai.nama_strain_nilai='FEED INTAKE' "
+                        );
+                        foreach ($get_feed_intake->result() as $feed_intage_ok) {
+                            // echo $persen_lay_v->standar_strain_nilai;
+                            array_push($feed_intake, intval($feed_intage_ok->standar_strain_nilai));
+                        }
+                        //Livability or Mortality
+            if ($id_strain === "HY-LINE BROWN") {
+                //Mortality
+                $get_mortality = $this->db->query(
+                    "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
+               AND mt_strain_nilai.nama_strain_nilai='MORTALITY' "
+                );
+                foreach ($get_mortality->result() as $mortality_ok) {
+                    // echo $persen_lay_v->standar_strain_nilai;
+                    array_push($mortality, intval($mortality_ok->standar_strain_nilai));
+                }
+            } else {
+                $get_livability = $this->db->query(
+                    "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
+                   AND mt_strain_nilai.nama_strain_nilai='LIVABILITY' "
+                );
+                foreach ($get_livability->result() as $livability_ok) {
+                    // echo $persen_lay_v->standar_strain_nilai;
+                    array_push($livability, intval($livability_ok->standar_strain_nilai));
+                }
+            }
+            $get_egg_mass = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
+                AND mt_strain_nilai.nama_strain_nilai='EGG MASS' "
+            );
+            foreach ($get_egg_mass->result() as $egg_mass_ok) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($egg_mass, intval($egg_mass_ok->standar_strain_nilai));
+            }
+            //Body Weight
+            $get_body_weight = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
+                AND mt_strain_nilai.nama_strain_nilai='BODY WEIGHT' "
+            );
+            foreach ($get_body_weight->result() as $body_weight_ok) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($body_weight, intval($body_weight_ok->standar_strain_nilai));
+            }
+        }
+        else {
+            $get_persen_lay = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
+                AND mt_strain_nilai.nama_strain_nilai='% LAY' "
+            );
+            foreach ($get_persen_lay->result() as $persen_lay_v) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
+            }
+            //Egg Weight
+            $get_egg_weight = $this->db->query(
+                "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
+                AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' "
+            );
+            foreach ($get_egg_weight->result() as $egg_weight_ok) {
+                // echo $persen_lay_v->standar_strain_nilai;
+                array_push($egg_weight, intval($egg_weight_ok->standar_strain_nilai));
+            }
+        }
         $arr1 = array(
-            'name' => "Tokyo2",
-            'data' => [9, 8.9, 11.5, 16.5, 20.2, 23.5, 27.2, 28.5, 25.3, 20.3, 15.9, 11.6],
+            'name' => "% Lay(Standard Strain)",
+            'data' => $persen_lay,
             'color' => "#000000"
         );
-
         $arr2 = array(
-            'name' => "New York2",
-            'data' => [2.2, 2.8, 7.7, 13.3, 19, 24, 26.8, 26.1, 22.1, 16.1, 10.6, 4.5],
+            'name' => "Egg Weight(Standard Strain)",
+            'data' => $egg_weight,
             'color' => "#000000"
         );
+        if ($id_strain != "LOHMANN BROWN") {
+            $arr3 = array(
+                'name' => "Feed Intake(Standard Strain)",
+                'data' => $feed_intake,
+                'color' => "#000000"
+            );
+        }
+        if ($id_strain != "LOHMANN BROWN") {
+            if ($id_strain === "HY-LINE BROWN") {
+                $arr4 = array(
+                    'name' => "Mortality(Standard Strain)",
+                    'data' => $mortality,
+                    'color' => "#000000"
+                );
+            } else {
+                $arr4 = array(
+                    'name' => "Livability(Standart Strain)",
+                    'data' => $livability,
+                    'color' => "#000000"
+                );
+            }
+        }
+        if ($id_strain != "LOHMANN BROWN") {
+            $arr5 = array(
+                'name' => "Egg Mass(Standard Strain)",
+                'data' => $egg_mass,
+                'color' => "#000000"
+            );
+        }
 
-        $arr3 = array(
-            'name' => "Berlin2",
-            'data' => [2.9, 2.6, 5.5, 10.4, 15.5, 19, 20.6, 19.9, 16.3, 11, 5.9, 3],
-            'color' => "#000000"
-        );
-
-        $arr4 = array(
-            'name' => "London2",
-            'data' => [5.9, 6.2, 7.7, 10.5, 13.9, 17.2, 19, 18.6, 16.2, 12.3, 8.6, 6.8],
-            'color' => "#000000"
-        );
-
+        if ($id_strain != "LOHMANN BROWN") {
+            $arr6 = array(
+                'name' => "Body Weight(Standard Strain)",
+                'data' => $body_weight,
+                'color' => "#000000"
+            );
+        }
         array_push($result,$arr1);
         array_push($result,$arr2);
-        array_push($result,$arr3);
-        array_push($result,$arr4);
-
+        // array_push($result,$arr3);
+        // array_push($result,$arr4);
+        if ($id_strain != "LOHMANN BROWN") {
+            array_push($result, $arr3);
+            array_push($result, $arr4);
+            array_push($result, $arr5);
+            array_push($result, $arr6);
+        }
         return $result;
     }
 }

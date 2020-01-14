@@ -111,8 +111,8 @@ $('#kandang_grafik_banyak_kandang').click(function() {
 
 $('#cetak_data_grafik_banyak_kandang').click(function() {
     var id_lokasi = $('#lokasi_grafik_banyak_kandang').val();
-    var tgl_menetas = $('#lokasi_grafik_banyak_kandang').val();
-    var id_strain = $('#lokasi_grafik_banyak_kandang').val();
+    var tgl_menetas = $('#kandang_grafik_banyak_kandang').val();
+    var id_strain = $('#strain_grafik_banyak_kandang').val();
 
     // var checkbox_grafik_banyak_kandang = []
     // $("input[name='checkbox_grafik_banyak_kandang[]']:checked").each(function () {
