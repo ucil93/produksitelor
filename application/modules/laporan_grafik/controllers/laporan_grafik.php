@@ -70,11 +70,21 @@ class laporan_grafik extends CI_Controller {
 		}
 	}
 
+	function ambil_strain_banyak_kandang()
+	{
+		if($this->input->post('id_lokasi'))
+		{
+			$this->load->model('/app_load_data_table');
+
+			echo $this->app_load_data_table->dataStrainGrafikBanyak($this->input->post('id_lokasi'), $this->input->post('tanggal_menetas'));
+		}
+	}
+
 	function cetak_laporan_grafik_banyak_kandang()
 	{
 		$this->load->model('/app_load_data_table');
 		
-		$rows = $this->app_load_data_table->dataCetakGrafikBanyakKandang($this->input->post('id_lokasi'), $this->input->post('data_kandang'));
+		$rows = $this->app_load_data_table->dataCetakGrafikBanyakKandang($this->input->post('id_lokasi'), $this->input->post('tgl_menetas'), $this->input->post('id_strain'));
 
 		echo json_encode($rows);
 	}

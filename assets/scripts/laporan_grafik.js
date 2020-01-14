@@ -12,7 +12,8 @@ $("input[name='jumlah_kandang_grafik']").change(function(){
     $('#data_hasil_laporan_grafik').html('');
 
     $('#lokasi_grafik_banyak_kandang').val(null);
-    $('#kandang_grafik_banyak_kandang').html('');
+    $('#kandang_grafik_banyak_kandang').html(dataKandang);
+    $('#strain_grafik_banyak_kandang').html(dataKandang);
 
     $("#grafik_satu_kandang").toggleClass('collapse');
     $("#grafik_banyak_kandang").toggleClass('collapse');
@@ -84,13 +85,39 @@ $('#lokasi_grafik_banyak_kandang').click(function() {
     }
 });
 
+$('#kandang_grafik_banyak_kandang').click(function() {
+    var id_lokasi = $('#lokasi_grafik_banyak_kandang').val();
+    var tanggal_menetas = $('#kandang_grafik_banyak_kandang').val();
+    if (id_lokasi != '') {
+        if(tanggal_menetas != '') {
+            $.ajax({
+                url: base_url + "laporan_grafik/ambil_strain_banyak_kandang",
+                method: 'POST',
+                data: { 
+                    id_lokasi: id_lokasi,
+                    tanggal_menetas: tanggal_menetas,
+                },
+                success: function (data) {
+                    $('#strain_grafik_banyak_kandang').html(data);
+                }
+            });
+        } else {
+            $('#strain_grafik_banyak_kandang').html('');
+        }
+    } else {
+        $('#strain_grafik_banyak_kandang').html('');
+    }
+});
+
 $('#cetak_data_grafik_banyak_kandang').click(function() {
     var id_lokasi = $('#lokasi_grafik_banyak_kandang').val();
+    var tgl_menetas = $('#lokasi_grafik_banyak_kandang').val();
+    var id_strain = $('#lokasi_grafik_banyak_kandang').val();
 
-    var checkbox_grafik_banyak_kandang = []
-    $("input[name='checkbox_grafik_banyak_kandang[]']:checked").each(function () {
-        checkbox_grafik_banyak_kandang.push($(this).val());
-    });
+    // var checkbox_grafik_banyak_kandang = []
+    // $("input[name='checkbox_grafik_banyak_kandang[]']:checked").each(function () {
+    //     checkbox_grafik_banyak_kandang.push($(this).val());
+    // });
 
     var dataKandang = '<option value="" disabled selected>--Pilih--</option>';
     var idJumlahKandang = 'jumlah_kandang_grafik_satu';
@@ -101,7 +128,9 @@ $('#cetak_data_grafik_banyak_kandang').click(function() {
         dataType: "json",
         data: { 
             id_lokasi: id_lokasi,
-            data_kandang: checkbox_grafik_banyak_kandang,
+            tgl_menetas: tgl_menetas,
+            id_strain: id_strain,
+            // data_kandang: checkbox_grafik_banyak_kandang,
         },
         success: function (data) {
             x.style.display = 'block';

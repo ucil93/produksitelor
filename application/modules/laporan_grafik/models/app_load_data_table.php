@@ -160,22 +160,54 @@ class app_load_data_table extends CI_Model {
     {
         $output = '';
 
-        $query = $this->db->query("Select * From mt_kandang 
-                    inner join mt_lokasi on mt_kandang.id_lokasi = mt_lokasi.id_lokasi 
-                    inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
-                    where status_periode = 'AKTIF' and mt_lokasi.id_lokasi = '" . $id_lokasi . "'");
+        $query = $this->db->query("Select distinct tr_periode.tanggal_menetas From mt_kandang 
+            inner join mt_lokasi on mt_kandang.id_lokasi = mt_lokasi.id_lokasi 
+            inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
+            where status_periode = 'AKTIF' and mt_kandang.id_lokasi = '" . $id_lokasi . "' order by mt_kandang.id_kandang ASC");
 
+        $output = '<option value="" disabled selected>--Pilih--</option>';
         foreach ($query->result() as $row) {
-            $output .= '<label class="mt-checkbox">
-                            <input type="checkbox" id="checkbox_harian_banyak_kandang" name="checkbox_harian_banyak_kandang[]" value="' . $row->id_kandang . '"> ' . $row->nama_kandang . '
-                            <span></span>
-                        </label>';
+            $date = date_create($row->tanggal_menetas);
+
+            $output .= '<option value="' . $row->tanggal_menetas . '">' . date_format($date, "d F Y") . '</option>';
+        }
+
+        return $output;
+
+        // $query = $this->db->query("Select * From mt_kandang 
+        //             inner join mt_lokasi on mt_kandang.id_lokasi = mt_lokasi.id_lokasi 
+        //             inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
+        //             where status_periode = 'AKTIF' and mt_lokasi.id_lokasi = '" . $id_lokasi . "'");
+
+        // foreach ($query->result() as $row) {
+        //     $output .= '<label class="mt-checkbox">
+        //                     <input type="checkbox" id="checkbox_harian_banyak_kandang" name="checkbox_harian_banyak_kandang[]" value="' . $row->id_kandang . '"> ' . $row->nama_kandang . '
+        //                     <span></span>
+        //                 </label>';
+        // }
+
+        // return $output;
+    }
+
+    function dataStrainGrafikBanyak($id_lokasi, $tgl_menetas)
+    {
+        $output = '';
+
+        $query = $this->db->query("Select distinct mt_strain.id_strain, mt_strain.nama_strain From mt_strain 
+            inner join tr_periode on mt_strain.id_strain = tr_periode.id_strain 
+            inner join mt_kandang on tr_periode.id_kandang = mt_kandang.id_kandang
+            inner join mt_lokasi on mt_kandang.id_lokasi = mt_lokasi.id_lokasi
+            where status_periode = 'AKTIF' and mt_kandang.id_lokasi = '" . $id_lokasi . "' and tr_periode.tanggal_menetas = '" . $tgl_menetas . "' order by mt_kandang.id_kandang ASC");
+
+        $output = '<option value="" disabled selected>--Pilih--</option>';
+        foreach ($query->result() as $row) {
+            $output .= '<option value="' . $row->id_strain . '">' . $row->nama_strain . '</option>';
         }
 
         return $output;
     }
 
-    public function dataCetakGrafikBanyakKandang($id_lokasi, $kandang)
+    public function dataCetakGrafikBanyakKandang($id_lokasi, $tanggal_menetas, $id_strain)
     {
         $result = array();
 

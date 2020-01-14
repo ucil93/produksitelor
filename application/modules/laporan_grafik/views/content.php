@@ -91,11 +91,29 @@
                                                     <span class="help-block">Pilih Lokasi</span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-8" style="margin-top:15px">
+                                            <!-- <div class="col-md-8" style="margin-top:15px">
                                                 <div class="form-group">
                                                     <div class="mt-checkbox-inline" name="kandang_grafik_banyak_kandang" id="kandang_grafik_banyak_kandang">
                                                         
                                                     </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="col-md-4">
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <select class="form-control" name="kandang_grafik_banyak_kandang" id="kandang_grafik_banyak_kandang">
+                                                        <option value="" disabled selected>--Pilih--</option>
+                                                    </select>
+                                                    <div class="form-control-focus"> </div>
+                                                    <span class="help-block">Pilih Tanggal Menetas</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group form-md-line-input has-success">
+                                                    <select class="form-control" name="strain_grafik_banyak_kandang" id="strain_grafik_banyak_kandang">
+                                                        <option value="" disabled selected>--Pilih--</option>
+                                                    </select>
+                                                    <div class="form-control-focus"> </div>
+                                                    <span class="help-block">Pilih Strain</span>
                                                 </div>
                                             </div>
                                         </div>

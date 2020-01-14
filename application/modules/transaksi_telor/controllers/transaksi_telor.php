@@ -116,22 +116,22 @@ class transaksi_telor extends CI_Controller {
 	// 	return $maxid;
 	// }
 
-	function kode_inc($id)
-	{
-		$code = 'PI_';
-		$code .= sprintf("%07s", $id);
-		return $code;
-	}
+	// function kode_inc($id)
+	// {
+	// 	$code = 'PI_';
+	// 	$code .= sprintf("%07s", $id);
+	// 	return $code;
+	// }
 
-	function get_id()
-	{
-		$maxid = 0;
-		$row = $this->db->query('SELECT MAX(right(id_produksi,7)) AS maxid FROM tr_produksi')->row();
-		if ($row) {
-				$maxid = $row->maxid;
-		}
-		return $maxid;
-	}
+	// function get_id()
+	// {
+	// 	$maxid = 0;
+	// 	$row = $this->db->query('SELECT MAX(right(id_produksi,7)) AS maxid FROM tr_produksi')->row();
+	// 	if ($row) {
+	// 			$maxid = $row->maxid;
+	// 	}
+	// 	return $maxid;
+	// }
 
 	public function simpan()
 	{
@@ -140,8 +140,8 @@ class transaksi_telor extends CI_Controller {
 		{
 			$id_periode = $this->input->post('id_periode');
 
-			$kode = $this->get_id();
-			$kode = $kode + 1;
+			// $kode = $this->get_id();
+			// $kode = $kode + 1;
 
 			// $kode_ayam = $this->get_id_ayam();
 			// $kode_ayam = $kode_ayam + 1;
@@ -277,7 +277,7 @@ class transaksi_telor extends CI_Controller {
 			if($status_simpan == true) {
 				for($i=0; $i<count($id_periode); $i++)
 				{
-					$dt['id_produksi'] = $this->kode_inc($kode);
+					// $dt['id_produksi'] = $this->kode_inc($kode);
 					$dt['id_periode'] = $this->input->post('id_periode')[$i];
 					$dt['id_anggota'] = $this->session->userdata("id_anggota");
 					$dt['ayam_m'] = $this->input->post("data_m")[$i];
@@ -307,7 +307,7 @@ class transaksi_telor extends CI_Controller {
 
 					$this->db->insert("tr_produksi",$dt);
 
-					$kode = $kode + 1;
+					// $kode = $kode + 1;
 
 					$data_periode = array(
 						'jumlah_seluruh_ayam' => intval($this->input->post('jumlah_ayam')[$i]) - (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i])),
