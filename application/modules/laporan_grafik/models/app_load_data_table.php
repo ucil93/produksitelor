@@ -76,13 +76,12 @@ class app_load_data_table extends CI_Model
         $livability_data = 0;
         $mortality = 0;
         foreach ($getTransaksi->result() as $rowTransaksi) {
-            $data_mulai = $rowTransaksi->tanggal_menetas;
-            $diff = abs(strtotime($rowTransaksi->tanggal_catat) - strtotime($data_mulai));
-            $years = floor($diff / (365 * 60 * 60 * 24));
-            $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
-            $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
-            $hasil_mod = $days % 7;
-            $minggu_ke = $days / 7;
+            $dateCatat = new DateTime($rowTransaksi->tanggal_catat);
+            $data_mulai = new DateTime($rowTransaksi->tanggal_menetas);
+            // $diff = abs(strtotime($rowTransaksi->tanggal_catat) - strtotime($data_mulai));
+            $days = $dateCatat->diff($data_mulai);
+            $hasil_mod = $days->days % 7;
+            $minggu_ke = $days->days / 7;
             // echo $days;
             // echo $hasil_mod;
             $date = date_create($rowTransaksi->tanggal_catat);
@@ -456,13 +455,12 @@ class app_load_data_table extends CI_Model
         $livability_data = 0;
         $mortality = 0;
         foreach ($getTransaksi->result() as $rowTransaksi) {
-            $data_mulai = $rowTransaksi->tanggal_menetas;
-            $diff = abs(strtotime($rowTransaksi->tanggal_catat) - strtotime($data_mulai));
-            $years = floor($diff / (365 * 60 * 60 * 24));
-            $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
-            $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
-            $hasil_mod = $days % 7;
-            $minggu_ke = $days / 7;
+            $dateCatat = new DateTime($rowTransaksi->tanggal_catat);
+            $data_mulai = new DateTime($rowTransaksi->tanggal_menetas);
+            // $diff = abs(strtotime($rowTransaksi->tanggal_catat) - strtotime($data_mulai));
+            $days = $dateCatat->diff($data_mulai);
+            $hasil_mod = $days->days % 7;
+            $minggu_ke = $days->days / 7;
             // echo $days;
             // echo $hasil_mod;
             $date = date_create($rowTransaksi->tanggal_catat);

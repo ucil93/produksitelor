@@ -107,7 +107,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group has-success">
                                                     <label class="control-label">Tanggal Mulai</label>
-                                                    <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd">
+                                                    <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd" id="tanggal_mulai_gan">
                                                         <input name="tanggal_mulai_mingguan_banyak_kandang" id="tanggal_mulai_mingguan_banyak_kandang" type="text" class="form-control" readonly>
                                                         <span class="input-group-btn">
                                                             <button class="btn default" type="button">
