@@ -38,6 +38,9 @@ class app_load_data_table extends CI_Model
                 $output .= '<div class="alert alert-danger text-center">Data Kandang Harus Dipilih!</div>';
             } else {
                 //Query Judul
+                $query_hd = $this->db->query("Select hd_periode from tr_periode WHERE status_periode = 'AKTIF' and id_kandang='".$kandang."' ");
+                $hasil_query_hd = $query_hd->row();
+                
                 $getJudul = $this->db->query("Select * From mt_kandang 
                     inner join mt_lokasi on mt_kandang.id_lokasi = mt_lokasi.id_lokasi 
                     inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
@@ -104,6 +107,9 @@ class app_load_data_table extends CI_Model
                 $hasil_hh = 0;
                 $hasil_hd_persen = 0;
                 $hasil_fcr = 0;
+                $hasil_hd_master = $hasil_query_hd->hd_periode;
+                $keterangan='';
+                $berat_badan = '';
                 foreach ($getTransaksi->result() as $rowTransaksi) {
                     $bulan = array (1 =>   'Januari',
                         'Februari',
@@ -134,9 +140,23 @@ class app_load_data_table extends CI_Model
                     $hasil_butir_gr = $hasil_butir_gr + $rowTransaksi->hasil_butir_gr;
                     $mati = $mati + $rowTransaksi->ayam_m;
                     $afkir = $afkir + $rowTransaksi->ayam_c;
-                    $hasil_hh = $hasil_hh + $rowTransaksi->hasil_hh;
+                    if($hasil_hd_master===0)
+                    {
+                        $hasil_hh = $hasil_hh + 0;
+                    }
+                    else {
+                        $hasil_hh = $hasil_hh + (($rowTransaksi->butir_jumlah/$hasil_hd_master) * 100);
+                    }
+                    
                     $hasil_hd_persen = $hasil_hd_persen + $rowTransaksi->hasil_hd_persen;
                     $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
+                    if($rowTransaksi->keterangan!='') {
+                        $keterangan = $keterangan . " " . $rowTransaksi->keterangan . ",";
+                    }
+                    if($rowTransaksi->berat_badan!=0) {
+                        $berat_badan = $berat_badan . " " . $rowTransaksi->berat_badan . ",";
+                    }
+                    
                     $output .= '
                                                 <tr class="odd gradeX">
                                                     <td>' . $date. '</td>
@@ -190,8 +210,10 @@ class app_load_data_table extends CI_Model
                                                                       ' . round($hasil_fcr / 7, 2) . '
                                                                   </td>
                                                                   <td bgcolor="#808080">
+                                                                  '.$berat_badan.'
                                                                   </td>
                                                                   <td bgcolor="#808080">
+                                                                  '.$keterangan.'
                                                                   </td>
                                                               </tr>
                                                 ';
@@ -205,6 +227,8 @@ class app_load_data_table extends CI_Model
                         $hasil_hh = 0;
                         $hasil_hd_persen = 0;
                         $hasil_fcr = 0;
+                        $keterangan='';
+                        $berat_badan='';
                     }
 
                     //Jumlah 7 hari
@@ -253,16 +277,26 @@ class app_load_data_table extends CI_Model
                             <div class="col-md-12">';
                             //judul
                             $kandang_kuy='';
+                            
+                            $hasil_hh = 0;
+                            $hd_periode =0;
                             for($i=0; $i<count($kandang); $i++)
                             {
                                 //Query Judul
-                                $getJudul = $this->db->query("Select * From mt_kandang 
-                                    inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
-                                    where status_periode = 'AKTIF' and mt_kandang.id_kandang = '" . $kandang[$i] . "'");
-
-                                foreach ($getJudul->result_array() as $row) {
-                                    $namaKandangTampil = $row['nama_kandang'];
+                                // $getJudul = $this->db->query("Select * From mt_kandang 
+                                //     inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
+                                //     where status_periode = 'AKTIF' and mt_kandang.id_kandang = '" . $kandang[$i] . "'");
+                                
+                                // foreach ($getJudul->result_array() as $row) {
+                                //     $namaKandangTampil = $row['nama_kandang'];
+                                // }
+                                
+                                $query_hd = $this->db->query("Select hd_periode from tr_periode WHERE status_periode = 'AKTIF' and id_kandang='".$kandang[$i]."' ");
+                                foreach ($query_hd->result_array() as $row) {
+                                    $hd_periode = $row['hd_periode'];
                                 }
+
+                                
                                 $penghubung = 'OR';
                                 if($i==0)
                                 {
@@ -284,13 +318,13 @@ class app_load_data_table extends CI_Model
                     AVG(tr_produksi.berat_badan) as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
                     inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
                     inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
-                    where status_periode = 'AKTIF' AND " . $kandang_kuy . " GROUP BY tr_produksi.tanggal_catat");
+                    where status_periode = 'AKTIF' AND " . $kandang_kuy . " GROUP BY tr_produksi.tanggal_catat ORDER BY mt_kandang.id_kandang ASC ");
                                     
                             $getJudul = $this->db->query("Select * From mt_kandang 
                             inner join mt_lokasi on mt_kandang.id_lokasi = mt_lokasi.id_lokasi 
                             inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
                             inner join mt_strain on tr_periode.id_strain = mt_strain.id_strain
-                            where status_periode = 'AKTIF' AND " . $kandang_kuy . " GROUP BY mt_kandang.id_kandang");
+                            where status_periode = 'AKTIF' AND " . $kandang_kuy . " GROUP BY mt_kandang.id_kandang ORDER BY mt_kandang.id_kandang ASC");
                             
         $output .= '
         <div class="col-md-12">';
