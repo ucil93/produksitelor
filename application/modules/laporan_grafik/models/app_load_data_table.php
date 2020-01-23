@@ -116,16 +116,16 @@ class app_load_data_table extends CI_Model
                     // $mortality=;
                     $feed_intake = $pakan;
                     $body_weight = $berat;
-                    array_push($data_em, $em);
-                    array_push($data_ew, $ew);
-                    array_push($data_berat, $body_weight);
-                    array_push($data_food, $feed_intake);
-                    array_push($data_lay, $lay);
-                    array_push($data_egg_weight, $egg_weight);
+                    array_push($data_em, round($em, 3));
+                    array_push($data_ew, round($ew, 3));
+                    array_push($data_berat, round($body_weight, 3));
+                    array_push($data_food, round($feed_intake, 3));
+                    array_push($data_lay, round($lay, 3));
+                    array_push($data_egg_weight, round($egg_weight, 3));
                     if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
-                        array_push($data_livability, $livability_data);
+                        array_push($data_livability, round($livability_data, 3));
                     } else if ($nama_strain === "HY-LINE BROWN") {
-                        array_push($data_immortality, $mortality);
+                        array_push($data_immortality, round($mortality, 3));
                     }
                 }
                 $pakan = 0;
@@ -145,9 +145,9 @@ class app_load_data_table extends CI_Model
 
         //DATA HITUNGAN KANDANG
         $arr1 = array(
-            'name' => "% LAY",
+            'name' => "% Lay",
             'data' => $data_lay,
-            'color' => "blue"
+            'color' => "#FF0000"
         );
         $arr2 = array(
             'name' => "Egg Weight",
@@ -210,7 +210,8 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_persen_lay->result() as $persen_lay_v) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
+                // array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
+                array_push($persen_lay, round($persen_lay_v->standar_strain_nilai, 3));
             }
             //Egg Weight
             $get_egg_weight = $this->db->query(
@@ -219,7 +220,7 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_egg_weight->result() as $egg_weight_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($egg_weight, intval($egg_weight_ok->standar_strain_nilai));
+                array_push($egg_weight, round($egg_weight_ok->standar_strain_nilai, 3));
             }
             //Feed Intake
 
@@ -229,7 +230,7 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_feed_intake->result() as $feed_intage_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($feed_intake, intval($feed_intage_ok->standar_strain_nilai));
+                array_push($feed_intake, round($feed_intage_ok->standar_strain_nilai, 3));
             }
             //Livability or Mortality
             if ($nama_strain === "HY-LINE BROWN") {
@@ -240,7 +241,7 @@ class app_load_data_table extends CI_Model
                 );
                 foreach ($get_mortality->result() as $mortality_ok) {
                     // echo $persen_lay_v->standar_strain_nilai;
-                    array_push($mortality, intval($mortality_ok->standar_strain_nilai));
+                    array_push($mortality, round($mortality_ok->standar_strain_nilai, 3));
                 }
             } else {
                 $get_livability = $this->db->query(
@@ -249,7 +250,7 @@ class app_load_data_table extends CI_Model
                 );
                 foreach ($get_livability->result() as $livability_ok) {
                     // echo $persen_lay_v->standar_strain_nilai;
-                    array_push($livability, intval($livability_ok->standar_strain_nilai));
+                    array_push($livability, round($livability_ok->standar_strain_nilai, 3));
                 }
             }
             //Egg Mass
@@ -259,7 +260,7 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_egg_mass->result() as $egg_mass_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($egg_mass, intval($egg_mass_ok->standar_strain_nilai));
+                array_push($egg_mass, round($egg_mass_ok->standar_strain_nilai, 3));
             }
             //Body Weight
             $get_body_weight = $this->db->query(
@@ -268,7 +269,7 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_body_weight->result() as $body_weight_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($body_weight, intval($body_weight_ok->standar_strain_nilai));
+                array_push($body_weight, round($body_weight_ok->standar_strain_nilai, 3));
             }
         } else {
             $get_persen_lay = $this->db->query(
@@ -277,7 +278,8 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_persen_lay->result() as $persen_lay_v) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
+                // array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
+                array_push($persen_lay, round($persen_lay_v->standar_strain_nilai, 3));
             }
             //Egg Weight
             $get_egg_weight = $this->db->query(
@@ -286,25 +288,25 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_egg_weight->result() as $egg_weight_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($egg_weight, intval($egg_weight_ok->standar_strain_nilai));
+                array_push($egg_weight, round($egg_weight_ok->standar_strain_nilai, 3));
             }
         }
 
         //DATA MASTER
         $arr1 = array(
-            'name' => "%Lay",
+            'name' => "% Lay (Standard Strain)",
             'data' => $persen_lay,
             'color' => "#000000"
         );
 
         $arr2 = array(
-            'name' => "Egg Weight",
+            'name' => "Egg Weight (Standard Strain)",
             'data' => $egg_weight,
             'color' => "#000000"
         );
         if ($nama_strain != "LOHMANN BROWN") {
             $arr3 = array(
-                'name' => "Feed Intake",
+                'name' => "Feed Intake (Standard Strain)",
                 'data' => $feed_intake,
                 'color' => "#000000"
             );
@@ -312,13 +314,13 @@ class app_load_data_table extends CI_Model
         if ($nama_strain != "LOHMANN BROWN") {
             if ($nama_strain === "HY-LINE BROWN") {
                 $arr4 = array(
-                    'name' => "Mortality",
+                    'name' => "Mortality (Standard Strain)",
                     'data' => $mortality,
                     'color' => "#000000"
                 );
             } else {
                 $arr4 = array(
-                    'name' => "Livability",
+                    'name' => "Livability (Standard Strain)",
                     'data' => $livability,
                     'color' => "#000000"
                 );
@@ -327,7 +329,7 @@ class app_load_data_table extends CI_Model
 
         if ($nama_strain != "LOHMANN BROWN") {
             $arr5 = array(
-                'name' => "Egg Mass",
+                'name' => "Egg Mass (Standard Strain)",
                 'data' => $egg_mass,
                 'color' => "#000000"
             );
@@ -335,7 +337,7 @@ class app_load_data_table extends CI_Model
 
         if ($nama_strain != "LOHMANN BROWN") {
             $arr6 = array(
-                'name' => "Body Weight",
+                'name' => "Body Weight (Standard Strain)",
                 'data' => $body_weight,
                 'color' => "#000000"
             );
@@ -495,16 +497,16 @@ class app_load_data_table extends CI_Model
                     // $mortality=;
                     $feed_intake = $pakan;
                     $body_weight = $berat;
-                    array_push($data_em, $em);
-                    array_push($data_ew, $ew);
-                    array_push($data_berat, $body_weight);
-                    array_push($data_food, $feed_intake);
-                    array_push($data_lay, $lay);
-                    array_push($data_egg_weight, $egg_weight);
+                    array_push($data_em, round($em, 3));
+                    array_push($data_ew, round($ew, 3));
+                    array_push($data_berat, round($body_weight, 3));
+                    array_push($data_food, round($feed_intake, 3));
+                    array_push($data_lay, round($lay, 3));
+                    array_push($data_egg_weight, round($egg_weight, 3));
                     if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
-                        array_push($data_livability, $livability_data);
+                        array_push($data_livability, round($livability_data, 3));
                     } else if ($nama_strain === "HY-LINE BROWN") {
-                        array_push($data_immortality, $mortality);
+                        array_push($data_immortality, round($mortality, 3));
                     }
                 }
                 $pakan = 0;
@@ -522,7 +524,7 @@ class app_load_data_table extends CI_Model
         }
         //DATA HITUNGAN KANDANG
         $arr1 = array(
-            'name' => "% LAY",
+            'name' => "% Lay",
             'data' => $data_lay,
             'color' => "#FF0000"
         );
@@ -590,7 +592,7 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_persen_lay->result() as $persen_lay_v) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
+                array_push($persen_lay, round($persen_lay_v->standar_strain_nilai, 3));
             }
             //Egg Weight
             $get_egg_weight = $this->db->query(
@@ -599,7 +601,7 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_egg_weight->result() as $egg_weight_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($egg_weight, intval($egg_weight_ok->standar_strain_nilai));
+                array_push($egg_weight, round($egg_weight_ok->standar_strain_nilai, 3));
             }
             //Feed Intake
 
@@ -609,7 +611,7 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_feed_intake->result() as $feed_intage_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($feed_intake, intval($feed_intage_ok->standar_strain_nilai));
+                array_push($feed_intake, round($feed_intage_ok->standar_strain_nilai, 3));
             }
             //Livability or Mortality
             if ($nama_strain === "HY-LINE BROWN") {
@@ -620,7 +622,7 @@ class app_load_data_table extends CI_Model
                 );
                 foreach ($get_mortality->result() as $mortality_ok) {
                     // echo $persen_lay_v->standar_strain_nilai;
-                    array_push($mortality, intval($mortality_ok->standar_strain_nilai));
+                    array_push($mortality, round($mortality_ok->standar_strain_nilai, 3));
                 }
             } else {
                 $get_livability = $this->db->query(
@@ -629,7 +631,7 @@ class app_load_data_table extends CI_Model
                 );
                 foreach ($get_livability->result() as $livability_ok) {
                     // echo $persen_lay_v->standar_strain_nilai;
-                    array_push($livability, intval($livability_ok->standar_strain_nilai));
+                    array_push($livability, round($livability_ok->standar_strain_nilai, 3));
                 }
             }
             $get_egg_mass = $this->db->query(
@@ -638,7 +640,7 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_egg_mass->result() as $egg_mass_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($egg_mass, intval($egg_mass_ok->standar_strain_nilai));
+                array_push($egg_mass, round($egg_mass_ok->standar_strain_nilai, 3));
             }
             //Body Weight
             $get_body_weight = $this->db->query(
@@ -647,7 +649,7 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_body_weight->result() as $body_weight_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($body_weight, intval($body_weight_ok->standar_strain_nilai));
+                array_push($body_weight, round($body_weight_ok->standar_strain_nilai, 3));
             }
         } else {
             $get_persen_lay = $this->db->query(
@@ -656,7 +658,7 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_persen_lay->result() as $persen_lay_v) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
+                array_push($persen_lay, round($persen_lay_v->standar_strain_nilai, 3));
             }
             //Egg Weight
             $get_egg_weight = $this->db->query(
@@ -665,22 +667,22 @@ class app_load_data_table extends CI_Model
             );
             foreach ($get_egg_weight->result() as $egg_weight_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                array_push($egg_weight, intval($egg_weight_ok->standar_strain_nilai));
+                array_push($egg_weight, round($egg_weight_ok->standar_strain_nilai, 3));
             }
         }
         $arr1 = array(
-            'name' => "% Lay(Standard Strain)",
+            'name' => "% Lay (Standard Strain)",
             'data' => $persen_lay,
             'color' => "#000000"
         );
         $arr2 = array(
-            'name' => "Egg Weight(Standard Strain)",
+            'name' => "Egg Weight (Standard Strain)",
             'data' => $egg_weight,
             'color' => "#000000"
         );
         if ($nama_strain != "LOHMANN BROWN") {
             $arr3 = array(
-                'name' => "Feed Intake(Standard Strain)",
+                'name' => "Feed Intake (Standard Strain)",
                 'data' => $feed_intake,
                 'color' => "#000000"
             );
@@ -688,13 +690,13 @@ class app_load_data_table extends CI_Model
         if ($nama_strain != "LOHMANN BROWN") {
             if ($nama_strain === "HY-LINE BROWN") {
                 $arr4 = array(
-                    'name' => "Mortality(Standard Strain)",
+                    'name' => "Mortality (Standard Strain)",
                     'data' => $mortality,
                     'color' => "#000000"
                 );
             } else {
                 $arr4 = array(
-                    'name' => "Livability(Standart Strain)",
+                    'name' => "Livability (Standard Strain)",
                     'data' => $livability,
                     'color' => "#000000"
                 );
@@ -702,7 +704,7 @@ class app_load_data_table extends CI_Model
         }
         if ($nama_strain != "LOHMANN BROWN") {
             $arr5 = array(
-                'name' => "Egg Mass(Standard Strain)",
+                'name' => "Egg Mass (Standard Strain)",
                 'data' => $egg_mass,
                 'color' => "#000000"
             );
@@ -710,7 +712,7 @@ class app_load_data_table extends CI_Model
 
         if ($nama_strain != "LOHMANN BROWN") {
             $arr6 = array(
-                'name' => "Body Weight(Standard Strain)",
+                'name' => "Body Weight (Standard Strain)",
                 'data' => $body_weight,
                 'color' => "#000000"
             );

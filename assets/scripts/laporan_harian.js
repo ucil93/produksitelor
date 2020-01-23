@@ -140,7 +140,7 @@ $('#cetak_data_harian_banyak_kandang').click(function() {
             $('#data_hasil_laporan_harian').html(data);
             
             $('#lokasi_harian_banyak_kandang').val(null);
-            $('#kandang_harian_banyak_kandang').html(dataKandang);
+            $('#kandang_harian_banyak_kandang').html('');
             $('#' + idJumlahKandang).prop('checked',true);
 
             

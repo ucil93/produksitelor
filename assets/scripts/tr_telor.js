@@ -250,14 +250,14 @@ $('#tambah_tr_telor').click(function () {
                                     if (result[i].hasil == 'NO_DATA_RUSAK_KG_NUMBER') {
                                         status = 14;
                                     }
-                                    if (result[i].hasil == 'NO_DATA_BERAT_BADAN_KOSONG') {
-                                        status = 15;
-                                    }
-                                    if (result[i].hasil == 'NO_DATA_BERAT_BADAN_NUMBER') {
-                                        status = 16;
-                                    }
+                                    // if (result[i].hasil == 'NO_DATA_BERAT_BADAN_KOSONG') {
+                                    //     status = 15;
+                                    // }
+                                    // if (result[i].hasil == 'NO_DATA_BERAT_BADAN_NUMBER') {
+                                    //     status = 16;
+                                    // }
                                     if (result[i].hasil == 'NO_JUMLAH_AYAM') {
-                                        status = 17;
+                                        status = 15;
                                     }
                                 }
                 
@@ -292,11 +292,13 @@ $('#tambah_tr_telor').click(function () {
                                     $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Data Rusak Kg Harus Diisi Lengkap!</div>');
                                 } else if (status == 14) {
                                     $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Data Rusak Kg Harus Diisi Angka!</div>');
-                                } else if (status == 15) {
-                                    $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Data Berat Badan Harus Diisi Lengkap!</div>');
-                                } else if (status == 16) {
-                                    $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Data Berat Badan Harus Diisi Angka!</div>');
-                                } else if (status == 17) {
+                                } 
+                                // else if (status == 15) {
+                                //     $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Data Berat Badan Harus Diisi Lengkap!</div>');
+                                // } else if (status == 16) {
+                                //     $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Data Berat Badan Harus Diisi Angka!</div>');
+                                // } 
+                                else if (status == 15) {
                                     $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Jumlah Ayam M dan C Melebihi Jumlah Seluruh Ayam!</div>');
                                 }
                             }

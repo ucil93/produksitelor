@@ -164,7 +164,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     </li>
                                     <li>
                                         <a href="<?php echo site_url('login/logout') ?>">
-                                            <i class="icon-key"></i> Log Out </a>
+                                            <i class="icon-key"></i> Keluar </a>
                                     </li>
                                 </ul>
                             </li>

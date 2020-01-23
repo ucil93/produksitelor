@@ -120,9 +120,9 @@ class transaksi_periode extends CI_Controller {
 			$this->form_validation->set_rules('ayam_masuk', 'Jumlah Ayam Masuk', 'required|numeric');
 			$this->form_validation->set_rules('tanggal_masuk_kandang', 'Tanggal Masuk Kandang', 'required');
 			$this->form_validation->set_rules('tanggal_menetas', 'Tanggal Menetas', 'required');
-			$this->form_validation->set_rules('umur_masuk', 'Umur Masuk', 'required|numeric');
+			// $this->form_validation->set_rules('umur_masuk', 'Umur Masuk', 'required|numeric');
 			$this->form_validation->set_rules('asal_pullet', 'Asal Pullet', 'required');
-			$this->form_validation->set_rules('hd_periode', 'HD', 'required|numeric');
+			// $this->form_validation->set_rules('hd_periode', 'HD', 'required|numeric');
 
 			//run validation check
 			if ($this->form_validation->run() == FALSE)
@@ -164,9 +164,13 @@ class transaksi_periode extends CI_Controller {
 						$dt['tanggal_menetas'] = $this->input->post('tanggal_menetas');
 						$dt['awal_ayam_masuk'] = $this->input->post('ayam_masuk');
 						$dt['jumlah_seluruh_ayam'] = $this->input->post('ayam_masuk');
-						$dt['umur_masuk'] = $this->input->post('umur_masuk');
+						// $dt['umur_masuk'] = $this->input->post('umur_masuk');
 						$dt['asal_pullet'] = $this->input->post('asal_pullet');
-						$dt['hd_periode'] = $this->input->post('hd_periode');
+						if($this->input->post('hd_periode') == null || $this->input->post('hd_periode') == "null") {
+							$dt['hd_periode'] = 0;
+						} else {
+							$dt['hd_periode'] = $this->input->post('hd_periode');
+						}
 						$dt['status_periode'] = "AKTIF";
 						$dt['created_at'] = date("Y-m-d H:i:s");
 						$dt['updated_at'] = date("Y-m-d H:i:s");
@@ -249,7 +253,7 @@ class transaksi_periode extends CI_Controller {
 
 			//set validation rules
 			$this->form_validation->set_rules('nama_periode_edit', 'Nama Periode', 'required');
-			$this->form_validation->set_rules('hd_periode_edit', 'HD', 'required|numeric');
+			// $this->form_validation->set_rules('hd_periode_edit', 'HD', 'required|numeric');
 			$this->form_validation->set_rules('status_periode_edit', 'Status Periode', 'required');
 
 			//run validation check

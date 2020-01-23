@@ -104,38 +104,14 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label class="control-label">Tanggal Mulai</label>
-                                                    <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd" id="tanggal_mulai_gan">
-                                                        <input name="tanggal_mulai_mingguan_banyak_kandang" id="tanggal_mulai_mingguan_banyak_kandang" type="text" class="form-control" readonly>
-                                                        <span class="input-group-btn">
-                                                            <button class="btn default" type="button">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1" style="margin-top:35px">
-                                                <label>Sampai</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group has-success">
-                                                    <label class="control-label">Tanggal Selesai</label>
-                                                    <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd">
-                                                        <input name="tanggal_selesai_mingguan_banyak_kandang" id="tanggal_selesai_mingguan_banyak_kandang" type="text" class="form-control" readonly>
-                                                        <span class="input-group-btn">
-                                                            <button class="btn default" type="button">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-6">
+                                                <div class="input-group date-picker input-daterange" data-date-format="yyyy-mm-dd">
+                                                    <input type="text" class="form-control" name="tanggal_mulai_mingguan_banyak_kandang" id="tanggal_mulai_mingguan_banyak_kandang">
+                                                    <span class="input-group-addon"> Sampai </span>
+                                                    <input type="text" class="form-control" name="tanggal_selesai_mingguan_banyak_kandang" id="tanggal_selesai_mingguan_banyak_kandang"> </div>
                                             </div>
                                         </div>
+                                        <br/>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">

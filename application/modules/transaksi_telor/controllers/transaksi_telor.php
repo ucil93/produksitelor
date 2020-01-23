@@ -214,24 +214,26 @@ class transaksi_telor extends CI_Controller {
 																						$status_simpan = false;
 																					} else {
 																						if(is_numeric($this->input->post('data_rusak_kg')[$i])) {
-																							//cek data_berat_badan
-																							if($this->input->post('data_berat_badan')[$i] == "" || $this->input->post('data_berat_badan')[$i] == null || $this->input->post('data_berat_badan')[$i] == "null") {
-																								$hasil_akhir[$i] = array('hasil' => "NO_DATA_BERAT_BADAN_KOSONG");
+																							//cek jumlah ayam
+																							if(intval($this->input->post('jumlah_ayam')[$i]) <= (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i]))) {
+																								$hasil_akhir[$i] = array('hasil' => "NO_JUMLAH_AYAM");
 																								$status_simpan = false;
 																							} else {
-																								if(is_numeric($this->input->post('data_berat_badan')[$i])) {
-																									//cek jumlah ayam
-																									if(intval($this->input->post('jumlah_ayam')[$i]) <= (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i]))) {
-																										$hasil_akhir[$i] = array('hasil' => "NO_JUMLAH_AYAM");
-																										$status_simpan = false;
-																									} else {
-																										$hasil_akhir[$i] = array('hasil' => "YES");
-																									}
-																								} else {
-																									$hasil_akhir[$i] = array('hasil' => "NO_DATA_BERAT_BADAN_NUMBER");
-																									$status_simpan = false;
-																								}
+																								$hasil_akhir[$i] = array('hasil' => "YES");
 																							}
+																							// //cek data_berat_badan
+																							// if($this->input->post('data_berat_badan')[$i] == "" || $this->input->post('data_berat_badan')[$i] == null || $this->input->post('data_berat_badan')[$i] == "null") {
+																							// 	$hasil_akhir[$i] = array('hasil' => "NO_DATA_BERAT_BADAN_KOSONG");
+																							// 	$status_simpan = false;
+																							// } else {
+																							// 	if(is_numeric($this->input->post('data_berat_badan')[$i])) {
+																							// 		//cek jumlah ayam
+																									
+																							// 	} else {
+																							// 		$hasil_akhir[$i] = array('hasil' => "NO_DATA_BERAT_BADAN_NUMBER");
+																							// 		$status_simpan = false;
+																							// 	}
+																							// }
 																						} else {
 																							$hasil_akhir[$i] = array('hasil' => "NO_DATA_RUSAK_KG_NUMBER");
 																							$status_simpan = false;
@@ -297,13 +299,26 @@ class transaksi_telor extends CI_Controller {
 					$dt['pakan_kg'] = $this->input->post('data_pakan')[$i];
 					$dt['berat_badan'] = $this->input->post('data_berat_badan')[$i];
 					$dt['keterangan'] = $this->input->post('data_ket')[$i];
+					
 					$dt['hasil_pakan_gr'] = ($this->input->post('data_pakan')[$i]/(intval($this->input->post('jumlah_ayam')[$i]) - (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i]))))*1000;
 					$dt['hasil_butir_gr'] = ($this->input->post('data_butir_kg')[$i]/$this->input->post('data_butir_jumlah')[$i])*1000;
-					$dt['hasil_rusak_gr'] = ($this->input->post('data_rusak_kg')[$i]/$this->input->post('data_rusak_jumlah')[$i])*1000;
+
+					if($this->input->post('data_rusak_kg')[$i] == 0 || $this->input->post('data_rusak_kg')[$i] == '0') {
+						$dt['hasil_rusak_gr'] = 0;
+					} else {
+						$dt['hasil_rusak_gr'] = ($this->input->post('data_rusak_kg')[$i]/$this->input->post('data_rusak_jumlah')[$i])*1000;
+					}
+
 					$dt['hasil_hd_persen'] = ($this->input->post('data_butir_jumlah')[$i]/(intval($this->input->post('jumlah_ayam')[$i]) - (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i]))))*100;
 					$dt['hasil_fcr'] = $this->input->post('data_pakan')[$i]/$this->input->post('data_butir_kg')[$i];
-					$dt['hasil_rusak_persen'] = ($this->input->post('data_rusak_jumlah')[$i]/$this->input->post('data_butir_jumlah')[$i])*100;
-					$dt['hasil_hh'] = ($this->input->post('data_butir_jumlah')[$i]/$this->input->post('hd_periode')[$i])*100;
+
+					if($this->input->post('data_rusak_kg')[$i] == 0 || $this->input->post('data_rusak_kg')[$i] == '0') {
+						$dt['hasil_rusak_persen'] = 0;
+					} else {
+						$dt['hasil_rusak_persen'] = ($this->input->post('data_rusak_jumlah')[$i]/$this->input->post('data_butir_jumlah')[$i])*100;
+					}
+					// $dt['hasil_rusak_persen'] = ($this->input->post('data_rusak_jumlah')[$i]/$this->input->post('data_butir_jumlah')[$i])*100;
+					// $dt['hasil_hh'] = ($this->input->post('data_butir_jumlah')[$i]/$this->input->post('hd_periode')[$i])*100;
 
 					$this->db->insert("tr_produksi",$dt);
 

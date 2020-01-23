@@ -113,49 +113,49 @@ $("#btnExport2").click(function(){
   
   });
 
-  $('#tanggal_mulai_mingguan_banyak_kandang').change(function(){
-    // alert($('#tanggal_mulai_mingguan_banyak_kandang').val())
-    var tanggal_selesai =new Date($('#tanggal_selesai_mingguan_banyak_kandang').val());
-    var tanggal_mulai =new Date($('#tanggal_mulai_mingguan_banyak_kandang').val());
-    if($('#tanggal_selesai_mingguan_banyak_kandang').val()=='0' || $('#tanggal_selesai_mingguan_banyak_kandang').val()=='' || $('#tanggal_selesai_mingguan_banyak_kandang').val()=='undefined' || $('#tanggal_selesai_mingguan_banyak_kandang').val()==null)
-    {
+//   $('#tanggal_mulai_mingguan_banyak_kandang').change(function(){
+//     // alert($('#tanggal_mulai_mingguan_banyak_kandang').val())
+//     var tanggal_selesai =new Date($('#tanggal_selesai_mingguan_banyak_kandang').val());
+//     var tanggal_mulai =new Date($('#tanggal_mulai_mingguan_banyak_kandang').val());
+//     if($('#tanggal_selesai_mingguan_banyak_kandang').val()=='0' || $('#tanggal_selesai_mingguan_banyak_kandang').val()=='' || $('#tanggal_selesai_mingguan_banyak_kandang').val()=='undefined' || $('#tanggal_selesai_mingguan_banyak_kandang').val()==null)
+//     {
 
-    }
-    else{
-        if(tanggal_mulai<tanggal_selesai===false){
-            alert("Tanggal mulai harus sebelum tanggal selesai")
-            $('#tanggal_mulai_mingguan_banyak_kandang').val(null);
-        }
-        // alert("tanggal mulai " + tanggal_mulai);
-        // alert("tanggal selesai " + tanggal_selesai);
-        // if (tanggal_mulai >= tanggal_selesai) {
-        //     alert("Oop! dateTo must be later than dateFrom.");
-        // }
-    }
+//     }
+//     else{
+//         if(tanggal_mulai<tanggal_selesai===false){
+//             alert("Tanggal mulai harus sebelum tanggal selesai")
+//             $('#tanggal_mulai_mingguan_banyak_kandang').val(null);
+//         }
+//         // alert("tanggal mulai " + tanggal_mulai);
+//         // alert("tanggal selesai " + tanggal_selesai);
+//         // if (tanggal_mulai >= tanggal_selesai) {
+//         //     alert("Oop! dateTo must be later than dateFrom.");
+//         // }
+//     }
     
-});
+// });
 
-$('#tanggal_selesai_mingguan_banyak_kandang').change(function(){
-    // alert($('#tanggal_mulai_mingguan_banyak_kandang').val())
-    var tanggal_selesai =new Date($('#tanggal_selesai_mingguan_banyak_kandang').val());
-    var tanggal_mulai =new Date($('#tanggal_mulai_mingguan_banyak_kandang').val());
-    if($('#tanggal_mulai_mingguan_banyak_kandang').val()=='0' || $('#tanggal_mulai_mingguan_banyak_kandang').val()=='' || $('#tanggal_mulai_mingguan_banyak_kandang').val()=='undefined' || $('#tanggal_mulai_mingguan_banyak_kandang').val()==null)
-    {
+// $('#tanggal_selesai_mingguan_banyak_kandang').change(function(){
+//     // alert($('#tanggal_mulai_mingguan_banyak_kandang').val())
+//     var tanggal_selesai =new Date($('#tanggal_selesai_mingguan_banyak_kandang').val());
+//     var tanggal_mulai =new Date($('#tanggal_mulai_mingguan_banyak_kandang').val());
+//     if($('#tanggal_mulai_mingguan_banyak_kandang').val()=='0' || $('#tanggal_mulai_mingguan_banyak_kandang').val()=='' || $('#tanggal_mulai_mingguan_banyak_kandang').val()=='undefined' || $('#tanggal_mulai_mingguan_banyak_kandang').val()==null)
+//     {
 
-    }
-    else {
-        if(tanggal_mulai<tanggal_selesai===false){
-            alert("Tanggal selesai harus setelah tanggal mulai")
-            $('#tanggal_selesai_mingguan_banyak_kandang').val(null);
-        }
-        // alert("tanggal mulai " + tanggal_mulai);
-        // alert("tanggal selesai " + tanggal_selesai);
-        // if (tanggal_mulai >= tanggal_selesai) {
-        //     alert("Oop! dateTo must be later than dateFrom.");
-        // }
-    }
+//     }
+//     else {
+//         if(tanggal_mulai<tanggal_selesai===false){
+//             alert("Tanggal selesai harus setelah tanggal mulai")
+//             $('#tanggal_selesai_mingguan_banyak_kandang').val(null);
+//         }
+//         // alert("tanggal mulai " + tanggal_mulai);
+//         // alert("tanggal selesai " + tanggal_selesai);
+//         // if (tanggal_mulai >= tanggal_selesai) {
+//         //     alert("Oop! dateTo must be later than dateFrom.");
+//         // }
+//     }
     
-});
+// });
   
 
 $('#cetak_data_mingguan_banyak_kandang').click(function() {
@@ -169,7 +169,7 @@ $('#cetak_data_mingguan_banyak_kandang').click(function() {
     var tanggal_mulai = $('#tanggal_mulai_mingguan_banyak_kandang').val();
     var tanggal_selesai = $('#tanggal_selesai_mingguan_banyak_kandang').val();
 
-    var dataKandang = '<option value="" disabled selected>--Pilih--</option>';
+    // var dataKandang = '<option value="" disabled selected>--Pilih--</option>';
     var idJumlahKandang = 'jumlah_kandang_mingguan_banyak';
 
     $.ajax({
@@ -195,7 +195,7 @@ $('#cetak_data_mingguan_banyak_kandang').click(function() {
             $('#data_hasil_laporan_mingguan').html(data);
 
             $('#lokasi_mingguan_banyak_kandang').val(null);
-            $('#kandang_mingguan_banyak_kandang').html(dataKandang);
+            $('#kandang_mingguan_banyak_kandang').html('');
             $('#' + idJumlahKandang).prop('checked',true);
             $('#tanggal_mulai_mingguan_banyak_kandang').val(null);
             $('#tanggal_selesai_mingguan_banyak_kandang').val(null);

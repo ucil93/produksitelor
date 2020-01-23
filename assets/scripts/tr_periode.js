@@ -25,7 +25,7 @@ function cleartambahperiode() {
     $("#ayam_masuk").val("");
     $("#tanggal_masuk_kandang").val("");
     $("#tanggal_menetas").val("");
-    $("#umur_masuk").val("");
+    // $("#umur_masuk").val("");
     $("#asal_pullet").val("");
     $("#hd_periode").val("");
     $("#alert-msg-tambahtrperiode").empty();
@@ -45,7 +45,7 @@ $('#tambahtrperiode').click(function () {
         ayam_masuk: $('#ayam_masuk').val(),
         tanggal_masuk_kandang: $('#tanggal_masuk_kandang').val(),
         tanggal_menetas: $('#tanggal_menetas').val(),
-        umur_masuk: $('#umur_masuk').val(),
+        // umur_masuk: $('#umur_masuk').val(),
         asal_pullet: $('#asal_pullet').val(),
         hd_periode: $('#hd_periode').val(),
     };
@@ -59,7 +59,7 @@ $('#tambahtrperiode').click(function () {
                 $("#tambah_tr_periode").fadeTo(10000, 5000).slideUp(2000, function () {
                     $("#tambah_tr_periode").modal('hide');
                 });
-                window.location.href = base_url + "transaksi_periode";
+                // window.location.href = base_url + "transaksi_periode";
             }
             else if (msg == 'NO1') {
                 $('#alert-msg-tambahtrperiode').html('<div class="alert alert-danger text-center">Data Kandang Sudah Ada!</div>');

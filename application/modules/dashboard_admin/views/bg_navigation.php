@@ -99,11 +99,13 @@
                                     <ul class="sub-menu">
                                         <li class="<?php echo $active_lpharian; ?>">
                                             <a href="<?php echo base_url(); ?>laporan_harian/" class="<?php echo $active_lpharian; ?>">
+                                                <i class="fa fa-file-o"></i>
                                                 <span class="title">Harian</span>
                                             </a>
                                         </li>
                                         <li class="<?php echo $active_lpmingguan; ?>">
                                             <a href="<?php echo base_url(); ?>laporan_mingguan/" class="<?php echo $active_lpmingguan; ?>">
+                                                <i class="fa fa-files-o"></i>
                                                 <span class="title">Mingguan</span>
                                             </a>
                                         </li>
@@ -114,6 +116,7 @@
                                         </li> -->
                                         <li class="<?php echo $active_lpgrafik; ?>">
                                             <a href="<?php echo base_url(); ?>laporan_grafik/" class="<?php echo $active_lpgrafik; ?>">
+                                                <i class="fa fa-bar-chart"></i>
                                                 <span class="title">Grafik</span>
                                             </a>
                                         </li>
@@ -156,13 +159,13 @@
                                     <ul class="sub-menu">
                                         <li class="<?php echo $active_lpharian; ?>">
                                             <a href="<?php echo base_url(); ?>laporan_harian/" class="<?php echo $active_lpharian; ?>">
-                                                <i class="fa fa-sticky-note-o"></i>
+                                                <i class="fa fa-file-o"></i>
                                                 <span class="title">Harian</span>
                                             </a>
                                         </li>
                                         <li class="<?php echo $active_lpmingguan; ?>">
                                             <a href="<?php echo base_url(); ?>laporan_mingguan/" class="<?php echo $active_lpmingguan; ?>">
-                                                <i class="fa fa-sticky-note-o"></i>    
+                                                <i class="fa fa-files-o"></i>    
                                                 <span class="title">Mingguan</span>
                                             </a>
                                         </li>
@@ -173,7 +176,7 @@
                                         </li> -->
                                         <li class="<?php echo $active_lpgrafik; ?>">
                                             <a href="<?php echo base_url(); ?>laporan_grafik/" class="<?php echo $active_lpgrafik; ?>">
-                                                <i class="fa fa-sticky-note-o"></i>
+                                                <i class="fa fa-bar-chart"></i>
                                                 <span class="title">Grafik</span>
                                             </a>
                                         </li>

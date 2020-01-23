@@ -42,7 +42,6 @@
                                                     <th> Tanggal Menetas </th>
                                                     <th> Jumlah Ayam Masuk </th>
                                                     <th> Jumlah Ayam Saat Ini </th>
-                                                    <th> Umur Masuk </th>
                                                     <th> Asal Pullet </th>
                                                     <th> HD </th>
                                                     <th> Status Periode </th>
@@ -66,7 +65,6 @@
                                                                 <td><?php echo date_format($date_menetas, "d F Y"); ?></td>
                                                                 <td><?php echo $dt->awal_ayam_masuk; ?></td>
                                                                 <td><?php echo $dt->jumlah_seluruh_ayam; ?></td>
-                                                                <td><?php echo $dt->umur_masuk; ?></td>
                                                                 <td><?php echo $dt->asal_pullet; ?></td>
                                                                 <td><?php echo $dt->hd_periode; ?></td>
                                                                 <td><?php echo $dt->status_periode; ?></td>
@@ -195,21 +193,22 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group form-md-line-input has-success form-md-floating-label">
-                        <input type="text" id="umur_masuk" name="umur_masuk" value="" class="form-control">
-                        <label for="form_control_1">Umur Masuk</label>
-                        <span class="help-block">Masukkan Umur Masuk</span>
-                    </div>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group form-md-line-input has-success form-md-floating-label">
                         <input type="text" id="asal_pullet" name="asal_pullet" value="" class="form-control">
                         <label for="form_control_1">Asal Pullet</label>
                         <span class="help-block">Masukkan Asal Pullet</span>
                     </div>
                 </div>
+                <!-- <div class="col-md-6">
+                    <div class="form-group form-md-line-input has-success form-md-floating-label">
+                        <input type="text" id="umur_masuk" name="umur_masuk" value="" class="form-control">
+                        <label for="form_control_1">Umur Masuk</label>
+                        <span class="help-block">Masukkan Umur Masuk</span>
+                    </div>
+                </div> -->
+                
+            </div>
+            <div class="row">
+                
                 <div class="col-md-6">
                     <div class="form-group form-md-line-input has-success form-md-floating-label">
                         <input type="text" id="hd_periode" name="hd_periode" value="" class="form-control">
