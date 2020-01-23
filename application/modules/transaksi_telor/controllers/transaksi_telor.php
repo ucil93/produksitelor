@@ -303,16 +303,24 @@ class transaksi_telor extends CI_Controller {
 					$dt['hasil_pakan_gr'] = ($this->input->post('data_pakan')[$i]/(intval($this->input->post('jumlah_ayam')[$i]) - (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i]))))*1000;
 					$dt['hasil_butir_gr'] = ($this->input->post('data_butir_kg')[$i]/$this->input->post('data_butir_jumlah')[$i])*1000;
 
-					if($this->input->post('data_rusak_kg')[$i] == 0 || $this->input->post('data_rusak_kg')[$i] == '0') {
-						$dt['hasil_rusak_gr'] = 0;
+					if($this->input->post('data_rusak_jumlah')[$i] == 0 || $this->input->post('data_rusak_jumlah')[$i] == '0') {
+						if($this->input->post('data_rusak_kg')[$i] == 0 || $this->input->post('data_rusak_kg')[$i] == '0') {
+							$dt['hasil_rusak_gr'] = 0;
+						} else {
+							$dt['hasil_rusak_gr'] = 0;
+						}
 					} else {
-						$dt['hasil_rusak_gr'] = ($this->input->post('data_rusak_kg')[$i]/$this->input->post('data_rusak_jumlah')[$i])*1000;
+						if($this->input->post('data_rusak_kg')[$i] == 0 || $this->input->post('data_rusak_kg')[$i] == '0') {
+							$dt['hasil_rusak_gr'] = 0;
+						} else {
+							$dt['hasil_rusak_gr'] = ($this->input->post('data_rusak_kg')[$i]/$this->input->post('data_rusak_jumlah')[$i])*1000;
+						}
 					}
 
 					$dt['hasil_hd_persen'] = ($this->input->post('data_butir_jumlah')[$i]/(intval($this->input->post('jumlah_ayam')[$i]) - (intval($this->input->post('data_m')[$i]) + intval($this->input->post('data_c')[$i]))))*100;
 					$dt['hasil_fcr'] = $this->input->post('data_pakan')[$i]/$this->input->post('data_butir_kg')[$i];
 
-					if($this->input->post('data_rusak_kg')[$i] == 0 || $this->input->post('data_rusak_kg')[$i] == '0') {
+					if($this->input->post('data_rusak_jumlah')[$i] == 0 || $this->input->post('data_rusak_jumlah')[$i] == '0') {
 						$dt['hasil_rusak_persen'] = 0;
 					} else {
 						$dt['hasil_rusak_persen'] = ($this->input->post('data_rusak_jumlah')[$i]/$this->input->post('data_butir_jumlah')[$i])*100;
