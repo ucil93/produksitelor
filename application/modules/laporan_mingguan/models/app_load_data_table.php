@@ -107,6 +107,7 @@ class app_load_data_table extends CI_Model
                                     $berat_badan = '';
                                     $total_data = 0;
                                     $hasil_em = 0;
+                                    $hasil_ew = 0;
                                     $jumlah_data = 0;
                                     $total_ayam_akhir = 0;
                                     $total_mati_afkir_akhir = 0;
@@ -171,7 +172,13 @@ class app_load_data_table extends CI_Model
                                             $pakan_kg_akhir = $pakan_kg_akhir + $pakan;
                                             $hd_akhir = $hd_akhir + ($hasil_hd_persen/7);
                                             $fcr_akhir = $fcr_akhir + $hasil_fcr;
-                                            $ew_akhir = $ew_akhir+(($hasil_hd_persen / $butir_jumlah) * 1000);
+                                            if($butir_jumlah===0) {
+                                                $hasil_ew = 0;
+                                            }
+                                            else {
+                                                $hasil_ew = round((($hasil_hd_persen / $butir_jumlah) * 1000),2);
+                                            }
+                                            $ew_akhir = $ew_akhir+$hasil_ew;
                                             if($butir_kg===0) {
                                                 $hasil_em = 0;
                                             }
@@ -191,7 +198,7 @@ class app_load_data_table extends CI_Model
                                                     <td class="text-center"> ' . round($pakan, 2) . '</td>
                                                     <td class="text-center">' . round($hasil_hd_persen / $total_data, 2) . '</td>
                                                     <td class="text-center">' . round($hasil_fcr, 2) . '</td>
-                                                    <td class="text-center"> ' . round(($hasil_hd_persen / $butir_jumlah) * 1000, 2) . ' </td>
+                                                    <td class="text-center"> ' . $hasil_ew . ' </td>
                                                     <td class="text-center">' . $hasil_em . '</td>
                                                     <td class="text-center"> ' . $berat_badan . '</td>
                                                     <td>' . $keterangan . '</td>
@@ -211,11 +218,29 @@ class app_load_data_table extends CI_Model
                                             $hasil_em=0;
                                         }
                                     }
+                                    if($ew_akhir===0) {
+                                        $ew_akhir = 0;
+                                    }
+                                    else {
+                                        $ew_akhir = round($ew_akhir/$jumlah_data, 2) ;
+                                    }
                                     if($em_akhir===0) {
                                         $em_akhir=0;
                                     }
                                     else {
                                         $em_akhir=round($em_akhir/$jumlah_data,2);
+                                    }
+                                    if($butir_jumlah_akhir===0) {
+                                        $butir_jumlah_akhir = 0;
+                                    }
+                                    else {
+                                        $butir_jumlah_akhir = round($butir_jumlah_akhir/$jumlah_data, 2) ;
+                                    }
+                                    if($butir_kg_akhir===0) {
+                                        $butir_kg_akhir = 0;
+                                    }
+                                    else {
+                                        $butir_kg_akhir = round($butir_kg_akhir/$jumlah_data,2);
                                     }
 
                 $output .= '
@@ -223,12 +248,12 @@ class app_load_data_table extends CI_Model
                         <td class="text-center" colspan="2" bgcolor="#808080"> Jumlah ' . $jumlah_data . ' Data </td>
                         <td class="text-center" style="width:10px" bgcolor="#808080">' . $total_mati_afkir_akhir . '</td>
                         <td class="text-center" style="width:60px" bgcolor="#808080">' . intval($total_ayam_akhir) . '</td>
-                        <td class="text-center" bgcolor="#808080"> ' . round($butir_jumlah_akhir/$jumlah_data, 2) . '</td>
-                        <td class="text-center" bgcolor="#808080"> ' . round($butir_kg_akhir/$jumlah_data, 2) . '</td>
+                        <td class="text-center" bgcolor="#808080"> ' . $butir_jumlah_akhir. '</td>
+                        <td class="text-center" bgcolor="#808080"> ' . $butir_kg_akhir . '</td>
                         <td class="text-center" bgcolor="#808080"> ' . round($pakan_kg_akhir/$jumlah_data, 2) . '</td>
                         <td class="text-center" bgcolor="#808080">' . round($hd_akhir / $jumlah_data, 2) . '</td>
                         <td class="text-center" bgcolor="#808080">' . round($fcr_akhir/$jumlah_data, 2) . '</td>
-                        <td class="text-center" bgcolor="#808080"> ' . round($ew_akhir/$jumlah_data, 2) . ' </td>
+                        <td class="text-center" bgcolor="#808080"> ' . $ew_akhir. ' </td>
                         <td class="text-center" bgcolor="#808080">' . $em_akhir . '</td>
                         <td></td>
                         <td></td>
@@ -370,7 +395,14 @@ class app_load_data_table extends CI_Model
                                                 $date = $split[2] . ' ' . $bulan[(int) $split[1]] . ' ' . $split[0];
                                                 $dateCatat = date_create($rowTransaksi->tanggal_catat);
                                                 $total_mati_afkir = $rowTransaksi->ayam_m + $rowTransaksi->ayam_c;
-                                                $em = $rowTransaksi->butir_kg===0 ? 0 : round((($rowTransaksi->butir_kg / 7) / $rowTransaksi->total_ayam) * 1000, 2);
+                                                $em=0;
+                                                if($rowTransaksi->butir_kg===0) {
+                                                    $em = 0;
+                                                }
+                                                else {
+                                                    $em = round((($rowTransaksi->butir_kg / 7) / $rowTransaksi->total_ayam) * 1000, 2);
+                                                }
+                                                // $em = $rowTransaksi->butir_kg===0 ? 0 : round((($rowTransaksi->butir_kg / 7) / $rowTransaksi->total_ayam) * 1000, 2);
                                                 // $total_data = $total_data + 1;
                                                 $output .= '
                                                     <tr class="odd gradeX">
