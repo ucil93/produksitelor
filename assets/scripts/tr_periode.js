@@ -59,7 +59,7 @@ $('#tambahtrperiode').click(function () {
                 $("#tambah_tr_periode").fadeTo(10000, 5000).slideUp(2000, function () {
                     $("#tambah_tr_periode").modal('hide');
                 });
-                // window.location.href = base_url + "transaksi_periode";
+                window.location.href = base_url + "transaksi_periode";
             }
             else if (msg == 'NO1') {
                 $('#alert-msg-tambahtrperiode').html('<div class="alert alert-danger text-center">Data Kandang Sudah Ada!</div>');

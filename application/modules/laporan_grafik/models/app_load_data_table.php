@@ -31,7 +31,6 @@ class app_load_data_table extends CI_Model
 
         $nama_strain = '';
         $jenis_strain = '';
-        // $get_straing = $this->db->query("SELECT mt_strain.id_strain,mt_strain.nama_strain as nama_strain FROM mt_strain,tr_periode WHERE tr_periode.id_kandang='" . $kandang . "' AND tr_periode.id_strain=mt_strain.id_strain");
         $get_straing = $this->db->query("Select mt_strain.id_strain as id_strain,mt_strain.nama_strain as nama_strain FROM mt_strain,tr_periode
              where tr_periode.id_strain=mt_strain.id_strain and tr_periode.id_kandang = '" . $kandang . "'");
 
@@ -39,34 +38,18 @@ class app_load_data_table extends CI_Model
             $nama_strain = $rowStrain->nama_strain;
         }
 
-
-        //LAMA
-        // $getTransaksi = $this->db->query("Select tr_periode.tanggal_menetas as tanggal_menetas,
-        //             tr_produksi.tanggal_catat as tanggal_catat,
-        //             tr_produksi.ayam_m as ayam_m, tr_produksi.ayam_c as ayam_c,
-        //             tr_produksi.total_ayam as total_ayam, tr_produksi.pakan_kg as pakan_kg, 
-        //             tr_produksi.hasil_pakan_gr as hasil_pakan_gr, 
-        //             tr_produksi.butir_jumlah as butir_jumlah, tr_produksi.butir_kg as butir_kg,
-        //             tr_produksi.hasil_butir_gr as hasil_butir_gr, tr_produksi.hasil_hh as hasil_hh ,
-        //             tr_produksi.hasil_hd_persen as hasil_hd_persen, tr_produksi.hasil_fcr as hasil_fcr, 
-        //             tr_produksi.berat_badan as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
-        //             inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
-        //             inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
-        //             where status_periode = 'AKTIF' and mt_kandang.id_kandang = '" . $kandang . "'");
-
-        //BARU
         $getTransaksi = $this->db->query("Select tr_periode.tanggal_menetas as tanggal_menetas,
-                    tr_produksi.tanggal_catat as tanggal_catat,
-                    tr_produksi.ayam_m as ayam_m, tr_produksi.ayam_c as ayam_c,
-                    tr_produksi.total_ayam as total_ayam, tr_produksi.pakan_kg as pakan_kg, 
-                    tr_produksi.hasil_pakan_gr as hasil_pakan_gr, 
-                    tr_produksi.butir_jumlah as butir_jumlah, tr_produksi.butir_kg as butir_kg,
-                    tr_produksi.hasil_butir_gr as hasil_butir_gr ,
-                    tr_produksi.hasil_hd_persen as hasil_hd_persen, tr_produksi.hasil_fcr as hasil_fcr, 
-                    tr_produksi.berat_badan as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
-                    inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
-                    inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
-                    where status_periode = 'AKTIF' and mt_kandang.id_kandang = '" . $kandang . "'");
+            tr_produksi.tanggal_catat as tanggal_catat,
+            tr_produksi.ayam_m as ayam_m, tr_produksi.ayam_c as ayam_c,
+            tr_produksi.total_ayam as total_ayam, tr_produksi.pakan_kg as pakan_kg, 
+            tr_produksi.hasil_pakan_gr as hasil_pakan_gr, 
+            tr_produksi.butir_jumlah as butir_jumlah, tr_produksi.butir_kg as butir_kg,
+            tr_produksi.hasil_butir_gr as hasil_butir_gr ,
+            tr_produksi.hasil_hd_persen as hasil_hd_persen, tr_produksi.hasil_fcr as hasil_fcr, 
+            tr_produksi.berat_badan as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
+            inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
+            inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
+            where status_periode = 'AKTIF' and mt_kandang.id_kandang = '" . $kandang . "'");
         $pakan = 0;
         $mati = 0;
         $afkir = 0;
@@ -74,7 +57,6 @@ class app_load_data_table extends CI_Model
         $butir_jumlah = 0;
         $butir_kg = 0;
         $hasil_butir_gr = 0;
-        // $hasil_hh = 0;
         $hasil_hd_persen = 0;
         $hasil_fcr = 0;
         $berat = 0;
@@ -92,12 +74,9 @@ class app_load_data_table extends CI_Model
         foreach ($getTransaksi->result() as $rowTransaksi) {
             $dateCatat = new DateTime($rowTransaksi->tanggal_catat);
             $data_mulai = new DateTime($rowTransaksi->tanggal_menetas);
-            // $diff = abs(strtotime($rowTransaksi->tanggal_catat) - strtotime($data_mulai));
             $days = $dateCatat->diff($data_mulai);
             $hasil_mod = $days->days % 7;
             $minggu_ke = $days->days / 7;
-            // echo $days;
-            // echo $hasil_mod;
             $date = date_create($rowTransaksi->tanggal_catat);
             $pakan = $pakan + $rowTransaksi->pakan_kg;
             $pakan_gr = $pakan_gr + $rowTransaksi->hasil_pakan_gr;
@@ -106,7 +85,6 @@ class app_load_data_table extends CI_Model
             $hasil_butir_gr = $hasil_butir_gr + $rowTransaksi->hasil_butir_gr;
             $mati = $mati + $rowTransaksi->ayam_m;
             $afkir = $afkir + $rowTransaksi->ayam_c;
-            // $hasil_hh = $hasil_hh + $rowTransaksi->hasil_hh;
             $hasil_hd_persen = $hasil_hd_persen + $rowTransaksi->hasil_hd_persen;
             $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
             $total_mati_afkir = $mati + $afkir;
@@ -126,8 +104,6 @@ class app_load_data_table extends CI_Model
                             $mortality = ($total_mati_afkir / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
                         }
                     }
-                    // $livability_data = ;
-                    // $mortality=;
                     $feed_intake = $pakan;
                     $body_weight = $berat;
                     array_push($data_em, round($em, 3));
@@ -149,7 +125,6 @@ class app_load_data_table extends CI_Model
                 $butir_jumlah = 0;
                 $butir_kg = 0;
                 $hasil_butir_gr = 0;
-                // $hasil_hh = 0;
                 $hasil_hd_persen = 0;
                 $hasil_fcr = 0;
                 $berat = 0;
@@ -436,33 +411,19 @@ class app_load_data_table extends CI_Model
             $nama_strain = $rowStrain->nama_strain;
         }
         $result = array();
-        //LAMA
-        // $getTransaksi = $this->db->query("Select tr_periode.tanggal_menetas as tanggal_menetas,
-        // tr_produksi.tanggal_catat as tanggal_catat,
-        // AVG(tr_produksi.ayam_m) as ayam_m, AVG(tr_produksi.ayam_c) as ayam_c,
-        // AVG(tr_produksi.total_ayam) as total_ayam, AVG(tr_produksi.pakan_kg) as pakan_kg, 
-        // AVG(tr_produksi.hasil_pakan_gr) as hasil_pakan_gr, 
-        // AVG(tr_produksi.butir_jumlah) as butir_jumlah, AVG(tr_produksi.butir_kg) as butir_kg,
-        // AVG(tr_produksi.hasil_butir_gr) as hasil_butir_gr, AVG(tr_produksi.hasil_hh) as hasil_hh ,
-        // AVG(tr_produksi.hasil_hd_persen) as hasil_hd_persen, AVG(tr_produksi.hasil_fcr) as hasil_fcr, 
-        // AVG(tr_produksi.berat_badan) as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
-        // inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
-        // inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
-        // where status_periode = 'AKTIF' AND tr_periode.tanggal_menetas='" . $tanggal_menetas . "' AND tr_periode.id_strain='" . $id_strain . "' GROUP BY tr_produksi.tanggal_catat");
-
-        //BARU
+        
         $getTransaksi = $this->db->query("Select tr_periode.tanggal_menetas as tanggal_menetas,
-        tr_produksi.tanggal_catat as tanggal_catat,
-        AVG(tr_produksi.ayam_m) as ayam_m, AVG(tr_produksi.ayam_c) as ayam_c,
-        AVG(tr_produksi.total_ayam) as total_ayam, AVG(tr_produksi.pakan_kg) as pakan_kg, 
-        AVG(tr_produksi.hasil_pakan_gr) as hasil_pakan_gr, 
-        AVG(tr_produksi.butir_jumlah) as butir_jumlah, AVG(tr_produksi.butir_kg) as butir_kg,
-        AVG(tr_produksi.hasil_butir_gr) as hasil_butir_gr ,
-        AVG(tr_produksi.hasil_hd_persen) as hasil_hd_persen, AVG(tr_produksi.hasil_fcr) as hasil_fcr, 
-        AVG(tr_produksi.berat_badan) as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
-        inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
-        inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
-        where status_periode = 'AKTIF' AND tr_periode.tanggal_menetas='" . $tanggal_menetas . "' AND tr_periode.id_strain='" . $id_strain . "' GROUP BY tr_produksi.tanggal_catat");
+            tr_produksi.tanggal_catat as tanggal_catat,
+            AVG(tr_produksi.ayam_m) as ayam_m, AVG(tr_produksi.ayam_c) as ayam_c,
+            AVG(tr_produksi.total_ayam) as total_ayam, AVG(tr_produksi.pakan_kg) as pakan_kg, 
+            AVG(tr_produksi.hasil_pakan_gr) as hasil_pakan_gr, 
+            AVG(tr_produksi.butir_jumlah) as butir_jumlah, AVG(tr_produksi.butir_kg) as butir_kg,
+            AVG(tr_produksi.hasil_butir_gr) as hasil_butir_gr ,
+            AVG(tr_produksi.hasil_hd_persen) as hasil_hd_persen, AVG(tr_produksi.hasil_fcr) as hasil_fcr, 
+            AVG(tr_produksi.berat_badan) as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
+            inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
+            inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
+            where status_periode = 'AKTIF' AND tr_periode.tanggal_menetas='" . $tanggal_menetas . "' AND tr_periode.id_strain='" . $id_strain . "' GROUP BY tr_produksi.tanggal_catat");
         $pakan = 0;
         $mati = 0;
         $afkir = 0;
@@ -470,7 +431,6 @@ class app_load_data_table extends CI_Model
         $butir_jumlah = 0;
         $butir_kg = 0;
         $hasil_butir_gr = 0;
-        // $hasil_hh = 0;
         $hasil_hd_persen = 0;
         $hasil_fcr = 0;
         $berat = 0;
@@ -488,12 +448,9 @@ class app_load_data_table extends CI_Model
         foreach ($getTransaksi->result() as $rowTransaksi) {
             $dateCatat = new DateTime($rowTransaksi->tanggal_catat);
             $data_mulai = new DateTime($rowTransaksi->tanggal_menetas);
-            // $diff = abs(strtotime($rowTransaksi->tanggal_catat) - strtotime($data_mulai));
             $days = $dateCatat->diff($data_mulai);
             $hasil_mod = $days->days % 7;
             $minggu_ke = $days->days / 7;
-            // echo $days;
-            // echo $hasil_mod;
             $date = date_create($rowTransaksi->tanggal_catat);
             $pakan = $pakan + $rowTransaksi->pakan_kg;
             $pakan_gr = $pakan_gr + $rowTransaksi->hasil_pakan_gr;
@@ -502,7 +459,6 @@ class app_load_data_table extends CI_Model
             $hasil_butir_gr = $hasil_butir_gr + $rowTransaksi->hasil_butir_gr;
             $mati = $mati + $rowTransaksi->ayam_m;
             $afkir = $afkir + $rowTransaksi->ayam_c;
-            // $hasil_hh = $hasil_hh + $rowTransaksi->hasil_hh;
             $hasil_hd_persen = $hasil_hd_persen + $rowTransaksi->hasil_hd_persen;
             $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
             $total_mati_afkir = $mati + $afkir;
@@ -522,8 +478,6 @@ class app_load_data_table extends CI_Model
                             $mortality = ($total_mati_afkir / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
                         }
                     }
-                    // $livability_data = ;
-                    // $mortality=;
                     $feed_intake = $pakan;
                     $body_weight = $berat;
                     array_push($data_em, round($em, 3));
@@ -545,7 +499,6 @@ class app_load_data_table extends CI_Model
                 $butir_jumlah = 0;
                 $butir_kg = 0;
                 $hasil_butir_gr = 0;
-                // $hasil_hh = 0;
                 $hasil_hd_persen = 0;
                 $hasil_fcr = 0;
                 $berat = 0;

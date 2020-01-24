@@ -29,14 +29,7 @@ class app_user_login_model extends CI_Model {
 
 			if ($this->session->userdata('status_anggota') == "AKTIF")
 			{
-				// if ($this->session->userdata('grup_anggota') == "ADMIN")
-				// {
 				redirect("dashboard_admin");
-				// }
-				// elseif($this->session->userdata('grup_anggota') == "ANGGOTA") 
-				// {
-				// 	redirect("dashboard_anggota");
-				// }
 			}
 			else
 			{
@@ -57,40 +50,6 @@ class app_user_login_model extends CI_Model {
 
 			$this->load->view('login/login', $data);
 		}
-
-		// if ($data['username'] != "")
-		// {
-		// 	$user_login = $data['username'];
-		// 	$pass_login = $data['password'];
-
-		// 	if($user_login == "admin")
-		// 	{
-		// 		redirect("dashboard_admin");
-		// 	}
-		// 	elseif($user_login == "anggota") 
-		// 	{
-		// 		redirect("dashboard_anggota");
-		// 	}
-		// 	else
-		// 	{
-		// 		$data = new stdClass();
-		// 		$data->error = 'Nama pengguna atau password salah';
-
-		// 		$this->session->sess_destroy();
-
-		// 		$this->load->view('login/login', $data);
-		// 	}
-		// }
-		// else
-		// {
-		// 	$data = new stdClass();
-		// 	$data->error = 'Nama pengguna harus diisi';
-
-		// 	$this->session->sess_destroy();
-
-		// 	$this->load->view('login/login', $data);
-		// }
-
 	}
 }
 

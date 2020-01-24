@@ -21,7 +21,6 @@ class dashboard_admin extends CI_Controller {
 				$d['active_laporan'] = "";
 					$d['active_lpharian'] = "";
 					$d['active_lpmingguan'] = "";
-					$d['active_lpbulanan'] = "";
 					$d['active_lpgrafik'] = "";
 			}
 			else
@@ -33,7 +32,6 @@ class dashboard_admin extends CI_Controller {
 				$d['active_laporan'] = "";
 					$d['active_lpharian'] = "";
 					$d['active_lpmingguan'] = "";
-					$d['active_lpbulanan'] = "";
 					$d['active_lpgrafik'] = "";
 			}
 			

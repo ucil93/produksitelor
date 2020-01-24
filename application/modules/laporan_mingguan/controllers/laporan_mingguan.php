@@ -19,7 +19,6 @@ class laporan_mingguan extends CI_Controller {
 			$d['active_laporan'] = "active";
 				$d['active_lpharian'] = "";
 				$d['active_lpmingguan'] = "active";
-				$d['active_lpbulanan'] = "";
 				$d['active_lpgrafik'] = "";
 
 			$this->load->model('/app_load_data_table');

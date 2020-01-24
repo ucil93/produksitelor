@@ -109,11 +109,6 @@
                                                 <span class="title">Mingguan</span>
                                             </a>
                                         </li>
-                                        <!-- <li class="<?php echo $active_lpbulanan; ?>">
-                                            <a href="<?php echo base_url(); ?>laporan_bulanan/" class="<?php echo $active_lpbulanan; ?>">
-                                                <span class="title">Bulanan</span>
-                                            </a>
-                                        </li> -->
                                         <li class="<?php echo $active_lpgrafik; ?>">
                                             <a href="<?php echo base_url(); ?>laporan_grafik/" class="<?php echo $active_lpgrafik; ?>">
                                                 <i class="fa fa-bar-chart"></i>
@@ -169,11 +164,6 @@
                                                 <span class="title">Mingguan</span>
                                             </a>
                                         </li>
-                                        <!-- <li class="<?php echo $active_lpbulanan; ?>">
-                                            <a href="<?php echo base_url(); ?>laporan_bulanan/" class="<?php echo $active_lpbulanan; ?>">
-                                                <span class="title">Bulanan</span>
-                                            </a>
-                                        </li> -->
                                         <li class="<?php echo $active_lpgrafik; ?>">
                                             <a href="<?php echo base_url(); ?>laporan_grafik/" class="<?php echo $active_lpgrafik; ?>">
                                                 <i class="fa fa-bar-chart"></i>
