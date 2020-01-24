@@ -100,6 +100,9 @@ function editDataPeriode(id) {
         $('#nama_periode_edit').val(item.nama_periode);
         $('#hd_periode_edit').val(item.hd_periode);
         $('#status_periode_edit').val(item.status_periode);
+        $('#tanggal_masuk_kandang_edit').val(moment(item.tanggal_masuk_kandang, 'YYYY-MM-DD').format('YYYY-MM-DD'));
+        $('#tanggal_menetas_edit').val(moment(item.tanggal_menetas, 'YYYY-MM-DD').format('YYYY-MM-DD'));
+        $('#asal_pullet_edit').val(item.asal_pullet);
         $('#edit_tr_periode').modal('show');
     })
 }
@@ -109,6 +112,9 @@ function cleareditperiode() {
     $("#nama_periode_edit").val("");
     $("#hd_periode_edit").val("");
     $("#status_periode_edit").val("");
+    $("#tanggal_masuk_kandang_edit").val("");
+    $("#tanggal_menetas_edit").val("");
+    $("#asal_pullet_edit").val("");
     $("#alert-msg-editperiode").empty();
 };
 
@@ -123,6 +129,9 @@ $('#editperiode').click(function () {
         nama_periode_edit: $('#nama_periode_edit').val(),
         hd_periode_edit: $('#hd_periode_edit').val(),
         status_periode_edit: $('#status_periode_edit').val(),
+        tanggal_masuk_kandang_edit: $('#tanggal_masuk_kandang_edit').val(),
+        tanggal_menetas_edit: $('#tanggal_menetas_edit').val(),
+        asal_pullet_edit: $('#asal_pullet_edit').val(),
     };
     $.ajax({
         url: base_url + "transaksi_periode/simpan_edit",

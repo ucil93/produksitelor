@@ -235,22 +235,67 @@
             <h4 class="modal-title">Ubah Data Periode</h4>
         </div>
         <div class="modal-body">
-            <div class="form-group form-md-line-input has-success form-md-floating-label">
-                <input type="text" id="nama_periode_edit" name="nama_periode_edit" value="" class="form-control">
-                <span class="help-block">Masukkan Nama Periode</span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group form-md-line-input has-success form-md-floating-label">
+                        <input type="text" id="nama_periode_edit" name="nama_periode_edit" value="" class="form-control">
+                        <span class="help-block">Masukkan Nama Periode</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group has-success">
+                        <label class="control-label">Tanggal Masuk Kandang</label>
+                        <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
+                            <input name="tanggal_masuk_kandang_edit" id="tanggal_masuk_kandang_edit" type="text" class="form-control" readonly>
+                            <span class="input-group-btn">
+                                <button class="btn default" type="button">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group form-md-line-input has-success form-md-floating-label">
-                <input type="text" id="hd_periode_edit" name="hd_periode_edit" value="" class="form-control">
-                <span class="help-block">Masukkan HD</span>
+            <div class="row">
+                
+                <div class="col-md-6">
+                    <div class="form-group has-success">
+                        <label class="control-label">Tanggal Menetas</label>
+                        <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd" data-date-end-date="0d">
+                            <input name="tanggal_menetas_edit" id="tanggal_menetas_edit" type="text" class="form-control" readonly>
+                            <span class="input-group-btn">
+                                <button class="btn default" type="button">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-md-line-input has-success form-md-floating-label">
+                        <input type="text" id="asal_pullet_edit" name="asal_pullet_edit" value="" class="form-control">
+                        <span class="help-block">Masukkan Asal Pullet</span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group form-md-line-input has-success">
-                <select class="form-control" name="status_periode_edit" id="status_periode_edit">
-                    <option value="" disabled selected>--Pilih--</option>
-                    <option value="AKTIF">AKTIF</option>
-                    <option value="TIDAK AKTIF">TIDAK AKTIF</option>
-                </select>
-                <div class="form-control-focus"> </div>
-                <span class="help-block">Pilih Status Periode</span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group form-md-line-input has-success form-md-floating-label">
+                        <input type="text" id="hd_periode_edit" name="hd_periode_edit" value="" class="form-control">
+                        <span class="help-block">Masukkan HD</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-md-line-input has-success">
+                        <select class="form-control" name="status_periode_edit" id="status_periode_edit">
+                            <option value="" disabled selected>--Pilih--</option>
+                            <option value="AKTIF">AKTIF</option>
+                            <option value="TIDAK AKTIF">TIDAK AKTIF</option>
+                        </select>
+                        <div class="form-control-focus"> </div>
+                        <span class="help-block">Pilih Status Periode</span>
+                    </div>
+                </div>
             </div>
             
             <input type="hidden" id="id_periode_edit" name="id_periode_edit" value="" class="form-control">

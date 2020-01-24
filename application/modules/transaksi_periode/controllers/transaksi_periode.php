@@ -254,6 +254,10 @@ class transaksi_periode extends CI_Controller {
 			$this->form_validation->set_rules('nama_periode_edit', 'Nama Periode', 'required');
 			// $this->form_validation->set_rules('hd_periode_edit', 'HD', 'required|numeric');
 			$this->form_validation->set_rules('status_periode_edit', 'Status Periode', 'required');
+			$this->form_validation->set_rules('tanggal_masuk_kandang_edit', 'Tanggal Masuk Kandang', 'required');
+			$this->form_validation->set_rules('tanggal_menetas_edit', 'Tanggal Menetas', 'required');
+			// $this->form_validation->set_rules('umur_masuk', 'Umur Masuk', 'required|numeric');
+			$this->form_validation->set_rules('asal_pullet_edit', 'Asal Pullet', 'required');
 
 			//run validation check
 			if ($this->form_validation->run() == FALSE)
@@ -268,6 +272,9 @@ class transaksi_periode extends CI_Controller {
 					'nama_periode' => $this->input->post('nama_periode_edit'),
 					'hd_periode' => $this->input->post('hd_periode_edit'),
 					'status_periode' => $this->input->post('status_periode_edit'),
+					'tanggal_masuk_kandang' => $this->input->post('tanggal_masuk_kandang_edit'),
+					'tanggal_menetas' => $this->input->post('tanggal_menetas_edit'),
+					'asal_pullet' => $this->input->post('asal_pullet_edit'),
 					'updated_at' => date("Y-m-d H:i:s"),
 				);
 
