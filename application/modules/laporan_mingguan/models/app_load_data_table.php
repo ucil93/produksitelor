@@ -396,11 +396,18 @@ class app_load_data_table extends CI_Model
                                                 $dateCatat = date_create($rowTransaksi->tanggal_catat);
                                                 $total_mati_afkir = $rowTransaksi->ayam_m + $rowTransaksi->ayam_c;
                                                 $em=0;
+                                                $ew = 0;
                                                 if($rowTransaksi->butir_kg===0) {
                                                     $em = 0;
                                                 }
                                                 else {
                                                     $em = round((($rowTransaksi->butir_kg / 7) / $rowTransaksi->total_ayam) * 1000, 2);
+                                                }
+                                                if($rowTransaksi->butir_jumlah===0) {
+                                                    $ew = 0;
+                                                }
+                                                else {
+                                                    $ew = round(($rowTransaksi->hasil_hd_persen / $rowTransaksi->butir_jumlah) * 1000, 2);
                                                 }
                                                 // $em = $rowTransaksi->butir_kg===0 ? 0 : round((($rowTransaksi->butir_kg / 7) / $rowTransaksi->total_ayam) * 1000, 2);
                                                 // $total_data = $total_data + 1;
@@ -414,7 +421,7 @@ class app_load_data_table extends CI_Model
                                                         <td class="text-center">' . round($rowTransaksi->pakan_kg, 2) . '</td>
                                                         <td class="text-center">' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
                                                         <td class="text-center">' . round($rowTransaksi->hasil_fcr, 2) . '</td>
-                                                        <td class="text-center">' . round(($rowTransaksi->hasil_hd_persen / $rowTransaksi->butir_jumlah) * 1000, 2) . ' </td>
+                                                        <td class="text-center">' . $ew . ' </td>
                                                         <td class="text-center">' . $em . '</td>
                                                         
                                                     </tr>';
