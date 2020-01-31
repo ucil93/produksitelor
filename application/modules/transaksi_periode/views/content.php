@@ -70,6 +70,14 @@
                                                                 <td><?php echo $dt->status_periode; ?></td>
                                                                 <td>
                                                                     <a type="button" class="btn btn-xs blue" onclick="editDataPeriode('<?php echo $dt->id_periode ?>')"><i class="fa fa-edit"></i> Ubah</a>
+                                                                    <?php
+                                                                        if($grup_anggota == 'ADMIN') {
+                                                                            ?>
+                                                                                &nbsp;&nbsp;&nbsp;
+                                                                                <a type="button" class="btn btn-xs red" onclick="hapusDataPeriode('<?php echo $dt->id_periode ?>')"><i class="fa fa-remove"></i> Hapus</a>
+                                                                            <?php
+                                                                        }
+                                                                    ?>
                                                                 </td>
                                                             </tr>
                                                         <?php
@@ -309,3 +317,24 @@
     </div>
 </div>
 <!-- Selesai Modal Edit Data -->
+
+<!-- Mulai Modal Hapus Data -->
+<div id="hapus_periode" class="modal container fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Hapus Data Periode</h4>
+        </div>
+        <div class="modal-body">
+            <h5>Apakah Anda Yakin Ingin Menghapus Data "<label id="nama_periode_hapus"></label>". Apabila Data Periode Dihapus, Maka Data Produksi Telor Yang Berhubungan Akan Terhapus Juga?</h5>
+
+            <input type="hidden" id="id_periode_hapus" name="id_periode_hapus" value="" class="form-control">
+
+            <div id="alert-msg-hapusperiode"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="batal_hapusperiode" name="batal_hapusperiode">Batal</button>
+            <button type="button" class="btn green" id="hapusperiode" name="hapusperiode">Ya</button>
+        </div>
+    </div>
+</div>
+<!-- Selesai Modal Hapus Data -->

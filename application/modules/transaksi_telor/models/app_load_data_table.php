@@ -27,4 +27,29 @@ class app_load_data_table extends CI_Model {
 		
         return $get;
     }
+
+    public function getDataProduksi($id)
+    {
+        $get  = $this->db->query("Select * From tr_produksi 
+            inner join tr_periode on tr_produksi.id_periode = tr_periode.id_periode
+            where tr_periode.id_kandang = '".$id."' and tr_periode.status_periode = 'AKTIF' order by tr_produksi.tanggal_catat asc");
+        return $get->result();
+    }
+
+    public function getNamaKandang($id)
+    {
+        $this->db->select('nama_kandang');
+        $this->db->from('mt_kandang');
+        $this->db->where('id_kandang', $id);
+        $query = $this->db->get();
+        $get = $query->row()->nama_kandang;
+		
+        return $get;
+    }
+
+    public function getDataById($id)
+    {
+        $get  = $this->db->query("Select * From tr_produksi where id_produksi = '".$id."'");
+        return $get->result();
+    }
 }

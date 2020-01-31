@@ -152,3 +152,47 @@ $('#editperiode').click(function () {
     });
     return false;
 });
+
+function hapusDataPeriode(id) {
+    var json = getDataPeriode(id);
+    $.map(json, function (item) {
+        $('#id_periode_hapus').val(item.id_periode);
+        $('#nama_periode_hapus').html(item.nama_periode);
+        $('#hapus_periode').modal('show');
+    })
+}
+
+function clearhapusperiode() {
+    $("#id_periode_hapus").val("");
+    $("#nama_periode_hapus").html("");
+    $("#alert-msg-hapusperiode").empty();
+};
+
+$('#batal_hapusperiode').click(function () {
+    clearhapusperiode();
+    $('#hapus_periode').modal('hide');
+});
+
+$('#hapusperiode').click(function () {
+    var form_data = {
+        id_periode_hapus: $('#id_periode_hapus').val()
+    };
+    $.ajax({
+        url: base_url + "transaksi_periode/hapus",
+        type: 'POST',
+        data: form_data,
+        success: function (msg) {
+            if (msg == 'YES') {
+                $('#alert-msg-hapusperiode').html('<div class="alert alert-success text-center">Data Berhasil Dihapus!</div>');
+                $("#hapus_periode").fadeTo(10000, 5000).slideUp(2000, function () {
+                    $("#hapus_periode").modal('hide');
+                });
+                window.location.href = base_url + "transaksi_periode";
+            }
+            else {
+                $('#alert-msg-hapusperiode').html('<div class="alert alert-danger">' + msg + '</div>');
+            }
+        }
+    });
+    return false;
+});

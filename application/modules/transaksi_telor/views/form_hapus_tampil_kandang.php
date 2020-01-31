@@ -14,10 +14,9 @@
                             <div class="col-md-12">
                             <div class="portlet light portlet-fit portlet-datatable bordered">
                                 <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class="fa fa-outdent"></i>
-                                        <span class="caption-subject bold uppercase"> DATA TRANSAKSI</span>
-                                    </div>
+                                    <span class="caption-subject bold uppercase"> 
+                                        LOKASI <?php echo $data_lokasi; ?>
+                                    </span>
                                 </div>
                                 <div class="portlet-body">
                                     <div class="table-container">
@@ -30,26 +29,25 @@
                                             </div>
                                         </div>
                                         <br/>
-                                        <table class="table table-striped table-bordered table-hover order-column" id="sample_3">
+                                        <table class="table table-bordered">
                                             <thead class="btn-success">
                                                 <tr>
-                                                    <th> Nama Lokasi</th>
+                                                    <th> Nama Kandang</th>
                                                     <th> Aksi </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    foreach($dataSemuaLokasi as $dt)
+                                                    foreach($dataSemuaKandang as $dt)
                                                     {
                                                         ?>
                                                             <tr class="odd gradeX">
-                                                                <td><?php echo $dt->nama_lokasi; ?></td>
+                                                                <td><?php echo $dt->nama_kandang; ?></td>
                                                                 <td>
-                                                                    <a href="<?php echo base_url(); ?>transaksi_telor/telor/<?=$dt->id_lokasi;?>" class="btn green active"><i class="fa fa-plus"> Pilih</i></a>
                                                                     <?php
                                                                         if($grup_anggota == 'ADMIN') {
                                                                             ?>
-                                                                                <a href="<?php echo base_url(); ?>transaksi_telor/tampil_hapus_kandang/<?=$dt->id_lokasi;?>" class="btn red active"><i class="fa fa-remove"></i> Hapus</a>
+                                                                                <a href="<?php echo base_url(); ?>transaksi_telor/tampil_hapus_tanggal/<?=$dt->id_kandang;?>" class="btn red active"><i class="fa fa-remove"></i> Hapus</a>
                                                                             <?php
                                                                         }
                                                                     ?>
@@ -60,6 +58,11 @@
                                                 ?>
                                             </tbody>
                                         </table>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <button type="button" class="btn btn-default" onclick="javascript:window.location.href=base_url + 'transaksi_telor'; return false;">Batal</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

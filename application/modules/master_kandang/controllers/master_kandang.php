@@ -154,18 +154,8 @@ class master_kandang extends CI_Controller {
 	{
 		$id = $this->input->post('id_kandang_hapus');
 
-		$cek['id_kandang'] = $id;
-		$cek2 = $this->db->get_where('tr_periode', $cek);
-
-		if($cek2->num_rows()>0)
-		{
-			echo "NO";
-		}
-		else
-		{
-			$this->db->where('id_kandang', $id);
-	  		$this->db->delete('mt_kandang');
-			echo "YES";
-		}
+		$this->db->where('id_kandang', $id);
+		$this->db->delete('mt_kandang');
+		echo "YES";
 	}
 }

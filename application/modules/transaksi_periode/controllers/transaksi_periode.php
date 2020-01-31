@@ -289,4 +289,13 @@ class transaksi_periode extends CI_Controller {
 			$this->load->view('login/login');
 		}
 	}
+
+	function hapus()
+	{
+		$id = $this->input->post('id_periode_hapus');
+
+		$this->db->where('id_periode', $id);
+		$this->db->delete('tr_periode');
+		echo "YES";
+	}
 }

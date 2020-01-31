@@ -91,8 +91,37 @@ class app_load_data_table extends CI_Model
             $berat = $berat + $rowTransaksi->berat_badan;
             if ($hasil_mod === 0) {
                 if ($minggu_ke >= 18) {
-                    $ew = $hasil_hd_persen / $butir_jumlah * 1000;
-                    $em = $butir_kg / 7 / $rowTransaksi->total_ayam * 1000;
+                    if($hasil_hd_persen == 0 || $hasil_hd_persen == '0') 
+                    {
+                        if($butir_jumlah == 0 || $butir_jumlah == '0') 
+                        {
+                            $ew = 0;
+                        }
+                        else
+                        {
+                            $ew = 0;
+                        }
+                    }
+                    else
+                    {
+                        if($butir_jumlah == 0 || $butir_jumlah == '0') 
+                        {
+                            $ew = 0;
+                        }
+                        else
+                        {
+                            $ew = ($hasil_hd_persen / $butir_jumlah) * 1000;
+                        }
+                    }
+                    
+                    if($butir_kg == 0 || $butir_kg == '0')
+                    {
+                        $em = 0;
+                    }
+                    else
+                    {
+                        $em = (($butir_kg / 7) / $rowTransaksi->total_ayam) * 1000;
+                    }
                     $lay = $hasil_hd_persen;
                     $egg_weight = $butir_jumlah;
                     if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
@@ -104,7 +133,7 @@ class app_load_data_table extends CI_Model
                             $mortality = ($total_mati_afkir / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
                         }
                     }
-                    $feed_intake = $pakan;
+                    $feed_intake = $pakan/7;
                     $body_weight = $berat;
                     array_push($data_em, round($em, 3));
                     array_push($data_ew, round($ew, 3));
@@ -465,8 +494,39 @@ class app_load_data_table extends CI_Model
             $berat = $berat + $rowTransaksi->berat_badan;
             if ($hasil_mod === 0) {
                 if ($minggu_ke >= 18) {
-                    $ew = $hasil_hd_persen / $butir_jumlah * 1000;
-                    $em = $butir_kg / 7 / $rowTransaksi->total_ayam * 1000;
+                    // $ew = $hasil_hd_persen / $butir_jumlah * 1000;
+                    // $em = $butir_kg / 7 / $rowTransaksi->total_ayam * 1000;
+                    if($hasil_hd_persen == 0 || $hasil_hd_persen == '0') 
+                    {
+                        if($butir_jumlah == 0 || $butir_jumlah == '0') 
+                        {
+                            $ew = 0;
+                        }
+                        else
+                        {
+                            $ew = 0;
+                        }
+                    }
+                    else
+                    {
+                        if($butir_jumlah == 0 || $butir_jumlah == '0') 
+                        {
+                            $ew = 0;
+                        }
+                        else
+                        {
+                            $ew = ($hasil_hd_persen / $butir_jumlah) * 1000;
+                        }
+                    }
+                    
+                    if($butir_kg == 0 || $butir_kg == '0')
+                    {
+                        $em = 0;
+                    }
+                    else
+                    {
+                        $em = (($butir_kg / 7) / $rowTransaksi->total_ayam) * 1000;
+                    }
                     $lay = $hasil_hd_persen;
                     $egg_weight = $butir_jumlah;
                     if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
@@ -478,7 +538,7 @@ class app_load_data_table extends CI_Model
                             $mortality = ($total_mati_afkir / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
                         }
                     }
-                    $feed_intake = $pakan;
+                    $feed_intake = $pakan/7;
                     $body_weight = $berat;
                     array_push($data_em, round($em, 3));
                     array_push($data_ew, round($ew, 3));

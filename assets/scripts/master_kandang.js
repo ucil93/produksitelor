@@ -144,9 +144,6 @@ $('#hapuskandang').click(function () {
                 });
                 window.location.href = base_url + "master_kandang";
             }
-            else if (msg == 'NO') {
-                $('#alert-msg-hapuskandang').html('<div class="alert alert-danger text-center">Data Tidak Dapat Dihapus, Karena Masih Ada Di Tempat Lainnya!</div>');
-            }
             else {
                 $('#alert-msg-hapuskandang').html('<div class="alert alert-danger">' + msg + '</div>');
             }

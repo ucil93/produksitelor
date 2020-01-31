@@ -1,3 +1,7 @@
+$('#batal_tambahproduksi').click(function () {
+    $('#modalFixData').modal('hide');
+});
+
 $('#tambah_tr_telor').click(function () {
 
     var id_periode_array = []
@@ -250,14 +254,11 @@ $('#tambah_tr_telor').click(function () {
                                     if (result[i].hasil == 'NO_DATA_RUSAK_KG_NUMBER') {
                                         status = 14;
                                     }
-                                    // if (result[i].hasil == 'NO_DATA_BERAT_BADAN_KOSONG') {
-                                    //     status = 15;
-                                    // }
-                                    // if (result[i].hasil == 'NO_DATA_BERAT_BADAN_NUMBER') {
-                                    //     status = 16;
-                                    // }
                                     if (result[i].hasil == 'NO_JUMLAH_AYAM') {
                                         status = 15;
+                                    }
+                                    if (result[i].hasil == 'NO_SETELAH_TANGGAL') {
+                                        status = 16;
                                     }
                                 }
                 
@@ -292,19 +293,86 @@ $('#tambah_tr_telor').click(function () {
                                     $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Data Rusak Kg Harus Diisi Lengkap!</div>');
                                 } else if (status == 14) {
                                     $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Data Rusak Kg Harus Diisi Angka!</div>');
-                                } 
-                                // else if (status == 15) {
-                                //     $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Data Berat Badan Harus Diisi Lengkap!</div>');
-                                // } else if (status == 16) {
-                                //     $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Data Berat Badan Harus Diisi Angka!</div>');
-                                // } 
-                                else if (status == 15) {
+                                } else if (status == 15) {
                                     $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Jumlah Ayam M dan C Melebihi Jumlah Seluruh Ayam!</div>');
+                                } else if (status == 16) {
+                                    $('#alert-msg-tambahtrtelor').html('<div class="alert alert-danger text-center">Terdapat Data Setelah Tanggal Input!</div>');
                                 }
                             }
                         }
                     }
                 }
+            }
+        }
+    });
+    return false;
+});
+
+function getDataProduksi(id) {
+    var json = (function () {
+        var json = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': base_url + "transaksi_telor/getDataById",
+            'data': { 'id': id },
+            'dataType': "json",
+            'success': function (data) {
+                json = data;
+            }
+        });
+        return json;
+    })();
+    return json;
+}
+
+function hapusDataProduksi(id) {
+    var json = getDataProduksi(id);
+    $.map(json, function (item) {
+        $('#id_produksi_hapus').val(item.id_produksi);
+        $('#id_periode_hapus').val(item.id_periode);
+        $('#tanggal_catat_value_hapus').val(item.tanggal_catat);
+        $('#tanggal_catat_hapus').html(moment(item.tanggal_catat, 'YYYY-MM-DD').format('DD MMMM YYYY'));
+        $('#hapus_produksi').modal('show');
+    })
+}
+
+function clearhapusproduksi() {
+    $("#id_produksi_hapus").val("");
+    $("#id_periode_hapus").val("");
+    $("#tanggal_catat_value_hapus").val("");
+    $("#tanggal_catat_hapus").html("");
+    $("#alert-msg-hapusproduksi").empty();
+};
+
+$('#batal_hapusproduksi').click(function () {
+    clearhapusproduksi();
+    $('#hapus_produksi').modal('hide');
+});
+
+$('#hapusproduksi').click(function () {
+    var form_data = {
+        id_produksi_hapus: $('#id_produksi_hapus').val(),
+        id_periode_hapus: $('#id_periode_hapus').val(),
+        tanggal_catat_value_hapus: $('#tanggal_catat_value_hapus').val(),
+    };
+    $.ajax({
+        url: base_url + "transaksi_telor/hapus",
+        type: 'POST',
+        data: form_data,
+        success: function (msg) {
+            if (msg == 'YES') {
+                $('#alert-msg-hapusproduksi').html('<div class="alert alert-success text-center">Data Berhasil Dihapus!</div>');
+                $("#hapus_produksi").fadeTo(10000, 5000).slideUp(2000, function () {
+                    $("#hapus_produksi").modal('hide');
+                });
+                window.location.href = base_url + "transaksi_telor";
+            }
+            else if (msg == 'NO') {
+                $('#alert-msg-hapusproduksi').html('<div class="alert alert-danger text-center">Data Tidak Dapat Dihapus, Karena Masih Ada Di Atas Tanggal Pilih!</div>');
+            }
+            else {
+                $('#alert-msg-hapusproduksi').html('<div class="alert alert-danger">' + msg + '</div>');
             }
         }
     });

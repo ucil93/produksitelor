@@ -130,12 +130,13 @@
                                         </div>
                                     </div>
 
-                                    <div id="alert-msg-tambahtrtelor"></div>
+                                    <!-- <div id="alert-msg-tambahtrtelor"></div> -->
 
                                     <div class="row">
                                         <div class="col-md-3">
                                             <button type="button" class="btn btn-default" onclick="javascript:window.location.href=base_url + 'transaksi_telor'; return false;">Batal</button>
-                                            <button type="button" class="btn green" id="tambah_tr_telor" name="tambah_tr_telor">Simpan</button>
+                                            <!-- <button type="button" class="btn green" id="tambah_tr_telor" name="tambah_tr_telor">Simpan</button> -->
+                                            <a data-target="#modalFixData" data-toggle="modal" type="button" class="btn green"> Simpan </a>
                                         </div>
                                     </div>
                                 </div>
@@ -157,3 +158,22 @@
                 <!-- END QUICK SIDEBAR -->
             </div>
             <!-- END CONTAINER -->
+
+<!-- Mulai Modal Simpan Data -->
+<div id="modalFixData" class="modal container fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Peringatan</h4>
+        </div>
+        <div class="modal-body">
+            <h5>Apakah Anda Yakin Data Yang Diinputkan Sudah Benar? Jika Belum Yakin, Silahkan Cek Kembali</h5>
+
+            <div id="alert-msg-tambahtrtelor"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="batal_tambahproduksi" name="batal_tambahproduksi">Batal</button>
+            <button type="button" class="btn green" id="tambah_tr_telor" name="tambah_tr_telor">Simpan</button>
+        </div>
+    </div>
+</div>
+<!-- Selesai Modal Simpan Data -->
