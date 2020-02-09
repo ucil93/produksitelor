@@ -263,7 +263,7 @@ class app_load_data_table extends CI_Model
                         <td class="text-center" bgcolor="#808080"> ' . $butir_kg_akhir . '</td>
                         <td class="text-center" bgcolor="#808080"> ' . round($pakan_kg_akhir/$jumlah_data, 2) . '</td>
                         <td class="text-center" bgcolor="#808080">' . round($hd_akhir / $jumlah_data, 2) . '</td>
-                        <td class="text-center" bgcolor="#808080">' . round($fcr_akhir, 2) . '</td>
+                        <td class="text-center" bgcolor="#808080">' . round($fcr_akhir / $jumlah_data, 2) . '</td>
                         <td class="text-center" bgcolor="#808080"> ' . $ew_akhir. ' </td>
                         <td class="text-center" bgcolor="#808080">' . $em_akhir . '</td>
                         <td></td>
@@ -421,7 +421,7 @@ class app_load_data_table extends CI_Model
                                                         $em = 0;
                                                     }
                                                     else {
-                                                        $em = round((($rowTransaksi->butir_kg / $rowTransaksi->butir_jumlah) / $rowTransaksi->total_ayam) * 1000, 2);
+                                                        $em = round(($rowTransaksi->butir_kg / $rowTransaksi->butir_jumlah / $rowTransaksi->total_ayam) * 1000, 2);
                                                     }
                                                 }
                                                 if($rowTransaksi->butir_jumlah===0 || $rowTransaksi->butir_jumlah==='0') {
