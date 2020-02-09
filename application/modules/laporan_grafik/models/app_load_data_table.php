@@ -71,6 +71,7 @@ class app_load_data_table extends CI_Model
         $data_immortality = array();
         $livability_data = 0;
         $mortality = 0;
+        $total_data = 0;
         foreach ($getTransaksi->result() as $rowTransaksi) {
             $dateCatat = new DateTime($rowTransaksi->tanggal_catat);
             $data_mulai = new DateTime($rowTransaksi->tanggal_menetas);
@@ -89,9 +90,10 @@ class app_load_data_table extends CI_Model
             $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
             $total_mati_afkir = $mati + $afkir;
             $berat = $berat + $rowTransaksi->berat_badan;
+            $total_data = $total_data + 1;
             if ($hasil_mod === 0) {
                 if ($minggu_ke >= 18) {
-                    if($hasil_hd_persen == 0 || $hasil_hd_persen == '0') 
+                    if($butir_kg == 0 || $butir_kg == '0') 
                     {
                         if($butir_jumlah == 0 || $butir_jumlah == '0') 
                         {
@@ -110,7 +112,7 @@ class app_load_data_table extends CI_Model
                         }
                         else
                         {
-                            $ew = ($hasil_hd_persen / $butir_jumlah) * 1000;
+                            $ew = ($butir_kg / $butir_jumlah) * 1000;
                         }
                     }
                     
@@ -122,7 +124,7 @@ class app_load_data_table extends CI_Model
                     {
                         $em = (($butir_kg / 7) / $rowTransaksi->total_ayam) * 1000;
                     }
-                    $lay = $hasil_hd_persen;
+                    $lay = $hasil_hd_persen/$total_data;
                     $egg_weight = $butir_jumlah;
                     if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
                         $livability_data = ($rowTransaksi->total_ayam / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
@@ -157,6 +159,7 @@ class app_load_data_table extends CI_Model
                 $hasil_hd_persen = 0;
                 $hasil_fcr = 0;
                 $berat = 0;
+                $total_data = 0;
             }
         }
         $result = array();
@@ -169,7 +172,7 @@ class app_load_data_table extends CI_Model
         );
         $arr2 = array(
             'name' => "Egg Weight",
-            'data' => $data_egg_weight,
+            'data' => $data_ew,
             'color' => "#FF0000"
         );
         $arr3 = array(
@@ -474,6 +477,7 @@ class app_load_data_table extends CI_Model
         $data_immortality = array();
         $livability_data = 0;
         $mortality = 0;
+        $total_data = 0;
         foreach ($getTransaksi->result() as $rowTransaksi) {
             $dateCatat = new DateTime($rowTransaksi->tanggal_catat);
             $data_mulai = new DateTime($rowTransaksi->tanggal_menetas);
@@ -492,11 +496,12 @@ class app_load_data_table extends CI_Model
             $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
             $total_mati_afkir = $mati + $afkir;
             $berat = $berat + $rowTransaksi->berat_badan;
+            $total_data = $total_data + 1;
             if ($hasil_mod === 0) {
                 if ($minggu_ke >= 18) {
                     // $ew = $hasil_hd_persen / $butir_jumlah * 1000;
                     // $em = $butir_kg / 7 / $rowTransaksi->total_ayam * 1000;
-                    if($hasil_hd_persen == 0 || $hasil_hd_persen == '0') 
+                    if($butir_kg == 0 || $butir_kg == '0') 
                     {
                         if($butir_jumlah == 0 || $butir_jumlah == '0') 
                         {
@@ -515,7 +520,7 @@ class app_load_data_table extends CI_Model
                         }
                         else
                         {
-                            $ew = ($hasil_hd_persen / $butir_jumlah) * 1000;
+                            $ew = ($butir_kg / $butir_jumlah) * 1000;
                         }
                     }
                     
@@ -527,7 +532,7 @@ class app_load_data_table extends CI_Model
                     {
                         $em = (($butir_kg / 7) / $rowTransaksi->total_ayam) * 1000;
                     }
-                    $lay = $hasil_hd_persen;
+                    $lay = $hasil_hd_persen/$total_data;
                     $egg_weight = $butir_jumlah;
                     if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
                         $livability_data = ($rowTransaksi->total_ayam / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
@@ -562,6 +567,7 @@ class app_load_data_table extends CI_Model
                 $hasil_hd_persen = 0;
                 $hasil_fcr = 0;
                 $berat = 0;
+                $total_data = 0;
             }
         }
         //DATA HITUNGAN KANDANG
@@ -573,7 +579,7 @@ class app_load_data_table extends CI_Model
 
         $arr2 = array(
             'name' => "Egg Weight",
-            'data' => $data_egg_weight,
+            'data' => $data_ew,
             'color' => "#FF0000"
         );
         $arr3 = array(

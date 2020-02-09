@@ -70,7 +70,7 @@
                                             <table class="table table-bordered">
                                                 <thead class="btn-success">
                                                     <tr>
-                                                        <th> Nama Kandang </th>
+                                                        <th width="15%"> Nama Kandang </th>
                                                         <th> M </th>
                                                         <th> C </th>
                                                         <th> Pakan (Kg) </th>
@@ -89,7 +89,8 @@
                                                             ?>
                                                                 <tr class="odd gradeX">
                                                                     <td>
-                                                                        <?php echo $dt->nama_kandang; ?>
+                                                                        <b><?php echo $dt->nama_kandang; ?></b> <br/>
+                                                                        jumlah ayam : <?php echo $dt->jumlah_seluruh_ayam; ?>
                                                                         <input type="hidden" class="form-control input-circle" value="<?php echo $dt->id_periode; ?>" name="id_periode[]"> 
                                                                         <input type="hidden" class="form-control input-circle" value="<?php echo $dt->jumlah_seluruh_ayam; ?>" name="jumlah_ayam[]"> 
                                                                         <input type="hidden" class="form-control input-circle" value="<?php echo $dt->hd_periode; ?>" name="hd_periode[]"> 

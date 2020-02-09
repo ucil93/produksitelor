@@ -170,13 +170,23 @@ class app_load_data_table extends CI_Model
                                             $butir_kg_akhir = $butir_kg_akhir + $butir_kg;
                                             $butir_jumlah_akhir = $butir_jumlah_akhir + $butir_jumlah;
                                             $pakan_kg_akhir = $pakan_kg_akhir + $pakan;
-                                            $hd_akhir = $hd_akhir + ($hasil_hd_persen/7);
-                                            $fcr_akhir = $fcr_akhir + $hasil_fcr;
+                                            $hd_akhir = $hd_akhir + ($hasil_hd_persen/$total_data);
+                                            $fcr_akhir = $fcr_akhir + ($hasil_fcr/$total_data);
                                             if($butir_jumlah===0) {
-                                                $hasil_ew = 0;
+                                                if($butir_kg===0) {
+                                                    $hasil_ew = 0;
+                                                }
+                                                else {
+                                                    $hasil_ew = 0;
+                                                }
                                             }
                                             else {
-                                                $hasil_ew = round((($hasil_hd_persen / $butir_jumlah) * 1000),2);
+                                                if($butir_kg===0) {
+                                                    $hasil_ew = 0;
+                                                }
+                                                else {
+                                                    $hasil_ew = round((($butir_kg / $butir_jumlah) * 1000),2);
+                                                }
                                             }
                                             $ew_akhir = $ew_akhir+$hasil_ew;
                                             if($butir_kg===0) {
@@ -197,7 +207,7 @@ class app_load_data_table extends CI_Model
                                                     <td class="text-center"> ' . round($butir_kg, 2) . '</td>
                                                     <td class="text-center"> ' . round($pakan, 2) . '</td>
                                                     <td class="text-center">' . round($hasil_hd_persen / $total_data, 2) . '</td>
-                                                    <td class="text-center">' . round($hasil_fcr, 2) . '</td>
+                                                    <td class="text-center">' . round($hasil_fcr/$total_data, 2) . '</td>
                                                     <td class="text-center"> ' . $hasil_ew . ' </td>
                                                     <td class="text-center">' . $hasil_em . '</td>
                                                     <td class="text-center"> ' . $berat_badan . '</td>
@@ -205,6 +215,7 @@ class app_load_data_table extends CI_Model
                                                 </tr>';
                                             $mati = 0;
                                             $afkir = 0;
+                                            $pakan = 0;
                                             $pakan_gr = 0;
                                             $butir_jumlah = 0;
                                             $butir_kg = 0;
@@ -252,7 +263,7 @@ class app_load_data_table extends CI_Model
                         <td class="text-center" bgcolor="#808080"> ' . $butir_kg_akhir . '</td>
                         <td class="text-center" bgcolor="#808080"> ' . round($pakan_kg_akhir/$jumlah_data, 2) . '</td>
                         <td class="text-center" bgcolor="#808080">' . round($hd_akhir / $jumlah_data, 2) . '</td>
-                        <td class="text-center" bgcolor="#808080">' . round($fcr_akhir/$jumlah_data, 2) . '</td>
+                        <td class="text-center" bgcolor="#808080">' . round($fcr_akhir, 2) . '</td>
                         <td class="text-center" bgcolor="#808080"> ' . $ew_akhir. ' </td>
                         <td class="text-center" bgcolor="#808080">' . $em_akhir . '</td>
                         <td></td>
@@ -397,14 +408,24 @@ class app_load_data_table extends CI_Model
                                                 $total_mati_afkir = $rowTransaksi->ayam_m + $rowTransaksi->ayam_c;
                                                 $em=0;
                                                 $ew = 0;
-                                                if($rowTransaksi->butir_kg===0) {
-                                                    $em = 0;
+                                                if($rowTransaksi->butir_kg===0 || $rowTransaksi->butir_kg==='0') {
+                                                    if($rowTransaksi->butir_jumlah===0 || $rowTransaksi->butir_jumlah==='0') {
+                                                        $em = 0;
+                                                    }
+                                                    else {
+                                                        $em = 0;
+                                                    }
                                                 }
                                                 else {
-                                                    $em = round((($rowTransaksi->butir_kg / 7) / $rowTransaksi->total_ayam) * 1000, 2);
+                                                    if($rowTransaksi->butir_jumlah===0 || $rowTransaksi->butir_jumlah==='0') {
+                                                        $em = 0;
+                                                    }
+                                                    else {
+                                                        $em = round((($rowTransaksi->butir_kg / $rowTransaksi->butir_jumlah) / $rowTransaksi->total_ayam) * 1000, 2);
+                                                    }
                                                 }
                                                 if($rowTransaksi->butir_jumlah===0 || $rowTransaksi->butir_jumlah==='0') {
-                                                    if($rowTransaksi->hasil_hd_persen===0 || $rowTransaksi->hasil_hd_persen==='0') {
+                                                    if($rowTransaksi->butir_kg===0 || $rowTransaksi->butir_kg==='0') {
                                                         $ew = 0;
                                                     }
                                                     else {
@@ -412,11 +433,11 @@ class app_load_data_table extends CI_Model
                                                     }
                                                 }
                                                 else {
-                                                    if($rowTransaksi->hasil_hd_persen===0 || $rowTransaksi->hasil_hd_persen==='0') {
+                                                    if($rowTransaksi->butir_kg===0 || $rowTransaksi->butir_kg==='0') {
                                                         $ew = 0;
                                                     }
                                                     else {
-                                                        $ew = round(($rowTransaksi->hasil_hd_persen / $rowTransaksi->butir_jumlah) * 1000, 2);
+                                                        $ew = round(($rowTransaksi->butir_kg / $rowTransaksi->butir_jumlah) * 1000, 2);
                                                     }
                                                 }
                                                 // $em = $rowTransaksi->butir_kg===0 ? 0 : round((($rowTransaksi->butir_kg / 7) / $rowTransaksi->total_ayam) * 1000, 2);

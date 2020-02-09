@@ -349,7 +349,7 @@ class transaksi_telor extends CI_Controller {
 						if($this->input->post('data_butir_kg')[$i] == 0 || $this->input->post('data_butir_kg')[$i] == '0') {
 							$dt['hasil_fcr'] = 0;
 						} else {
-							$$dt['hasil_fcr'] = $this->input->post('data_pakan')[$i]/$this->input->post('data_butir_kg')[$i];
+							$dt['hasil_fcr'] = $this->input->post('data_pakan')[$i]/$this->input->post('data_butir_kg')[$i];
 						}
 
 						if($this->input->post('data_rusak_jumlah')[$i] == 0 || $this->input->post('data_rusak_jumlah')[$i] == '0') {
@@ -441,7 +441,7 @@ class transaksi_telor extends CI_Controller {
 						if($this->input->post('data_butir_kg')[$i] == 0 || $this->input->post('data_butir_kg')[$i] == '0') {
 							$dt['hasil_fcr'] = 0;
 						} else {
-							$$dt['hasil_fcr'] = $this->input->post('data_pakan')[$i]/$this->input->post('data_butir_kg')[$i];
+							$dt['hasil_fcr'] = $this->input->post('data_pakan')[$i]/$this->input->post('data_butir_kg')[$i];
 						}
 
 						if($this->input->post('data_rusak_jumlah')[$i] == 0 || $this->input->post('data_rusak_jumlah')[$i] == '0') {
