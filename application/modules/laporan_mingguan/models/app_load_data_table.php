@@ -421,7 +421,7 @@ class app_load_data_table extends CI_Model
                                                         $em = 0;
                                                     }
                                                     else {
-                                                        $em = round(($rowTransaksi->butir_kg / $rowTransaksi->butir_jumlah / $rowTransaksi->total_ayam) * 1000, 2);
+                                                        $em = round(($rowTransaksi->butir_kg / $rowTransaksi->total_ayam) * 1000, 2);
                                                     }
                                                 }
                                                 if($rowTransaksi->butir_jumlah===0 || $rowTransaksi->butir_jumlah==='0') {
