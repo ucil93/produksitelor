@@ -60,7 +60,7 @@ class app_load_data_table extends CI_Model
                     tr_produksi.berat_badan as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
                     inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
                     inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
-                    where status_periode = 'AKTIF' and mt_kandang.id_kandang = '" . $kandang . "'");
+                    where status_periode = 'AKTIF' and mt_kandang.id_kandang = '" . $kandang . "' order by tr_produksi.tanggal_catat asc");
 
                 $output .= '
                     <div class="col-md-12">';
