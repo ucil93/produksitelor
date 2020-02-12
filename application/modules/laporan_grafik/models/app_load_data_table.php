@@ -227,180 +227,117 @@ class app_load_data_table extends CI_Model
         $mortality = array();
         $jumlah_label = count($data_label);
         if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN" || $nama_strain === "HY-LINE BROWN") {
+            $strain_nilai='';
+
+                        for($i=0; $i<count($data_label); $i++)
+                        {
+                            $penghubung = 'OR';
+                            if($i==0)
+                            {
+                                $penghubung='';
+                            }
+                            $strain_nilai = "(".$strain_nilai. ' ' .$penghubung.' '."mt_strain_nilai.minggu_strain_nilai= ".$data_label[$i]."".")";
+                        };
             //%LAY
             $get_persen_lay = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
-                AND mt_strain_nilai.nama_strain_nilai='% LAY' "
+                AND mt_strain_nilai.nama_strain_nilai='% LAY' AND " . $strain_nilai . " "
             );
-            $counter_persen_lay=0;
             foreach ($get_persen_lay->result() as $persen_lay_v) {
-                if($counter_persen_lay===$jumlah_label)
-                {
-                    break;
-                }
-                else {
-                    if($persen_lay_v->minggu_strain_nilai===$data_label[$counter_persen_lay]) {
+                // echo "data label" + $data_label[$counter_persen_lay];
                         array_push($persen_lay, round($persen_lay_v->standar_strain_nilai, 3));
-                    }
-                }
+            
                 // echo $persen_lay_v->standar_strain_nilai;
                 // array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
                 
-                $counter_persen_lay++;
+                // $counter_persen_lay++;
             }
             //Egg Weight
             $get_egg_weight = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
-                AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' "
+                AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' AND " . $strain_nilai . ""
             );
-            $counter_egg_Weight = 0;
             foreach ($get_egg_weight->result() as $egg_weight_ok) {
-                // echo $persen_lay_v->standar_strain_nilai;
-                if($counter_egg_Weight===$jumlah_label) {
-                    break;
-                }
-                else {
-                    if($egg_weight_ok->minggu_strain_nilai===$data_label[$counter_egg_Weight]) {
-                        array_push($egg_weight, round($egg_weight_ok->standar_strain_nilai, 3));
-                    }
-                }
-                
-                $counter_egg_Weight++;
+                array_push($egg_weight, round($egg_weight_ok->standar_strain_nilai, 3));
+                 
             }
             //Feed Intake
 
             $get_feed_intake = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
-                AND mt_strain_nilai.nama_strain_nilai='FEED INTAKE' "
+                AND mt_strain_nilai.nama_strain_nilai='FEED INTAKE' AND " . $strain_nilai . ""
             );
-            $counter_feed = 0;
             foreach ($get_feed_intake->result() as $feed_intage_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                if($counter_feed===$jumlah_label) {
-                    break;
-                }
-                else {
-                    if($feed_intage_ok->minggu_strain_nilai===$data_label[$counter_feed]) {
+
                         array_push($feed_intake, round($feed_intage_ok->standar_strain_nilai, 3));
-                    }
-                }
-                $counter_feed++;
+                   
             }
             //Livability or Mortality
             if ($nama_strain === "HY-LINE BROWN") {
                 //Mortality
                 $get_mortality = $this->db->query(
                     "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
-               AND mt_strain_nilai.nama_strain_nilai='MORTALITY' "
+               AND mt_strain_nilai.nama_strain_nilai='MORTALITY' AND " . $strain_nilai . " "
                 );
-                $count_mortal = 0;
                 foreach ($get_mortality->result() as $mortality_ok) {
                     // echo $persen_lay_v->standar_strain_nilai;
-                    if($count_mortal===$jumlah_label) {
-                        break;
-                    }
-                    else {
-                        if($mortality_ok->minggu_strain_nilai===$data_label[$count_mortal]){
                             array_push($mortality, round($mortality_ok->standar_strain_nilai, 3));
-                        }
-                    }
-                    
-                    $count_mortal++;
+                        
                 }
             } else {
                 $get_livability = $this->db->query(
                     "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
-                   AND mt_strain_nilai.nama_strain_nilai='LIVABILITY' "
+                   AND mt_strain_nilai.nama_strain_nilai='LIVABILITY' AND " . $strain_nilai . " "
                 );
                 $counter_livability=0;
                 foreach ($get_livability->result() as $livability_ok) {
                     // echo $persen_lay_v->standar_strain_nilai;
-                    if($counter_livability==$jumlah_label) {
-                        break;
-                    }
-                    else {
-                        if($livability_ok->minggu_strain_nilai===$data_label[$counter_livability]) {
-                            array_push($livability, round($livability_ok->standar_strain_nilai, 3));
-                        }
-                    }
+                    array_push($livability, round($livability_ok->standar_strain_nilai, 3));
+                       
                     
                 }
             }
             //Egg Mass
             $get_egg_mass = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
-                AND mt_strain_nilai.nama_strain_nilai='EGG MASS' "
+                AND mt_strain_nilai.nama_strain_nilai='EGG MASS' AND " . $strain_nilai . " "
             );
-            $count_egg_mass = 0;
             foreach ($get_egg_mass->result() as $egg_mass_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                if($count_egg_mass===$jumlah_label) {
-                    break;
-                }
-                else {
-                    if($egg_mass_ok->minggu_strain_nilai===$data_label[$count_egg_mass]) {
                         array_push($egg_mass, round($egg_mass_ok->standar_strain_nilai, 3));
-                    }
-                }
+                    
                 
-                $count_egg_mass++;
             }
             //Body Weight
             $get_body_weight = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
-                AND mt_strain_nilai.nama_strain_nilai='BODY WEIGHT' "
+                AND mt_strain_nilai.nama_strain_nilai='BODY WEIGHT' AND " . $strain_nilai . " "
             );
-            $count_body_weight =0 ;
             foreach ($get_body_weight->result() as $body_weight_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                if($count_body_weight===$jumlah_label) {
-                    break;
-                }
-                else {
-                    if($body_weight_ok->minggu_strain_nilai===$data_label[$count_body_weight]) {
-                        array_push($body_weight, round($body_weight_ok->standar_strain_nilai, 3));
-                    }
-                }
-                
-                $count_body_weight++;
+                array_push($body_weight, round($body_weight_ok->standar_strain_nilai, 3));
+                  
             }
         } else {
             $get_persen_lay = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
-                AND mt_strain_nilai.nama_strain_nilai='% LAY' "
+                AND mt_strain_nilai.nama_strain_nilai='% LAY' AND " . $strain_nilai . " "
             );
-            $counter_persen_lay2=0;
             foreach ($get_persen_lay->result() as $persen_lay_v) {
                 // echo $persen_lay_v->standar_strain_nilai;
-                // array_push($persen_lay, intval($persen_lay_v->standar_strain_nilai));
-                if($counter_persen_lay2==$jumlah_label) {
-                    break;
-                }
-                else {
-                    if($persen_lay_v->minggu_strain_nilai===$data_label[$counter_persen_lay2]) {
                         array_push($persen_lay, round($persen_lay_v->standar_strain_nilai, 3));
-                    }
-                }
-                
-                $counter_persen_lay2++;
+                    
             }
             
             //Egg Weight
             $get_egg_weight = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,tr_periode WHERE tr_periode.id_strain = mt_strain_nilai.id_strain AND tr_periode.id_kandang= '" . $kandang . "'
-                AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' "
+                AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' AND " . $strain_nilai . " "
             );
-            $counter_egg_Weight2 = 0;
             foreach ($get_egg_weight->result() as $egg_weight_ok) {
-                if($counter_egg_Weight2===$jumlah_label) {
-                    break;
-                }
-                else {
-                    if($egg_weight_ok->minggu_strain_nilai===$data_label[$counter_egg_Weight2]) {
-                        array_push($egg_weight, round($egg_weight_ok->standar_strain_nilai, 3));
-                    }
-                }
-                $counter_egg_Weight2++;
+                 array_push($egg_weight, round($egg_weight_ok->standar_strain_nilai, 3));
+                    
                 // echo $persen_lay_v->standar_strain_nilai;
                 
             }
@@ -577,6 +514,7 @@ class app_load_data_table extends CI_Model
         $livability_data = 0;
         $mortality = 0;
         $total_data = 0;
+        $data_label = array();
         foreach ($getTransaksi->result() as $rowTransaksi) {
             $dateCatat = new DateTime($rowTransaksi->tanggal_catat);
             $data_mulai = new DateTime($rowTransaksi->tanggal_menetas);
@@ -598,6 +536,7 @@ class app_load_data_table extends CI_Model
             $total_data = $total_data + 1;
             if ($hasil_mod === 0) {
                 if ($minggu_ke >= 18) {
+                    array_push($data_label,$minggu_ke);
                     // $ew = $hasil_hd_persen / $butir_jumlah * 1000;
                     // $em = $butir_kg / 7 / $rowTransaksi->total_ayam * 1000;
                     if($butir_kg == 0 || $butir_kg == '0') 
@@ -733,9 +672,20 @@ class app_load_data_table extends CI_Model
         $body_weight = array();
         $mortality = array();
         if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN" || $nama_strain === "HY-LINE BROWN") {
+            $strain_nilai='';
+
+                        for($i=0; $i<count($data_label); $i++)
+                        {
+                            $penghubung = 'OR';
+                            if($i==0)
+                            {
+                                $penghubung='';
+                            }
+                            $strain_nilai = "(".$strain_nilai. ' ' .$penghubung.' '."mt_strain_nilai.minggu_strain_nilai= ".$data_label[$i]."".")";
+                        };
             $get_persen_lay = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $nama_strain . "'
-                AND mt_strain_nilai.nama_strain_nilai='% LAY' "
+                AND mt_strain_nilai.nama_strain_nilai='% LAY' AND " . $strain_nilai . " "
             );
             foreach ($get_persen_lay->result() as $persen_lay_v) {
                 // echo $persen_lay_v->standar_strain_nilai;
@@ -744,7 +694,7 @@ class app_load_data_table extends CI_Model
             //Egg Weight
             $get_egg_weight = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $nama_strain . "'
-                            AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' "
+                            AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' AND " . $strain_nilai . " "
             );
             foreach ($get_egg_weight->result() as $egg_weight_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
@@ -754,7 +704,7 @@ class app_load_data_table extends CI_Model
 
             $get_feed_intake = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $nama_strain . "'
-                            AND mt_strain_nilai.nama_strain_nilai='FEED INTAKE' "
+                            AND mt_strain_nilai.nama_strain_nilai='FEED INTAKE' AND " . $strain_nilai . " "
             );
             foreach ($get_feed_intake->result() as $feed_intage_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
@@ -765,7 +715,7 @@ class app_load_data_table extends CI_Model
                 //Mortality
                 $get_mortality = $this->db->query(
                     "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $nama_strain . "'
-               AND mt_strain_nilai.nama_strain_nilai='MORTALITY' "
+               AND mt_strain_nilai.nama_strain_nilai='MORTALITY' AND " . $strain_nilai . " "
                 );
                 foreach ($get_mortality->result() as $mortality_ok) {
                     // echo $persen_lay_v->standar_strain_nilai;
@@ -774,7 +724,7 @@ class app_load_data_table extends CI_Model
             } else {
                 $get_livability = $this->db->query(
                     "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $nama_strain . "'
-                   AND mt_strain_nilai.nama_strain_nilai='LIVABILITY' "
+                   AND mt_strain_nilai.nama_strain_nilai='LIVABILITY' AND " . $strain_nilai . " "
                 );
                 foreach ($get_livability->result() as $livability_ok) {
                     // echo $persen_lay_v->standar_strain_nilai;
@@ -783,7 +733,7 @@ class app_load_data_table extends CI_Model
             }
             $get_egg_mass = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
-                AND mt_strain_nilai.nama_strain_nilai='EGG MASS' "
+                AND mt_strain_nilai.nama_strain_nilai='EGG MASS' AND " . $strain_nilai . " "
             );
             foreach ($get_egg_mass->result() as $egg_mass_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
@@ -792,7 +742,7 @@ class app_load_data_table extends CI_Model
             //Body Weight
             $get_body_weight = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $id_strain . "'
-                AND mt_strain_nilai.nama_strain_nilai='BODY WEIGHT' "
+                AND mt_strain_nilai.nama_strain_nilai='BODY WEIGHT' AND " . $strain_nilai . " "
             );
             foreach ($get_body_weight->result() as $body_weight_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
@@ -801,7 +751,7 @@ class app_load_data_table extends CI_Model
         } else {
             $get_persen_lay = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $nama_strain . "'
-                AND mt_strain_nilai.nama_strain_nilai='% LAY' "
+                AND mt_strain_nilai.nama_strain_nilai='% LAY' AND " . $strain_nilai . " "
             );
             foreach ($get_persen_lay->result() as $persen_lay_v) {
                 // echo $persen_lay_v->standar_strain_nilai;
@@ -810,7 +760,7 @@ class app_load_data_table extends CI_Model
             //Egg Weight
             $get_egg_weight = $this->db->query(
                 "Select mt_strain_nilai.nama_strain_nilai,mt_strain_nilai.minggu_strain_nilai,mt_strain_nilai.standar_strain_nilai as standar_strain_nilai FROM mt_strain_nilai,mt_strain WHERE mt_strain.id_strain = mt_strain_nilai.id_strain AND mt_strain.nama_strain= '" . $nama_strain . "'
-                AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' "
+                AND mt_strain_nilai.nama_strain_nilai='EGG WEIGHT' AND " . $strain_nilai . " "
             );
             foreach ($get_egg_weight->result() as $egg_weight_ok) {
                 // echo $persen_lay_v->standar_strain_nilai;
@@ -874,6 +824,13 @@ class app_load_data_table extends CI_Model
             array_push($result, $arr5);
             array_push($result, $arr6);
         }
+        $arr_label = array(
+            'name' => "Label",
+            'data' => $data_label,
+            'color' => "#000000"
+        );
+        array_push($result,$arr_label);
+
         return $result;
     }
 }
