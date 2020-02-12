@@ -451,7 +451,7 @@ class app_load_data_table extends CI_Model
                                                         <td class="text-center">' . round($rowTransaksi->butir_kg, 2) . '</td>
                                                         <td class="text-center">' . round($rowTransaksi->pakan_kg, 2) . '</td>
                                                         <td class="text-center">' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
-                                                        <td class="text-center">' . round($rowTransaksi->hasil_fcr, 2) . '</td>
+                                                        <td class="text-center">' . round($rowTransaksi->pakan_kg/$rowTransaksi->butir_kg, 2) . '</td>
                                                         <td class="text-center">' . $ew . ' </td>
                                                         <td class="text-center">' . $em . '</td>
                                                         

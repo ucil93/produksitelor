@@ -40,6 +40,10 @@ class app_load_data_table extends CI_Model
                 //Query HD
                 $query_hd = $this->db->query("Select hd_periode from tr_periode WHERE status_periode = 'AKTIF' and id_kandang='".$kandang."' ");
                 $hasil_query_hd = $query_hd->row();
+
+                //Query Awal Ayam Masuk
+                $query_awal_ayam_masuk = $this->db->query("Select awal_ayam_masuk from tr_periode WHERE status_periode = 'AKTIF' and id_kandang='".$kandang."' ");
+                $hasil_query_awal_ayam_masuk = $query_awal_ayam_masuk->row();
                 
                 //Query Judul
                 $getJudul = $this->db->query("Select * From mt_kandang 
@@ -57,7 +61,7 @@ class app_load_data_table extends CI_Model
                     tr_produksi.butir_jumlah as butir_jumlah, tr_produksi.butir_kg as butir_kg,
                     tr_produksi.hasil_butir_gr as hasil_butir_gr,
                     tr_produksi.hasil_hd_persen as hasil_hd_persen, tr_produksi.hasil_fcr as hasil_fcr, 
-                    tr_produksi.berat_badan as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
+                    tr_produksi.hasil_rusak_persen as hasil_rusak_persen, tr_produksi.berat_badan as berat_badan ,tr_produksi.keterangan as keterangan From mt_kandang 
                     inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
                     inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
                     where status_periode = 'AKTIF' and mt_kandang.id_kandang = '" . $kandang . "' order by tr_produksi.tanggal_catat asc");
@@ -94,6 +98,7 @@ class app_load_data_table extends CI_Model
                                         <th> % HH </th>
                                         <th> % HD </th>
                                         <th> FCR </th>
+                                        <th> Persen Rusak </th>
                                         <th> BB </th>
                                         <th> Keterangan </th>
                                     </tr>
@@ -106,11 +111,14 @@ class app_load_data_table extends CI_Model
                                     $pakan_gr = 0;
                                     $butir_jumlah = 0;
                                     $butir_kg = 0;
+                                    $total_butir_jumlah = 0;
                                     $hasil_butir_gr = 0;
                                     $hasil_hh = 0;
                                     $hasil_hd_persen = 0;
                                     $hasil_fcr = 0;
+                                    $hasil_rusak_persen = 0;
                                     $hasil_hd_master = $hasil_query_hd->hd_periode;
+                                    $hasil_awal_ayam_masuk = $hasil_query_awal_ayam_masuk->awal_ayam_masuk;
                                     $keterangan='';
                                     $berat_badan = '';
                                     $total_data=0;
@@ -140,21 +148,25 @@ class app_load_data_table extends CI_Model
                                         $pakan = $pakan + $rowTransaksi->pakan_kg;
                                         $pakan_gr = $pakan_gr + $rowTransaksi->hasil_pakan_gr;
                                         $butir_jumlah = $butir_jumlah + $rowTransaksi->butir_jumlah;
+                                        $total_butir_jumlah = $total_butir_jumlah + $rowTransaksi->butir_jumlah;
                                         $butir_kg = $butir_kg + $rowTransaksi->butir_kg;
                                         $hasil_butir_gr = $hasil_butir_gr + $rowTransaksi->hasil_butir_gr;
                                         $mati = $mati + $rowTransaksi->ayam_m;
                                         $afkir = $afkir + $rowTransaksi->ayam_c;
-                                        if($hasil_hd_master === 0 || $hasil_hd_master === '0')
-                                        {
-                                            $hasil_hh = $hasil_hh + 0;
-                                        }
-                                        else
-                                        {
-                                            $hasil_hh = $hasil_hh + (($rowTransaksi->butir_jumlah/$hasil_hd_master) * 100);
-                                        }
+                                        // if($hasil_hd_master === 0 || $hasil_hd_master === '0')
+                                        // {
+                                        //     $hasil_hh = $hasil_hh + 0;
+                                        // }
+                                        // else
+                                        // {
+                                        //     $hasil_hh = $hasil_hh + (($rowTransaksi->butir_jumlah/$hasil_hd_master) * 100);
+                                        // }
+
+                                        $hasil_hh = $total_butir_jumlah/$hasil_awal_ayam_masuk;
                     
                                         $hasil_hd_persen = $hasil_hd_persen + $rowTransaksi->hasil_hd_persen;
                                         $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
+                                        $hasil_rusak_persen = $hasil_rusak_persen + $rowTransaksi->hasil_rusak_persen;
                                         if($rowTransaksi->keterangan != '')
                                         {
                                             $keterangan = $keterangan . " " . $rowTransaksi->keterangan . ",";
@@ -178,6 +190,7 @@ class app_load_data_table extends CI_Model
                         <td>' . round($hasil_hh, 2) . '</td>
                         <td>' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
                         <td>' . round($rowTransaksi->hasil_fcr, 2) . '</td>
+                        <td>' . round($rowTransaksi->hasil_rusak_persen, 2) . '</td>
                         <td>' . $rowTransaksi->berat_badan . '</td>
                         <td>' . $rowTransaksi->keterangan . '</td>
                     </tr>';
@@ -212,13 +225,16 @@ class app_load_data_table extends CI_Model
                                     ' . round($hasil_butir_gr / $total_data, 2) . '
                                 </td>
                                 <td bgcolor="#808080">
-                                    ' . round($hasil_hh / $total_data, 2) . '
+                                    ' . round($hasil_hh, 2) . '
                                 </td>
                                 <td bgcolor="#808080">
                                     ' . round($hasil_hd_persen / $total_data, 2) . '
                                 </td>
                                 <td bgcolor="#808080">
                                     ' . round($hasil_fcr / $total_data, 2) . '
+                                </td>
+                                <td bgcolor="#808080">
+                                    ' . round($hasil_rusak_persen / $total_data, 2) . '
                                 </td>
                                 <td bgcolor="#808080">
                                     '.$berat_badan.'
@@ -237,6 +253,7 @@ class app_load_data_table extends CI_Model
                         $hasil_hh = 0;
                         $hasil_hd_persen = 0;
                         $hasil_fcr = 0;
+                        $hasil_rusak_persen = 0;
                         $keterangan='';
                         $berat_badan='';
                         $total_data = 0;
@@ -304,7 +321,7 @@ class app_load_data_table extends CI_Model
                             AVG(tr_produksi.hasil_pakan_gr) as hasil_pakan_gr, 
                             SUM(tr_produksi.butir_jumlah) as butir_jumlah, SUM(tr_produksi.butir_kg) as butir_kg,
                             AVG(tr_produksi.hasil_butir_gr) as hasil_butir_gr,
-                            AVG(tr_produksi.hasil_hd_persen) as hasil_hd_persen, AVG(tr_produksi.hasil_fcr) as hasil_fcr From mt_kandang 
+                            AVG(tr_produksi.hasil_hd_persen) as hasil_hd_persen, AVG(tr_produksi.hasil_fcr) as hasil_fcr, AVG(tr_produksi.hasil_rusak_persen) as hasil_rusak_persen From mt_kandang 
                             inner join tr_periode on mt_kandang.id_kandang = tr_periode.id_kandang
                             inner join tr_produksi on tr_periode.id_periode = tr_produksi.id_periode
                             where status_periode = 'AKTIF' AND " . $kandang_kuy . " GROUP BY tr_produksi.tanggal_catat");
@@ -347,6 +364,7 @@ class app_load_data_table extends CI_Model
                                                 <th> Gr / Butir </th>
                                                 <th> % HD </th>
                                                 <th> FCR </th>
+                                                <th> Rusak Persen </th>
                                             </tr>
                                         </thead>
                                         <tbody>';
@@ -384,6 +402,7 @@ class app_load_data_table extends CI_Model
                                 <td>' . round($rowTransaksi->hasil_butir_gr, 2) . '</td>
                                 <td>' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
                                 <td>' . round($rowTransaksi->hasil_fcr, 2) . '</td>
+                                <td>' . round($rowTransaksi->hasil_rusak_persen, 2) . '</td>
                             </tr>';
                         }
 
