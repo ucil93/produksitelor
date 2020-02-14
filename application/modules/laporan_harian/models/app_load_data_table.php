@@ -225,7 +225,7 @@ class app_load_data_table extends CI_Model
                                     ' . round($hasil_butir_gr / $total_data, 2) . '
                                 </td>
                                 <td bgcolor="#808080">
-                                    ' . round($hasil_hh, 2) . '
+                                    ' . round($hasil_hh/$total_data, 2) . '
                                 </td>
                                 <td bgcolor="#808080">
                                     ' . round($hasil_hd_persen / $total_data, 2) . '
@@ -399,9 +399,9 @@ class app_load_data_table extends CI_Model
                                 <td>' . round($rowTransaksi->hasil_pakan_gr, 2) . '</td>
                                 <td>' . intval($rowTransaksi->butir_jumlah) . '</td>
                                 <td>' . round($rowTransaksi->butir_kg, 2) . '</td>
-                                <td>' . round($rowTransaksi->hasil_butir_gr, 2) . '</td>
+                                <td>' . round(($rowTransaksi->butir_kg/$rowTransaksi->butir_jumlah)*1000, 2) . '</td>
                                 <td>' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
-                                <td>' . round($rowTransaksi->hasil_fcr, 2) . '</td>
+                                <td>' . round($rowTransaksi->pakan_kg/$rowTransaksi->butir_kg, 2) . '</td>
                                 <td>' . round($rowTransaksi->hasil_rusak_persen, 2) . '</td>
                             </tr>';
                         }
