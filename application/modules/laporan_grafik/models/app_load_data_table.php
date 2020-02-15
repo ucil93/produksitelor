@@ -73,6 +73,7 @@ class app_load_data_table extends CI_Model
         $mortality = 0;
         $total_data = 0;
         $data_label = array();
+        $akumulasi_mati_afkir = 0;
         foreach ($getTransaksi->result() as $rowTransaksi) {
             $dateCatat = new DateTime($rowTransaksi->tanggal_catat);
             $data_mulai = new DateTime($rowTransaksi->tanggal_menetas);
@@ -90,6 +91,7 @@ class app_load_data_table extends CI_Model
             $hasil_hd_persen = $hasil_hd_persen + $rowTransaksi->hasil_hd_persen;
             $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
             $total_mati_afkir = $mati + $afkir;
+            $akumulasi_mati_afkir = $akumulasi_mati_afkir + $total_mati_afkir; 
             $berat = $berat + $rowTransaksi->berat_badan;
             $total_data = $total_data + 1;
             if ($hasil_mod === 0) {
@@ -129,12 +131,12 @@ class app_load_data_table extends CI_Model
                     $lay = $hasil_hd_persen/$total_data;
                     $egg_weight = $butir_jumlah;
                     if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
-                        $livability_data = ($rowTransaksi->total_ayam / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
+                        $livability_data = ($rowTransaksi->total_ayam / ($rowTransaksi->total_ayam + $akumulasi_mati_afkir)) * 100;
                     } else if ($nama_strain === "HY-LINE BROWN") {
                         if ($total_mati_afkir == 0) {
                             $mortality = 0;
                         } else {
-                            $mortality = ($total_mati_afkir / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
+                            $mortality = ($total_mati_afkir / ($rowTransaksi->total_ayam + $akumulasi_mati_afkir)) * 100;
                         }
                     }
                     $feed_intake = $pakan_gr/$total_data;
@@ -515,6 +517,7 @@ class app_load_data_table extends CI_Model
         $mortality = 0;
         $total_data = 0;
         $data_label = array();
+        $akumulasi_mati_afkir = 0;
         foreach ($getTransaksi->result() as $rowTransaksi) {
             $dateCatat = new DateTime($rowTransaksi->tanggal_catat);
             $data_mulai = new DateTime($rowTransaksi->tanggal_menetas);
@@ -532,6 +535,7 @@ class app_load_data_table extends CI_Model
             $hasil_hd_persen = $hasil_hd_persen + $rowTransaksi->hasil_hd_persen;
             $hasil_fcr = $hasil_fcr + $rowTransaksi->hasil_fcr;
             $total_mati_afkir = $mati + $afkir;
+            $akumulasi_mati_afkir = $akumulasi_mati_afkir + $total_mati_afkir;
             $berat = $berat + $rowTransaksi->berat_badan;
             $total_data = $total_data + 1;
             if ($hasil_mod === 0) {
@@ -573,12 +577,12 @@ class app_load_data_table extends CI_Model
                     $lay = $hasil_hd_persen/$total_data;
                     $egg_weight = $butir_jumlah;
                     if ($nama_strain === "ISA BROWN" || $nama_strain === "HISEX BROWN") {
-                        $livability_data = ($rowTransaksi->total_ayam / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
+                        $livability_data = ($rowTransaksi->total_ayam / ($rowTransaksi->total_ayam + $akumulasi_mati_afkir)) * 100;
                     } else if ($nama_strain === "HY-LINE BROWN") {
                         if ($total_mati_afkir == 0) {
                             $mortality = 0;
                         } else {
-                            $mortality = ($total_mati_afkir / ($rowTransaksi->total_ayam + $total_mati_afkir)) * 100;
+                            $mortality = ($total_mati_afkir / ($rowTransaksi->total_ayam + $akumulasi_mati_afkir)) * 100;
                         }
                     }
                     $feed_intake = $pakan_gr/7;
