@@ -394,38 +394,41 @@ class app_load_data_table extends CI_Model
                                             $split = explode('-', $tanggal);
                                             $date = $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
                                             $dateCatat = date_create($rowTransaksi->tanggal_catat);
-                        if($rowTransaksi->butir_kg === 0 || $rowTransaksi->butir_kg === "0") {
-                            $output .= '
-                                <tr class="odd gradeX">
-                                    <td>' .$date. '</td>
-                                    <td>' . intval($rowTransaksi->ayam_m) . '</td>
-                                    <td>' . intval($rowTransaksi->ayam_c) . '</td>
-                                    <td>' . intval($rowTransaksi->total_ayam) . '</td>
-                                    <td>' . round($rowTransaksi->pakan_kg, 2) . '</td>
-                                    <td>' . round($rowTransaksi->hasil_pakan_gr, 2) . '</td>
-                                    <td>' . intval($rowTransaksi->butir_jumlah) . '</td>
-                                    <td>' . round($rowTransaksi->butir_kg, 2) . '</td>
-                                    <td>0</td>
-                                    <td>' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
-                                    <td>0</td>
-                                    <td>' . round($rowTransaksi->hasil_rusak_persen, 2) . '</td>
-                                </tr>';
-                        } else {
-                            $output .= '
-                                <tr class="odd gradeX">
-                                    <td>' .$date. '</td>
-                                    <td>' . intval($rowTransaksi->ayam_m) . '</td>
-                                    <td>' . intval($rowTransaksi->ayam_c) . '</td>
-                                    <td>' . intval($rowTransaksi->total_ayam) . '</td>
-                                    <td>' . round($rowTransaksi->pakan_kg, 2) . '</td>
-                                    <td>' . round($rowTransaksi->hasil_pakan_gr, 2) . '</td>
-                                    <td>' . intval($rowTransaksi->butir_jumlah) . '</td>
-                                    <td>' . round($rowTransaksi->butir_kg, 2) . '</td>
-                                    <td>' . round(($rowTransaksi->butir_kg/$rowTransaksi->butir_jumlah)*1000, 2) . '</td>
-                                    <td>' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
-                                    <td>' . round($rowTransaksi->pakan_kg/$rowTransaksi->butir_kg, 2) . '</td>
-                                    <td>' . round($rowTransaksi->hasil_rusak_persen, 2) . '</td>
-                                </tr>';
+                                            
+                            if($rowTransaksi->butir_kg === 0 || $rowTransaksi->butir_kg === "0") {
+                                $output .= '
+                                    <tr class="odd gradeX">
+                                        <td>' .$date. '</td>
+                                        <td>' . intval($rowTransaksi->ayam_m) . '</td>
+                                        <td>' . intval($rowTransaksi->ayam_c) . '</td>
+                                        <td>' . intval($rowTransaksi->total_ayam) . '</td>
+                                        <td>' . round($rowTransaksi->pakan_kg, 2) . '</td>
+                                        <td>' . round($rowTransaksi->hasil_pakan_gr, 2) . '</td>
+                                        <td>' . intval($rowTransaksi->butir_jumlah) . '</td>
+                                        <td>' . round($rowTransaksi->butir_kg, 2) . '</td>
+                                        <td>0</td>
+                                        <td>' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
+                                        <td>0</td>
+                                        <td>' . round($rowTransaksi->hasil_rusak_persen, 2) . '</td>
+                                    </tr>';
+                            } else {
+                                $output .= '
+                                    <tr class="odd gradeX">
+                                        <td>' .$date. '</td>
+                                        <td>' . intval($rowTransaksi->ayam_m) . '</td>
+                                        <td>' . intval($rowTransaksi->ayam_c) . '</td>
+                                        <td>' . intval($rowTransaksi->total_ayam) . '</td>
+                                        <td>' . round($rowTransaksi->pakan_kg, 2) . '</td>
+                                        <td>' . round($rowTransaksi->hasil_pakan_gr, 2) . '</td>
+                                        <td>' . intval($rowTransaksi->butir_jumlah) . '</td>
+                                        <td>' . round($rowTransaksi->butir_kg, 2) . '</td>
+                                        <td>' . round(($rowTransaksi->butir_kg/$rowTransaksi->butir_jumlah)*1000, 2) . '</td>
+                                        <td>' . round($rowTransaksi->hasil_hd_persen, 2) . '</td>
+                                        <td>' . round($rowTransaksi->pakan_kg/$rowTransaksi->butir_kg, 2) . '</td>
+                                        <td>' . round($rowTransaksi->hasil_rusak_persen, 2) . '</td>
+                                    </tr>';
+                            }
+                        
                         }
 
                         $output .= '
