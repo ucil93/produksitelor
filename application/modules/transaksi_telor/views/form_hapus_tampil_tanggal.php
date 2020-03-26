@@ -64,13 +64,7 @@
                                                                 <td><?php echo $dt->berat_badan; ?></td>
                                                                 <td><?php echo $dt->keterangan; ?></td>
                                                                 <td>
-                                                                    <?php
-                                                                        if($grup_anggota == 'ADMIN') {
-                                                                            ?>
-                                                                                <a type="button" class="btn btn-xs red" onclick="hapusDataProduksi('<?php echo $dt->id_produksi ?>')"><i class="fa fa-remove"></i> Hapus</a>
-                                                                            <?php
-                                                                        }
-                                                                    ?>
+                                                                    <a type="button" class="btn btn-xs red" onclick="hapusDataProduksi('<?php echo $dt->id_produksi ?>')"><i class="fa fa-remove"></i> Hapus</a>
                                                                 </td>
                                                             </tr>
                                                         <?php

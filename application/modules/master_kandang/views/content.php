@@ -35,6 +35,7 @@
                                             <thead class="btn-success">
                                                 <tr>
                                                     <th> Nama Lokasi</th>
+                                                    <th> Nama Anggota</th>
                                                     <th> Nama Kandang </th>
                                                     <th> Kapasitas Kandang </th>
                                                     <th> Status Kandang </th>
@@ -48,19 +49,14 @@
                                                         ?>
                                                             <tr class="odd gradeX">
                                                                 <td><?php echo $dt->nama_lokasi; ?></td>
+                                                                <td><?php echo $dt->nama_anggota; ?></td>
                                                                 <td><?php echo $dt->nama_kandang; ?></td>
                                                                 <td><?php echo $dt->kapasitas_ayam; ?></td>
                                                                 <td><?php echo $dt->status_kandang; ?></td>
                                                                 <td>
                                                                     <a type="button" class="btn btn-xs blue" onclick="editDataKandang('<?php echo $dt->id_kandang ?>')"><i class="fa fa-edit"></i> Ubah</a>
-                                                                    <?php
-                                                                        if($grup_anggota == 'ADMIN') {
-                                                                            ?>
-                                                                                &nbsp;&nbsp;&nbsp;
-                                                                                <a type="button" class="btn btn-xs red" onclick="hapusDataKandang('<?php echo $dt->id_kandang ?>')"><i class="fa fa-remove"></i> Hapus</a>
-                                                                            <?php
-                                                                        }
-                                                                    ?>
+                                                                    &nbsp;&nbsp;&nbsp;
+                                                                    <a type="button" class="btn btn-xs red" onclick="hapusDataKandang('<?php echo $dt->id_kandang ?>')"><i class="fa fa-remove"></i> Hapus</a>
                                                                 </td>
                                                             </tr>
                                                         <?php

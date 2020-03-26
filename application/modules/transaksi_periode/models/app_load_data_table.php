@@ -16,6 +16,23 @@ class app_load_data_table extends CI_Model {
 	{
 		$get  = $this->db->query("Select * From mt_lokasi where status_lokasi='AKTIF'");
         return $get->result();
+    }
+    
+    public function getAllDataByAnggota($id_anggota)
+    {
+        $get  = $this->db->query("Select * from tr_periode 
+            inner join mt_kandang on tr_periode.id_kandang = mt_kandang.id_kandang 
+            inner join mt_strain on tr_periode.id_strain = mt_strain.id_strain 
+            inner join mt_anggota on tr_periode.id_anggota = mt_anggota.id_anggota
+            inner join mt_lokasi on mt_kandang.id_lokasi = mt_lokasi.id_lokasi
+            where tr_periode.id_anggota = '".$id_anggota."'");
+        return $get->result();
+    }
+
+    public function getAllDataLokasiByAnggota($id_anggota)
+	{
+		$get  = $this->db->query("Select * From mt_lokasi where status_lokasi='AKTIF' and id_anggota = '".$id_anggota."'");
+        return $get->result();
 	}
 
     function dataKandang($id_lokasi)

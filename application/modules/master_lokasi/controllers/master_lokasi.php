@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class master_lokasi extends CI_Controller {
+class Master_lokasi extends CI_Controller {
 
 	function index()
 	{
@@ -23,7 +23,11 @@ class master_lokasi extends CI_Controller {
 
 			$this->load->model('/app_load_data_table');
 
-			$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllData();
+			if($this->session->userdata("grup_anggota") === "ANGGOTA") {
+				$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataByAnggota($this->session->userdata("id_anggota"));
+			} else {
+				$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllData();
+			}
 
 			$d['username']	= $this->session->userdata("nama_anggota");
 			$d['grup_anggota']	= $this->session->userdata("grup_anggota");
@@ -78,6 +82,7 @@ class master_lokasi extends CI_Controller {
 				$kode = $this->get_id();
 				$kode = $kode + 1;
 
+				$dt['id_anggota'] = $this->session->userdata("id_anggota");
 				$dt['nama_lokasi'] = $this->input->post('nama_mt_lokasi');
 				$dt['status_lokasi'] = "AKTIF";
 				$dt['created_at'] = date("Y-m-d H:i:s");

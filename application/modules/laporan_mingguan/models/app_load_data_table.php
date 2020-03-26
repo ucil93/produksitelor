@@ -8,6 +8,12 @@ class app_load_data_table extends CI_Model
         return $get->result();
     }
 
+    public function getAllDataLokasiByAnggota($id_anggota)
+    {
+        $get  = $this->db->query("Select * From mt_lokasi where status_lokasi='AKTIF' and id_anggota = '".$id_anggota."'");
+        return $get->result();
+    }
+
     function dataKandangMingguanSatu($id_lokasi)
     {
         $output = '';
@@ -253,25 +259,46 @@ class app_load_data_table extends CI_Model
                                     else {
                                         $butir_kg_akhir = round($butir_kg_akhir/$jumlah_data,2);
                                     }
-
-                $output .= '
-                    <tr class="odd gradeX">
-                        <td class="text-center" colspan="2" bgcolor="#808080"> Jumlah ' . $jumlah_data . ' Data </td>
-                        <td class="text-center" style="width:10px" bgcolor="#808080">' . $total_mati_afkir_akhir . '</td>
-                        <td class="text-center" style="width:60px" bgcolor="#808080">' . intval($total_ayam_akhir) . '</td>
-                        <td class="text-center" bgcolor="#808080"> ' . $butir_jumlah_akhir. '</td>
-                        <td class="text-center" bgcolor="#808080"> ' . $butir_kg_akhir . '</td>
-                        <td class="text-center" bgcolor="#808080"> ' . round($pakan_kg_akhir/$jumlah_data, 2) . '</td>
-                        <td class="text-center" bgcolor="#808080">' . round($hd_akhir / $jumlah_data, 2) . '</td>
-                        <td class="text-center" bgcolor="#808080">' . round($fcr_akhir / $jumlah_data, 2) . '</td>
-                        <td class="text-center" bgcolor="#808080"> ' . $ew_akhir. ' </td>
-                        <td class="text-center" bgcolor="#808080">' . $em_akhir . '</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                            </tbody>
-                        </table>
-                    </div>';
+                
+                if($jumlah_data === 0 || $jumlah_data === "0") {
+                    $output .= '
+                        <tr class="odd gradeX">
+                            <td class="text-center" colspan="2" bgcolor="#808080"> Jumlah ' . $jumlah_data . ' Data </td>
+                            <td class="text-center" style="width:10px" bgcolor="#808080">' . $total_mati_afkir_akhir . '</td>
+                            <td class="text-center" style="width:60px" bgcolor="#808080">' . intval($total_ayam_akhir) . '</td>
+                            <td class="text-center" bgcolor="#808080"> ' . $butir_jumlah_akhir. '</td>
+                            <td class="text-center" bgcolor="#808080"> ' . $butir_kg_akhir . '</td>
+                            <td class="text-center" bgcolor="#808080">0</td>
+                            <td class="text-center" bgcolor="#808080">0</td>
+                            <td class="text-center" bgcolor="#808080">0</td>
+                            <td class="text-center" bgcolor="#808080"> ' . $ew_akhir. ' </td>
+                            <td class="text-center" bgcolor="#808080">' . $em_akhir . '</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                                </tbody>
+                            </table>
+                        </div>';
+                } else {
+                    $output .= '
+                        <tr class="odd gradeX">
+                            <td class="text-center" colspan="2" bgcolor="#808080"> Jumlah ' . $jumlah_data . ' Data </td>
+                            <td class="text-center" style="width:10px" bgcolor="#808080">' . $total_mati_afkir_akhir . '</td>
+                            <td class="text-center" style="width:60px" bgcolor="#808080">' . intval($total_ayam_akhir) . '</td>
+                            <td class="text-center" bgcolor="#808080"> ' . $butir_jumlah_akhir. '</td>
+                            <td class="text-center" bgcolor="#808080"> ' . $butir_kg_akhir . '</td>
+                            <td class="text-center" bgcolor="#808080"> ' . round($pakan_kg_akhir/$jumlah_data, 2) . '</td>
+                            <td class="text-center" bgcolor="#808080">' . round($hd_akhir / $jumlah_data, 2) . '</td>
+                            <td class="text-center" bgcolor="#808080">' . round($fcr_akhir / $jumlah_data, 2) . '</td>
+                            <td class="text-center" bgcolor="#808080"> ' . $ew_akhir. ' </td>
+                            <td class="text-center" bgcolor="#808080">' . $em_akhir . '</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                                </tbody>
+                            </table>
+                        </div>';
+                }
             }
         }
 

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class laporan_harian extends CI_Controller {
+class Laporan_harian extends CI_Controller {
 
 	function index()
 	{
@@ -26,8 +26,12 @@ class laporan_harian extends CI_Controller {
 			$d['username']	= $this->session->userdata("nama_anggota");
 			$d['grup_anggota']	= $this->session->userdata("grup_anggota");
 
-			$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
-
+			if($this->session->userdata("grup_anggota") === "ANGGOTA") {
+				$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasiByAnggota($this->session->userdata("id_anggota"));
+			} else {
+				$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
+			}
+			
 			$this->load->view('dashboard_admin/bg_header', $d);
 			$this->load->view('dashboard_admin/bg_navigation', $d);
 			$this->load->view('laporan_harian/content', $d);

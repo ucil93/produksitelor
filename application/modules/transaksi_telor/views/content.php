@@ -46,13 +46,7 @@
                                                                 <td><?php echo $dt->nama_lokasi; ?></td>
                                                                 <td>
                                                                     <a href="<?php echo base_url(); ?>transaksi_telor/telor/<?=$dt->id_lokasi;?>" class="btn green active"><i class="fa fa-plus"> Pilih</i></a>
-                                                                    <?php
-                                                                        if($grup_anggota == 'ADMIN') {
-                                                                            ?>
-                                                                                <a href="<?php echo base_url(); ?>transaksi_telor/tampil_hapus_kandang/<?=$dt->id_lokasi;?>" class="btn red active"><i class="fa fa-remove"></i> Hapus</a>
-                                                                            <?php
-                                                                        }
-                                                                    ?>
+                                                                    <a href="<?php echo base_url(); ?>transaksi_telor/tampil_hapus_kandang/<?=$dt->id_lokasi;?>" class="btn red active"><i class="fa fa-remove"></i> Hapus</a>
                                                                 </td>
                                                             </tr>
                                                         <?php

@@ -34,6 +34,7 @@
                                         <table class="table table-striped table-bordered table-hover order-column" id="sample_3">
                                             <thead class="btn-success">
                                                 <tr>
+                                                    <th> Nama Anggota</th>
                                                     <th> Nama Lokasi</th>
                                                     <th> Status </th>
                                                     <th> Aksi </th>
@@ -45,6 +46,7 @@
                                                     {
                                                         ?>
                                                             <tr class="odd gradeX">
+                                                                <td><?php echo $dt->nama_anggota; ?></td>
                                                                 <td><?php echo $dt->nama_lokasi; ?></td>
                                                                 <td><?php echo $dt->status_lokasi; ?></td>
                                                                 <td>

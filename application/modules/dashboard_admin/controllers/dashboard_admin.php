@@ -1,40 +1,26 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class dashboard_admin extends CI_Controller {
+class Dashboard_admin extends CI_Controller {
 
 	function index()
 	{
 		if($this->session->userdata("logged_in")!="")
 		{
-			if($this->session->userdata("grup_anggota") == "ADMIN")
-			{
-				$d['active_dashboard_admin'] = "active";
-				$d['active_master'] = "";
-					$d['active_mtanggota'] = "";
-					$d['active_mtstrain'] = "";
-					$d['active_mtstrainnilai'] = "";
-					$d['active_mtlokasi'] = "";
-					$d['active_mtkandang'] = "";
-				$d['active_transaksi'] = "";
-					$d['active_tsperiode'] = "";
-					$d['active_tstelor'] = "";
-				$d['active_laporan'] = "";
-					$d['active_lpharian'] = "";
-					$d['active_lpmingguan'] = "";
-					$d['active_lpgrafik'] = "";
-			}
-			else
-			{
-				$d['active_dashboard_admin'] = "active";
-				$d['active_transaksi'] = "";
-					$d['active_tsperiode'] = "";
-					$d['active_tstelor'] = "";
-				$d['active_laporan'] = "";
-					$d['active_lpharian'] = "";
-					$d['active_lpmingguan'] = "";
-					$d['active_lpgrafik'] = "";
-			}
-			
+			$d['active_dashboard_admin'] = "active";
+			$d['active_master'] = "";
+				$d['active_mtanggota'] = "";
+				$d['active_mtstrain'] = "";
+				$d['active_mtstrainnilai'] = "";
+				$d['active_mtlokasi'] = "";
+				$d['active_mtkandang'] = "";
+			$d['active_transaksi'] = "";
+				$d['active_tsperiode'] = "";
+				$d['active_tstelor'] = "";
+			$d['active_laporan'] = "";
+				$d['active_lpharian'] = "";
+				$d['active_lpmingguan'] = "";
+				$d['active_lpgrafik'] = "";
+
 			$this->load->model('/app_load_data_table');
 
 			$d['username']	= $this->session->userdata("nama_anggota");

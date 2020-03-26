@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class master_kandang extends CI_Controller {
+class Master_kandang extends CI_Controller {
 
 	function index()
 	{
@@ -23,8 +23,13 @@ class master_kandang extends CI_Controller {
 				
 			$this->load->model('/app_load_data_table');
 
-			$d['dataSemuaKandang'] = $this->app_load_data_table->getAllData();
-			$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
+			if($this->session->userdata("grup_anggota") === "ANGGOTA") {
+				$d['dataSemuaKandang'] = $this->app_load_data_table->getAllDataByAnggota($this->session->userdata("id_anggota"));
+				$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasiByAnggota($this->session->userdata("id_anggota"));
+			} else {
+				$d['dataSemuaKandang'] = $this->app_load_data_table->getAllData();
+				$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
+			}
 
 			$d['username']	= $this->session->userdata("nama_anggota");
 			$d['grup_anggota']	= $this->session->userdata("grup_anggota");
@@ -82,6 +87,7 @@ class master_kandang extends CI_Controller {
 				$kode = $kode + 1;
 
 				$dt['id_lokasi'] = $this->input->post('data_tabel_lokasi');
+				$dt['id_anggota'] = $this->session->userdata("id_anggota");
 				$dt['nama_kandang'] = $this->input->post('nama_mt_kandang');
 				$dt['kapasitas_ayam'] = $this->input->post('kapasitas_mt_kandang');
 				$dt['status_kandang'] = "AKTIF";

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class transaksi_telor extends CI_Controller {
+class Transaksi_telor extends CI_Controller {
 
 	function index()
 	{
@@ -23,7 +23,11 @@ class transaksi_telor extends CI_Controller {
 
 			$this->load->model('/app_load_data_table');
 
-			$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
+			if($this->session->userdata("grup_anggota") === "ANGGOTA") {
+				$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasiByAnggota($this->session->userdata("id_anggota"));
+			} else {
+				$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
+			}
 
 			$d['username'] = $this->session->userdata("nama_anggota");
 			$d['grup_anggota']	= $this->session->userdata("grup_anggota");

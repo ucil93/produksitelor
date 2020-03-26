@@ -7,6 +7,12 @@ class app_load_data_table extends CI_Model {
 		$get  = $this->db->query("Select * From mt_lokasi where status_lokasi='AKTIF'");
         return $get->result();
     }
+
+    public function getAllDataLokasiByAnggota($id_anggota)
+	{
+		$get  = $this->db->query("Select * From mt_lokasi where status_lokasi='AKTIF' and id_anggota = '".$id_anggota."'");
+        return $get->result();
+    }
     
     public function getDataKandang($id)
     {

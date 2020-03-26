@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class transaksi_periode extends CI_Controller {
+class Transaksi_periode extends CI_Controller {
 
 	function index()
 	{
@@ -23,10 +23,16 @@ class transaksi_periode extends CI_Controller {
 
 			$this->load->model('/app_load_data_table');
 
-			$d['dataSemuaPeriode'] = $this->app_load_data_table->getAllData();
-			// $d['dataSemuaKandang'] = $this->app_load_data_table->getAllDataKandang();
-			$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
+			if($this->session->userdata("grup_anggota") === "ANGGOTA") {
+				$d['dataSemuaPeriode'] = $this->app_load_data_table->getAllDataByAnggota($this->session->userdata("id_anggota"));
+				$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasiByAnggota($this->session->userdata("id_anggota"));
+			} else {
+				$d['dataSemuaPeriode'] = $this->app_load_data_table->getAllData();
+				$d['dataSemuaLokasi'] = $this->app_load_data_table->getAllDataLokasi();
+			}
+
 			$d['dataSemuaStrain'] = $this->app_load_data_table->getAllDataStrain();
+			// $d['dataSemuaKandang'] = $this->app_load_data_table->getAllDataKandang();
 
 			$d['username']	= $this->session->userdata("nama_anggota");
 			$d['grup_anggota']	= $this->session->userdata("grup_anggota");

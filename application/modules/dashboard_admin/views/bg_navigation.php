@@ -124,6 +124,27 @@
                                         <span class="title">Dashboard</span>
                                     </a>
                                 </li>
+                                <li class="nav-item  <?php echo $active_master?>">
+                                    <a href="javascript:;" class="nav-link nav-toggle">
+                                        <i class="fa fa-sticky-note-o"></i>
+                                        <span class="title">Master</span>
+                                        <span class="arrow"></span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li class="<?php echo $active_mtlokasi; ?>">
+                                            <a href="<?php echo base_url(); ?>master_lokasi/" class="<?php echo $active_mtlokasi; ?>">
+                                                <i class="icon-pointer"></i>
+                                                <span class="title">Master Lokasi</span>
+                                            </a>
+                                        </li>
+                                        <li class="<?php echo $active_mtkandang; ?>">
+                                            <a href="<?php echo base_url(); ?>master_kandang/" class="<?php echo $active_mtkandang; ?>">
+                                                <i class="fa fa-map-o"></i>
+                                                <span class="title">Master Kandang</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li class="nav-item  <?php echo $active_transaksi?>">
                                     <a href="javascript:;" class="nav-link nav-toggle">
                                         <i class="fa fa-laptop"></i>

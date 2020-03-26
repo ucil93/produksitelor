@@ -35,6 +35,7 @@
                                             <thead class="btn-success">
                                                 <tr>
                                                     <th> Nama Lokasi </th>
+                                                    <th> Nama Anggota </th>
                                                     <th> Nama Kandang </th>
                                                     <th> Nama Strain </th>
                                                     <th> Nama Periode </th>
@@ -58,6 +59,7 @@
                                                         ?>
                                                             <tr class="odd gradeX">
                                                                 <td><?php echo $dt->nama_lokasi; ?></td>
+                                                                <td><?php echo $dt->nama_anggota; ?></td>
                                                                 <td><?php echo $dt->nama_kandang; ?></td>
                                                                 <td><?php echo $dt->nama_strain; ?></td>
                                                                 <td><?php echo $dt->nama_periode; ?></td>
@@ -70,14 +72,8 @@
                                                                 <td><?php echo $dt->status_periode; ?></td>
                                                                 <td>
                                                                     <a type="button" class="btn btn-xs blue" onclick="editDataPeriode('<?php echo $dt->id_periode ?>')"><i class="fa fa-edit"></i> Ubah</a>
-                                                                    <?php
-                                                                        if($grup_anggota == 'ADMIN') {
-                                                                            ?>
-                                                                                &nbsp;&nbsp;&nbsp;
-                                                                                <a type="button" class="btn btn-xs red" onclick="hapusDataPeriode('<?php echo $dt->id_periode ?>')"><i class="fa fa-remove"></i> Hapus</a>
-                                                                            <?php
-                                                                        }
-                                                                    ?>
+                                                                    &nbsp;&nbsp;&nbsp;
+                                                                    <a type="button" class="btn btn-xs red" onclick="hapusDataPeriode('<?php echo $dt->id_periode ?>')"><i class="fa fa-remove"></i> Hapus</a>
                                                                 </td>
                                                             </tr>
                                                         <?php

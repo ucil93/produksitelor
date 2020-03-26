@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class master_strain extends CI_Controller {
+class Master_strain extends CI_Controller {
 
 	function index()
 	{
